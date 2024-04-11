@@ -1,4 +1,4 @@
-package edu.ub.pis2324.projecte.presentation.livedata;
+package edu.ub.pis2324.projecte.livedata;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
