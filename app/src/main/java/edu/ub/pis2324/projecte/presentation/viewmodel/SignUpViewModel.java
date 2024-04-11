@@ -2,7 +2,7 @@ package edu.ub.pis2324.projecte.presentation.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 
-import edu.ub.pis2324.projecte.livedata.StateLiveData;
+import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
 
 public class SignUpViewModel extends ViewModel {
 
