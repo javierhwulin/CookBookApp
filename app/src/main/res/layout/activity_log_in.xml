@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.SignUp">
+    tools:context=".presentation.ui.LogInActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -39,7 +39,7 @@
         android:ems="10"
         android:hint="@string/password.cat"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/SignUp_btn"
+        app:layout_constraintBottom_toTopOf="@+id/LogIn_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/SignUp_btn"
+        android:id="@+id/LogIn_btn"
         android:layout_width="130dp"
         android:layout_height="55dp"
         android:layout_marginBottom="168dp"
