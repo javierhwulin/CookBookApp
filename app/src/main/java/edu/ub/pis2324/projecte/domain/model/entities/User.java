@@ -1,4 +1,4 @@
-package edu.ub.pis2324.projecte.domain;
+package edu.ub.pis2324.projecte.domain.model.entities;
 
 import java.io.Serializable;
 
