@@ -1,4 +1,4 @@
-package edu.ub.pis2324.projecte.services;
+package edu.ub.pis2324.projecte.data.services;
 
 import edu.ub.pis2324.recyclerandsearchviewexample.data.services.mockdata.MockClientsHashMap;
 import edu.ub.pis2324.recyclerandsearchviewexample.domain.Client;
