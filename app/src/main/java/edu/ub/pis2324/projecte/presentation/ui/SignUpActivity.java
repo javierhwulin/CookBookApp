@@ -1,4 +1,4 @@
-package edu.ub.pis2324.projecte.presentation;
+package edu.ub.pis2324.projecte.presentation.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,10 @@ import android.os.Bundle;
 
 import edu.ub.pis2324.projecte.R;
 
-public class SignUp extends AppCompatActivity {
+
+import edu.ub.pis2324.projecte.presentation.viewmodel.SignUpViewModel;
+
+public class SignUpActivity extends AppCompatActivity {
 
     private SignUpViewModel SignUpViewModel;
 

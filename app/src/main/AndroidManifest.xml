@@ -13,10 +13,10 @@
         android:theme="@style/Theme.Projecte"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.SignUp"
+            android:name=".presentation.ui.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.MainActivity"
+            android:name=".presentation.ui.MainActivity"
             android:exported="true">
         </activity>
 

@@ -1,4 +1,4 @@
-package edu.ub.pis2324.projecte.presentation;
+package edu.ub.pis2324.projecte.presentation.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
