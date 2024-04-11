@@ -1,4 +1,6 @@
 package edu.ub.pis2324.projecte.presentation.viewmodel;
 
-public class SignUpViewModel {
+import androidx.lifecycle.ViewModel;
+
+public class SignUpViewModel extends ViewModel {
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import edu.ub.pis2324.projecte.R;
 
+import edu.ub.pis2324.projecte.databinding.ActivitySignUpBinding;
 
 import edu.ub.pis2324.projecte.presentation.viewmodel.SignUpViewModel;
 
@@ -19,6 +20,9 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        binding = ActivitySignUpBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+
     }
 }
