@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.SignUp">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="135dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="140dp"
+        android:text="@string/sign_up.cat"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/Username_text"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="88dp"
+        android:ems="10"
+        android:hint="@string/username.cat"
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <EditText
+        android:id="@+id/email_text"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="24dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/mail.cat"
+        android:inputType="textEmailAddress"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Username_text" />
+
+    <EditText
+        android:id="@+id/Password_text"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="24dp"
+        android:ems="10"
+        android:hint="@string/password.cat"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_text" />
+
+    <EditText
+        android:id="@+id/RPassword_text"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:hint="@string/repeatpassword.cat"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Password_text" />
+
+    <Button
+        android:id="@+id/SignUp_btn"
+        android:layout_width="130dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/sign_up_btn.cat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RPassword_text" />
+</androidx.constraintlayout.widget.ConstraintLayout>

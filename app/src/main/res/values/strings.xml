@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Projecte</string>
+    <string name="username.cat">Nom d'usuari</string>
+    <string name="mail.cat">E-Mail</string>
+    <string name="password.cat">Contrasenya</string>
+    <string name="sign_up.cat">Registra't</string>
+    <string name="repeatpassword.cat">Repetir contrasenya</string>
+    <string name="sign_up_btn.cat">Registrar-se</string>
 </resources>
