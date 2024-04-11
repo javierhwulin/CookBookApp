@@ -1,0 +1,21 @@
+package edu.ub.pis2324.projecte.presentation;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+
+import edu.ub.pis2324.projecte.R;
+
+public class SignUp extends AppCompatActivity {
+
+    private SignUpViewModel SignUpViewModel;
+
+    private ActivitySignUpBinding binding;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_up);
+    }
+}
