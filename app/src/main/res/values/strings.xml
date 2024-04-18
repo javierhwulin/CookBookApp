@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">Projecte</string>
-    <string name="username.cat">Nom d'usuari</string>
+    <string name="username.cat">Nom d\'usuari</string>
     <string name="mail.cat">E-Mail</string>
     <string name="password.cat">Contrasenya</string>
-    <string name="sign_up.cat">Registra't</string>
+    <string name="sign_up.cat">Registra\'t</string>
     <string name="repeatpassword.cat">Repetir contrasenya</string>
     <string name="sign_up_btn.cat">Registrar-se</string>
     <string name="log_in.cat">Inicia sessió</string>
-    <string name="username_mail.cat">Nom d'usuari o E-Mail</string>
+    <string name="username_mail.cat">Nom d\'usuari o E-Mail</string>
     <string name="log_in_btn.cat">Iniciar</string>
 </resources>
