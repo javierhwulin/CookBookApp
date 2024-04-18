@@ -21,7 +21,17 @@ public class UserRepository implements IUserRepository {
     }
 
     public void addUser(User user, OnAddUserListener listener){
-        // Add user to database){
+        // Add user to database)
+        if (user.getUsername().isEmpty()){
+            listener.OnAddUserError(new Throwable("Username cannot be empty"));
+        }
+        else if(user.getEmail().isEmpty()){
+            listener.OnAddUserError(new Throwable("Email cannot be empty"));
+        }
+        else if(user.getPassword().isEmpty()){
+            listener.OnAddUserError(new Throwable("Password cannot be empty"));
+        }
+
         db.collection("users").document(user.getUsername()).set(user)
             .addOnSuccessListener(aVoid -> listener.OnAddUserSuccess())
             .addOnFailureListener(e -> listener.OnAddUserError(e));

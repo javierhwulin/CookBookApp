@@ -24,6 +24,10 @@ public class SignUpViewModel extends ViewModel {
     }
 
     public void SignUp (String username, String email ,String password, String passwordConfirmation){
+        if (!password.equals(passwordConfirmation)){
+            signUpState.postError(new Throwable("Contrasenyes no iguals"));
+            return;
+        }
         User usuari = new User(username, password, email);
         userRepository.addUser(usuari, new UserRepository.OnAddUserListener() {
             @Override
