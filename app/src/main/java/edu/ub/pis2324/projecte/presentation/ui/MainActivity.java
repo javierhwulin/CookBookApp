@@ -2,6 +2,7 @@ package edu.ub.pis2324.projecte.presentation.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import edu.ub.pis2324.projecte.R;

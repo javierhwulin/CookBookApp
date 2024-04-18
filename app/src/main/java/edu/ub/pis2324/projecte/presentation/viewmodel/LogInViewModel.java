@@ -30,7 +30,9 @@ public class LogInViewModel extends ViewModel {
      * @param username the username
      * @param password the password
      */
+
     public void logIn(String username, String password) {
+
         userRepository.getUser(
                 username,
                 password,
