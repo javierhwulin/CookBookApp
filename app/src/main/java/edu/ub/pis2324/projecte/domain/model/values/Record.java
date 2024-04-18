@@ -3,21 +3,34 @@ package edu.ub.pis2324.projecte.domain.model.values;
 import java.util.HashMap;
 
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
+import edu.ub.pis2324.projecte.domain.model.entities.User;
 
 public class Record {
-    private static final HashMap<String, Record> instances = new HashMap<>();
-    private String userId;
+    private User user;
     private HashMap<String, Recipe> recipes;
 
-    private Record(String userId) {
-        this.userId = userId;
+    public Record(User user) {
+        this.user = user;
         this.recipes = new HashMap<>();
     }
 
-    public static Record getInstance(String userId) {
-        if (!instances.containsKey(userId)) {
-            instances.put(userId, new Record(userId));
-        }
-        return instances.get(userId);
+    public void addRecipe(Recipe recipe) {
+        recipes.put(recipe.getId(), recipe);
+    }
+
+    public Recipe getRecipe(String recipeId) {
+        return recipes.get(recipeId);
+    }
+
+    public void removeRecipe(String recipeId) {
+        recipes.remove(recipeId);
+    }
+
+    public void clear() {
+        recipes.clear();
+    }
+
+    public boolean isEmpty() {
+        return recipes.isEmpty();
     }
 }

@@ -5,32 +5,32 @@ public class Recipe {
     private String name;
     private String description;
     private int duration;
-    private String difficulty;
-    private String category;
     private String ingredients;
     private String steps;
     private String nutritionInfo;
     private String imageUrl;
+    private boolean isPremium;
 
-    public Recipe(String id, String name, String description, String imageUrl) {
+    public Recipe(String id, String name, String description, String imageUrl, boolean isPremium) {
         this.name = name;
         this.id = id;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.isPremium = isPremium;
     }
 
-    public Recipe(String id, String name, String description, int duration, String difficulty, String category, String ingredients, String steps, String nutritionInfo, String imageUrl) {
+    public Recipe(String id, String name, String description, int duration, String ingredients, String steps, String nutritionInfo, String imageUrl, boolean isPremium) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.duration = duration;
-        this.difficulty = difficulty;
-        this.category = category;
         this.ingredients = ingredients;
         this.steps = steps;
         this.nutritionInfo = nutritionInfo;
         this.imageUrl = imageUrl;
+        this.isPremium = isPremium;
     }
+
     public String getId() {
         return id;
     }
@@ -62,12 +62,8 @@ public class Recipe {
         return duration;
     }
 
-    public String getDifficulty() {
-        return difficulty;
-    }
-
-    public String getCategory() {
-        return category;
+    public boolean isPremium() {
+        return isPremium;
     }
 
     public void setId(String id) {
@@ -102,11 +98,7 @@ public class Recipe {
         this.duration = duration;
     }
 
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
+    public void setPremium(boolean isPremium) {
+        this.isPremium = isPremium;
     }
 }
