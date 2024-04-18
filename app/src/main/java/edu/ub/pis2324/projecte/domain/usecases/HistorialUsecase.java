@@ -3,10 +3,15 @@ package edu.ub.pis2324.projecte.domain.usecases;
 import java.util.HashMap;
 
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
+import edu.ub.pis2324.projecte.domain.model.entities.User;
 import edu.ub.pis2324.projecte.domain.model.values.Record;
+import edu.ub.pis2324.projecte.data.UserRepository;
+import edu.ub.pis2324.projecte.data.RecipeRepository;
 
 public class HistorialUsecase {
-    private static HashMap<String, Record> records;
+    //TODO: FALTAN OBSERVERS QUE UTILIZEN LOS METODOS DE ESTA CLASE
+    //TODO: FALTAN REPOSITORIOS QUE RELACIONEN ESTE USECASE CON LA BASE DE DATOS
+    private static HashMap<User, Record> records;
 
     private HistorialUsecase() {
         records = new HashMap<>();
@@ -20,16 +25,25 @@ public class HistorialUsecase {
         }
     }
 
-    public void addRecord(String userId, Record record) {
-        records.put(userId, record);
+    public User getUser(String userId) {
+        return UserRepository.getInstance().getById(userId);
+    }
+
+    public Recipe getRecipe(String recipeId) {
+        return RecipeRepository.getInstance().getById(recipeId);
+    }
+
+    public void addRecord(String userId) {
+        if(!records.containsKey(getUser(userId))) records.put(getUser(userId), new Record(getUser(userId)));
+        else throw new IllegalArgumentException("User already has a record");
     }
 
     public Record getRecord(String userId) {
-        return records.get(userId);
+        return records.get(getUser(userId));
     }
 
     public void removeRecord(String userId) {
-        records.remove(userId);
+        records.remove(getUser(userId));
     }
 
     public void clear() {
@@ -37,26 +51,32 @@ public class HistorialUsecase {
     }
 
     public boolean containsRecord(String userId) {
-        return records.containsKey(userId);
+        return records.containsKey(getUser(userId));
     }
 
-    public void addRecipe(String userId, Recipe recipe) {
-        Record record = records.get(userId);
-        record.addRecipe(recipe);
+    public void addRecipe(String userId, String recipeId) {
+        Record record = records.get(getUser(userId));
+        if(record == null) throw new IllegalArgumentException("Record not found");
+        record.addRecipe(getRecipe(recipeId));
     }
 
     public Recipe getRecipe(String userId, String recipeId) {
-        Record record = records.get(userId);
+        Record record = records.get(getUser(userId));
+        if(record == null) throw new IllegalArgumentException("Record not found");
         return record.getRecipe(recipeId);
     }
 
     public void removeRecipe(String userId, String recipeId) {
-        Record record = records.get(userId);
+        Record record = records.get(getUser(userId));
+        if(record == null) throw new IllegalArgumentException("Record not found");
         record.removeRecipe(recipeId);
     }
 
     public void clearRecord(String userId) {
-        Record record = records.get(userId);
+        if (!records.containsKey(getUser(userId))) throw new IllegalArgumentException("User does not have a record");
+        Record record = records.get(getUser(userId));
+        if(record == null) throw new IllegalArgumentException("Record not found");
+        if (record.isEmpty()) throw new IllegalArgumentException("Record is already empty");
         record.clear();
     }
 }

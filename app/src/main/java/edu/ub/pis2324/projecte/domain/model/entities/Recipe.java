@@ -19,17 +19,16 @@ public class Recipe {
         this.isPremium = isPremium;
     }
 
-    public Recipe(String id, String name, String description, int duration, String difficulty, String category, String ingredients, String steps, String nutritionInfo, String imageUrl, boolean isPremium) {
+    public Recipe(String id, String name, String description, int duration, String ingredients, String steps, String nutritionInfo, String imageUrl, boolean isPremium) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.duration = duration;
-        this.difficulty = difficulty;
-        this.category = category;
         this.ingredients = ingredients;
         this.steps = steps;
         this.nutritionInfo = nutritionInfo;
         this.imageUrl = imageUrl;
+        this.isPremium = isPremium;
     }
 
     public String getId() {
@@ -61,14 +60,6 @@ public class Recipe {
 
     public int getDuration() {
         return duration;
-    }
-
-    public String getDifficulty() {
-        return difficulty;
-    }
-
-    public String getCategory() {
-        return category;
     }
 
     public boolean isPremium() {
@@ -105,14 +96,6 @@ public class Recipe {
 
     public void setDuration(int duration) {
         this.duration = duration;
-    }
-
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
     }
 
     public void setPremium(boolean isPremium) {
