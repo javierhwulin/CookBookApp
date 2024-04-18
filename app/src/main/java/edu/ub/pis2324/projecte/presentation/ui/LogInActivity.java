@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import edu.ub.pis2324.projecte.databinding.ActivityLogInBinding;
 import edu.ub.pis2324.projecte.presentation.viewmodel.LogInViewModel;
@@ -35,15 +36,15 @@ public class LogInActivity extends AppCompatActivity {
      * Initialize the listeners of the widgets.
      */
     private void initWidgetListeners() {
-        binding.btnLogIn.setOnClickListener(ignoredView -> {
+        binding.logInBtn.setOnClickListener(ignoredView -> {
             // Delegate the log-in logic to the viewmodel
             logInViewModel.logIn(
-                    String.valueOf(binding.etLoginUsername.getText()),
-                    String.valueOf(binding.etLoginPassword.getText())
+                    String.valueOf(binding.UsernameText.getText()),
+                    String.valueOf(binding.PasswordText.getText())
             );
         });
 
-        binding.btnSignUp.setOnClickListener(ignoredView -> {
+        binding.signUpBtn.setOnClickListener(ignoredView -> {
             // Start the sign-up activity
             Intent intent = new Intent(this, SignUpActivity.class);
             startActivity(intent);
@@ -71,20 +72,20 @@ public class LogInActivity extends AppCompatActivity {
             // Whenever there's a change in the login state of the viewmodel
             switch (logInState.getStatus()) {
                 case LOADING:
-                    binding.btnLogIn.setEnabled(false);
+                    binding.logInBtn.setEnabled(false);
                     break;
                 case SUCCESS:
                     assert logInState.getData() != null;
-                    Intent intent = new Intent(this, ShoppingActivity.class);
-                    intent.putExtra("CLIENT_ID", logInState.getData().getId());
-                    startActivity(intent);
+                    //Intent intent = new Intent(this, RecipeListActivity.class);
+                    //intent.putExtra("CLIENT_ID", logInState.getData().getId());
+                    //startActivity(intent);
                     finish();
                     break;
                 case ERROR:
                     assert logInState.getError() != null;
                     String errorMessage = logInState.getError().getMessage();
                     Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
-                    binding.btnLogIn.setEnabled(true);
+                    binding.logInBtn.setEnabled(true);
                     break;
                 default:
                     throw new IllegalStateException("Unexpected value: " + logInState.getStatus());
