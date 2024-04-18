@@ -2,6 +2,10 @@ package edu.ub.pis2324.projecte.presentation.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 
+import edu.ub.pis2324.projecte.data.services.AuthenticationService;
+import edu.ub.pis2324.projecte.domain.model.entities.User;
+import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
+
 public class LogInViewModel extends ViewModel {
     /* Attributes */
     private final AuthenticationService authenticationService;
@@ -17,7 +21,7 @@ public class LogInViewModel extends ViewModel {
      * Returns the state of the log-in
      * @return the state of the log-in
      */
-    public StateLiveData<Client> getLogInState() {
+    public StateLiveData<User> getLogInState() {
         return logInState;
     }
 
@@ -32,8 +36,8 @@ public class LogInViewModel extends ViewModel {
                 password,
                 new AuthenticationService.OnLogInListener() {
                     @Override
-                    public void onLogInSuccess(Client client) {
-                        logInState.postSuccess(client);
+                    public void onLogInSuccess(User user) {
+                        logInState.postSuccess(user);
                     }
                     @Override
                     public void onLogInError(Throwable throwable) {
