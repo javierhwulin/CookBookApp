@@ -5,21 +5,21 @@ public class Recipe {
     private String name;
     private String description;
     private int duration;
-    private String difficulty;
-    private String category;
     private String ingredients;
     private String steps;
     private String nutritionInfo;
     private String imageUrl;
+    private boolean isPremium;
 
-    public Recipe(String id, String name, String description, String imageUrl) {
+    public Recipe(String id, String name, String description, String imageUrl, boolean isPremium) {
         this.name = name;
         this.id = id;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.isPremium = isPremium;
     }
 
-    public Recipe(String id, String name, String description, int duration, String difficulty, String category, String ingredients, String steps, String nutritionInfo, String imageUrl) {
+    public Recipe(String id, String name, String description, int duration, String difficulty, String category, String ingredients, String steps, String nutritionInfo, String imageUrl, boolean isPremium) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -31,6 +31,7 @@ public class Recipe {
         this.nutritionInfo = nutritionInfo;
         this.imageUrl = imageUrl;
     }
+
     public String getId() {
         return id;
     }
@@ -68,6 +69,10 @@ public class Recipe {
 
     public String getCategory() {
         return category;
+    }
+
+    public boolean isPremium() {
+        return isPremium;
     }
 
     public void setId(String id) {
@@ -108,5 +113,9 @@ public class Recipe {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public void setPremium(boolean isPremium) {
+        this.isPremium = isPremium;
     }
 }
