@@ -2,19 +2,19 @@ package edu.ub.pis2324.projecte.presentation.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 
-import edu.ub.pis2324.projecte.data.services.AuthenticationService;
+import edu.ub.pis2324.projecte.data.UserRepository;
 import edu.ub.pis2324.projecte.domain.model.entities.User;
 import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
 
 public class LogInViewModel extends ViewModel {
     /* Attributes */
-    private final AuthenticationService authenticationService;
+    private final UserRepository userRepository;
     /* LiveData */
     private final StateLiveData<User> logInState;
 
     /* Constructor */
     public LogInViewModel() {
-        authenticationService = new AuthenticationService();
+        userRepository = new UserRepository();
         logInState = new StateLiveData<>();
     }
     /**
@@ -31,16 +31,16 @@ public class LogInViewModel extends ViewModel {
      * @param password the password
      */
     public void logIn(String username, String password) {
-        authenticationService.logIn(
+        userRepository.getUser(
                 username,
                 password,
-                new AuthenticationService.OnLogInListener() {
+                new UserRepository.OnGetUserListener() {
                     @Override
-                    public void onLogInSuccess(User user) {
+                    public void OnGetUserSuccess(User user) {
                         logInState.postSuccess(user);
                     }
                     @Override
-                    public void onLogInError(Throwable throwable) {
+                    public void OnGetUserError(Throwable throwable) {
                         logInState.postError(throwable);
                     }
                 }
