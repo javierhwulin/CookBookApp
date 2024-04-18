@@ -7,6 +7,9 @@ import edu.ub.pis2324.projecte.domain.model.entities.User;
 import edu.ub.pis2324.projecte.domain.model.values.Record;
 import edu.ub.pis2324.projecte.data.UserRepository;
 import edu.ub.pis2324.projecte.data.RecipeRepository;
+import edu.ub.pis2324.projecte.domain.exceptions.UserException.UserNotFoundException;
+import edu.ub.pis2324.projecte.domain.exceptions.RecipeException;
+import edu.ub.pis2324.projecte.domain.exceptions.ExceptionType;
 
 public class HistorialUsecase {
     //TODO: FALTAN OBSERVERS QUE UTILIZEN LOS METODOS DE ESTA CLASE
@@ -33,9 +36,9 @@ public class HistorialUsecase {
         return RecipeRepository.getInstance().getById(recipeId);
     }
 
-    public void addRecord(String userId) {
+    public void addRecord(String userId) throws RecipeException.RecordNotFoundException {
         if(!records.containsKey(getUser(userId))) records.put(getUser(userId), new Record(getUser(userId)));
-        else throw new IllegalArgumentException("User already has a record");
+        else throw new RecipeException.RecordNotFoundException(ExceptionType.RECORD_ALREADY_EXISTS.getMessage());
     }
 
     public Record getRecord(String userId) {
@@ -54,29 +57,29 @@ public class HistorialUsecase {
         return records.containsKey(getUser(userId));
     }
 
-    public void addRecipe(String userId, String recipeId) {
+    public void addRecipe(String userId, String recipeId) throws RecipeException.RecordNotFoundException {
         Record record = records.get(getUser(userId));
-        if(record == null) throw new IllegalArgumentException("Record not found");
+        if(record == null) throw new RecipeException.RecordNotFoundException(ExceptionType.RECORD_NOT_FOUND.getMessage());
         record.addRecipe(getRecipe(recipeId));
     }
 
-    public Recipe getRecipe(String userId, String recipeId) {
+    public Recipe getRecipe(String userId, String recipeId) throws RecipeException.RecordNotFoundException{
         Record record = records.get(getUser(userId));
-        if(record == null) throw new IllegalArgumentException("Record not found");
+        if(record == null) throw new RecipeException.RecordNotFoundException(ExceptionType.RECORD_NOT_FOUND.getMessage());
         return record.getRecipe(recipeId);
     }
 
-    public void removeRecipe(String userId, String recipeId) {
+    public void removeRecipe(String userId, String recipeId) throws RecipeException.RecordNotFoundException {
         Record record = records.get(getUser(userId));
-        if(record == null) throw new IllegalArgumentException("Record not found");
+        if(record == null) throw new RecipeException.RecordNotFoundException(ExceptionType.RECORD_NOT_FOUND.getMessage());
         record.removeRecipe(recipeId);
     }
 
-    public void clearRecord(String userId) {
-        if (!records.containsKey(getUser(userId))) throw new IllegalArgumentException("User does not have a record");
+    public void clearRecord(String userId) throws RecipeException.RecordNotFoundException, UserNotFoundException{
+        if (!records.containsKey(getUser(userId))) throw new UserNotFoundException(ExceptionType.USER_NOT_FOUND.getMessage());
         Record record = records.get(getUser(userId));
-        if(record == null) throw new IllegalArgumentException("Record not found");
-        if (record.isEmpty()) throw new IllegalArgumentException("Record is already empty");
+        if(record == null) throw new RecipeException.RecordNotFoundException(ExceptionType.RECORD_NOT_FOUND.getMessage());
+        if (record.isEmpty()) throw new IllegalArgumentException(ExceptionType.RECORD_IS_EMPTY.getMessage());
         record.clear();
     }
 }
