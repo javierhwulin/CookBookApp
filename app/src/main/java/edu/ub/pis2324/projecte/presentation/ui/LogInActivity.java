@@ -57,7 +57,7 @@ public class LogInActivity extends AppCompatActivity {
     private void initViewModel() {
         /* Init viewmodel */
         logInViewModel = new ViewModelProvider(
-                this
+               this
         ).get(LogInViewModel.class);
 
         initObservers();
