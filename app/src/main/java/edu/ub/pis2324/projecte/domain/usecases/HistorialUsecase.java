@@ -2,7 +2,7 @@ package edu.ub.pis2324.projecte.domain.usecases;
 
 import java.util.HashMap;
 
-import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
+/*import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 import edu.ub.pis2324.projecte.domain.model.entities.User;
 import edu.ub.pis2324.projecte.domain.model.values.Record;
 import edu.ub.pis2324.projecte.data.UserRepository;
@@ -79,4 +79,4 @@ public class HistorialUsecase {
         if (record.isEmpty()) throw new IllegalArgumentException("Record is already empty");
         record.clear();
     }
-}
+}*/

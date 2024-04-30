@@ -1,0 +1,193 @@
+package edu.ub.pis2324.projecte.presentation.ui;
+
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
+import edu.ub.pis2324.projecte.presentation.viewmodel.RecipesListViewModel;
+
+public class RecipesListActivity extends AppCompatActivity {
+  /* Constants */
+  private static final String RECYCLER_VIEW_STATE = "recycler_view_state";
+
+  /* Attributes */
+
+  /* This activity's view model */
+  private RecipesListViewModel recipeViewModel;
+
+  /* View binding */
+  private ActivityRecipeBinding binding;
+  /* Client id */
+  private String clientId;
+  /* Adapter for the recycler view of products */
+  private ProductRecipeViewAdapter rvProductsAdapter;
+  /* LayoutManager for the recycler view of products */
+  private RecyclerView.LayoutManager rvLayoutManager;
+  private Parcelable rvStateParcelable; // to save state of the rv's layout manager (scroll)
+
+  /**
+   * Called when the activity is being created.
+   * @param savedInstanceState
+   */
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    /* Set view binding */
+    binding = ActivityRecipeBinding.inflate(getLayoutInflater());
+    setContentView(binding.getRoot());
+
+    /* Get client id from intent */
+    clientId = getIntent().getStringExtra("CLIENT_ID");
+
+    /* Initializations */
+    initWidgetListeners();
+    initRecyclerView();
+    initViewModel();
+
+    recipeViewModel.fetchRecipeCatalog();
+  }
+
+  /**
+   * Lifecycle method called when the activity is being resumed.
+   */
+  protected void onResume() {
+    super.onResume();
+    if (rvStateParcelable != null) {
+      rvLayoutManager.onRestoreInstanceState(rvStateParcelable);
+    }
+  }
+
+  /**
+   * Lifecycle method called when the activity is being paused.
+   * @param state the bundle to save the state of the activity
+   */
+  protected void onSaveInstanceState(@NonNull Bundle state) {
+    super.onSaveInstanceState(state);
+    rvStateParcelable = rvLayoutManager.onSaveInstanceState();
+    state.putParcelable(RECYCLER_VIEW_STATE, rvStateParcelable);
+  }
+
+  /**
+   * Lifecycle method called when the activity is being restored.
+   * @param state the bundle to restore the state of the activity
+   */
+  protected void onRestoreInstanceState(@NonNull Bundle state) {
+    super.onRestoreInstanceState(state);
+    rvStateParcelable = state.getParcelable(RECYCLER_VIEW_STATE);
+  }
+
+  /**
+   * Initialize the listeners of the widgets.
+   */
+  private void initWidgetListeners() {
+    /* Search view */
+    binding.svRecipe.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+      @Override
+      public boolean onQueryTextSubmit(String queryText) {
+        recipeViewModel.fetchRecipesByName(queryText);
+        return true;
+      }
+      @Override
+      public boolean onQueryTextChange(String queryText) {
+        /*
+         * "Hack" per suplir OnCloseListener. Més info:
+         *  See: https://stackoverflow.com/questions/9327826/
+         *   searchviews-oncloselistener-doesnt-work
+         * Altrament fariem simplement: return false.
+         */
+        if (!queryText.isEmpty()) return false;
+        recipeViewModel.fetchRecipesCatalog();
+        return true;
+      }
+    });
+  }
+
+  /**
+   * Initialize the recycler view.
+   */
+  private void initRecyclerView() {
+    rvLayoutManager = new LinearLayoutManager(this);
+    binding.rvRecipes.setLayoutManager(rvLayoutManager);
+
+    initRecyclerViewAdapter();
+  }
+
+  /**
+   * Initialize the recycler view adapter.
+   */
+  private void initRecyclerViewAdapter() {
+    rvProductsAdapter = new RecipeRecyclerViewAdapter(
+      product -> startViewRecipeDetailsActivity(product),
+        product -> {
+            recipeViewModel.hideRecipe(product);
+        }
+      /* EXERCICI 2 */
+    );
+    binding.rvRecipe.setAdapter(rvProductsAdapter);
+  }
+
+  /**
+   * Initialize the view model.
+   */
+  private void initViewModel() {
+    /*
+     * Get the view model from the ViewModelProvider. If we where to use "new ShoppingViewModel()"
+     * the view model would not be aware of the activity's lifecycle. So every time the activity
+     * is destroyed and recreated, the view model would be a new one, and we would lose the
+     * data that we had in the previous one, when to keep the data is its very own purpose.
+     */
+    recipeViewModel = new ViewModelProvider(this).get(RecipesListViewModel.class);
+    initObservers();
+  }
+
+  /**
+   * Initialize the observers of the view model.
+   */
+  private void initObservers() {
+    /* Observe the state of the products' catalog */
+    recipeViewModel.getRecipesState().observe(this, state -> {
+      switch (state.getStatus()) {
+        case SUCCESS:
+          assert state.getData() != null;
+          showNoRecipesAvailable(state.getData().isEmpty());
+          rvRecipesAdapter.setRecipesData(state.getData());
+          break;
+        case ERROR:
+          showNoRecipesAvailable(true);
+          break;
+        default:
+          break;
+      }
+    });
+
+    /* Observe the state of the product being hidden */
+    recipeViewModel.getHiddenRecipeState().observe(this, hiddenProductPosition -> {
+      rvProductsAdapter.removeRecipe(hiddenProductPosition);
+    });
+  }
+
+  private void showNoRecipesAvailable(boolean mustShow) {
+    binding.clNoRecipesAvailable.setVisibility(
+        mustShow ? View.VISIBLE : View.GONE
+    );
+  }
+
+  /**
+   * Starts the ViewProductDetailsActivity.
+   * @param recipe the recipe to be shown
+   */
+  private void startViewProductDetailsActivity(Recipe recipe) {
+    //Intent intent = new Intent(this, ViewRecipeDetailsActivity.class);
+    //intent.putExtra("CLIENT_ID", clientId);
+    //intent.putExtra("Recipe", recipe); // Product class implements Parcelable
+    //startActivity(intent);
+  }
+}
