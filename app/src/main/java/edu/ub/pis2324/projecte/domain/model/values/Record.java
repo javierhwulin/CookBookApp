@@ -6,11 +6,9 @@ import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 import edu.ub.pis2324.projecte.domain.model.entities.User;
 
 public class Record {
-    private User user;
-    private HashMap<String, Recipe> recipes;
+    private final HashMap<String, Recipe> recipes;
 
-    public Record(User user) {
-        this.user = user;
+    public Record() {
         this.recipes = new HashMap<>();
     }
 
