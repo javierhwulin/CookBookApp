@@ -25,11 +25,25 @@ public class RecipeListService {
     }
 
 
-    public void getByName(String name, OnFetchRecipesListener listener) {
+   /* public void getByName(String name, OnFetchRecipesListener listener) {
         db.collection("recipes").whereEqualTo("name", name).get()
                 .addOnFailureListener(e -> listener.OnFetchRecipes(e))
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Recipe> recipes = queryDocumentSnapshots.toObjects(Recipe.class);
+                    listener.OnFetchRecipes(recipes);
+                });
+    }*/
+
+    public void getByName(String name, OnFetchRecipesListener listener) {
+        db.collection("recipes").get()
+                .addOnFailureListener(e -> listener.OnFetchRecipes(e))
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<Recipe> recipes = queryDocumentSnapshots.toObjects(Recipe.class);
+                    for (Recipe recipe : recipes) {
+                        if (!recipe.getName().toLowerCase().contains(name.toLowerCase())) {
+                            recipes.remove(recipe);
+                        }
+                    }
                     listener.OnFetchRecipes(recipes);
                 });
     }
