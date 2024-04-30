@@ -1,4 +1,4 @@
 package edu.ub.pis2324.projecte.domain.usecases.implementation;
 
-public interface RecipeStepsUsecase{
+public class RecipeViewUsecaseImpl {
 }

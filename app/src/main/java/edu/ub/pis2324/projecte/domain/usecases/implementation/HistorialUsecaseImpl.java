@@ -1,14 +1,13 @@
 package edu.ub.pis2324.projecte.domain.usecases.implementation;
 
-import androidx.lifecycle.LiveData;
-
 import java.util.HashMap;
 import java.util.Objects;
 
 import edu.ub.pis2324.projecte.data.UserRepository;
 import edu.ub.pis2324.projecte.data.services.RecipeListService;
+import edu.ub.pis2324.projecte.domain.IRecipeListService;
+import edu.ub.pis2324.projecte.domain.IUserRepository;
 import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
-import io.reactivex.rxjava3.core.*;
 
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 import edu.ub.pis2324.projecte.domain.model.entities.User;
@@ -17,13 +16,13 @@ import edu.ub.pis2324.projecte.domain.exceptions.UserException.UserNotFoundExcep
 import edu.ub.pis2324.projecte.domain.exceptions.RecipeException;
 import edu.ub.pis2324.projecte.domain.exceptions.ExceptionType;
 
-public class HistorialUsecase {
-    private final UserRepository userRepository;
-    private final RecipeListService recipeListService;
+public class HistorialUsecaseImpl {
+    private final IUserRepository userRepository;
+    private final IRecipeListService recipeListService;
     private final StateLiveData<User> userStateLiveData;
     private final StateLiveData<Recipe> recipeStateLiveData;
 
-    private HistorialUsecase(UserRepository userRepository, RecipeListService recipeListService) {
+    public HistorialUsecaseImpl(UserRepository userRepository, RecipeListService recipeListService) {
         this.userRepository = userRepository;
         this.recipeListService = recipeListService;
         this.userStateLiveData = new StateLiveData<>();
@@ -32,10 +31,6 @@ public class HistorialUsecase {
 
     private static final class RecordsHolder {
         static final HashMap<User, Record> records = new HashMap<>();
-    }
-
-    public static HistorialUsecase getInstance() {
-        return new HistorialUsecase(new UserRepository(), new RecipeListService());
     }
 
     public StateLiveData<User> getUserStateLiveData() {
