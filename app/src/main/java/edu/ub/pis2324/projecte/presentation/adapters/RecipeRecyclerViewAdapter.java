@@ -117,6 +117,9 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     holder.tvRecipeName.setText(name);
     holder.tvRecipeTime.setText(duration);
     holder.tvRecipeCalories.setText(calories);
+    if (isPremium) holder.tvRecipePremium.setVisibility(View.VISIBLE);
+    else holder.tvRecipePremium.setVisibility(View.GONE);
+
     Picasso.get().load(imageUrl).into(holder.ivRecipeImage); // Internet URL image -> ImageView
   }
 
@@ -137,6 +140,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     private final TextView tvRecipeName;
     private final TextView tvRecipeTime;
     private final TextView tvRecipeCalories;
+    private final TextView tvRecipePremium;
 
 
     /* EXERCICI 2 */
@@ -167,6 +171,8 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
       tvRecipeName = itemView.findViewById(R.id.tvRecipeName);
       tvRecipeTime = itemView.findViewById(R.id.tvRecipeTime);
       tvRecipeCalories = itemView.findViewById(R.id.tvRecipeCalories);
+      tvRecipePremium = itemView.findViewById(R.id.tvIsPremium);
+
 
       itemView.setOnClickListener(v ->
         onItemPositionClickListener.onItemPositionClick(getAdapterPosition())
