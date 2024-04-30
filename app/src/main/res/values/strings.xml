@@ -9,4 +9,6 @@
     <string name="log_in.cat">Inicia sessió</string>
     <string name="username_mail.cat">Nom d\'usuari o E-Mail</string>
     <string name="log_in_btn.cat">Iniciar</string>
+    <string name="search_recipe_hint">Search recipe by name…</string>
+    <string name="no_data_available">Oops! No recipes were found</string>
 </resources>

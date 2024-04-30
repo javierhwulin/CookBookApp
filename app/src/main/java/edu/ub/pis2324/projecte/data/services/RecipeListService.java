@@ -24,9 +24,9 @@ public class RecipeListService {
         void OnGetRecipeError(Throwable throwable);
     }
 
-    public interface OnGetAllRecipesListener {
-        void OnGetAllRecipesSuccess(List<Recipe> recipes);
-        void OnGetAllRecipesError(Throwable throwable);
+    public interface OnFetchRecipesListener {
+        void OnFetchRecipes(List<Recipe> recipes);
+        void OnFetchRecipes(Throwable throwable);
     }
 
 
@@ -49,12 +49,12 @@ public class RecipeListService {
                 });
     }
 
-    public void getAll(OnGetAllRecipesListener listener) {
+    public void getAll(OnFetchRecipesListener listener) {
         db.collection("recipes").get()
-                .addOnFailureListener(e -> listener.OnGetAllRecipesError(e))
+                .addOnFailureListener(e -> listener.OnFetchRecipes(e))
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Recipe> recipes = queryDocumentSnapshots.toObjects(Recipe.class);
-                    listener.OnGetAllRecipesSuccess(recipes);
+                    listener.OnFetchRecipes(recipes);
                 });
     }
 

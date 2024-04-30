@@ -2,6 +2,7 @@ package edu.ub.pis2324.projecte.presentation.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
 
 
-public class RecipesListViewModel {
+public class RecipesListViewModel extends ViewModel {
     RecipeListService recipeListService;
     private final List<Recipe> recipes;
     /* LiveData */
@@ -46,13 +47,18 @@ public class RecipesListViewModel {
     /**
      * Fetches the products from a data store
      */
-    public void fetchProductsCatalog() {
-        recipeListService.getAll(new RecipeListService.OnGetAllRecipesListener() {
+    public void fetchRecipesCatalog() {
+        recipeListService.getAll(new RecipeListService.OnFetchRecipesListener() {
             @Override
-            public void onFetchProducts(List<Recipe> gottenRecipes) {
+            public void OnFetchRecipes(List<Recipe> gottenRecipes) {
                 recipes.clear();
                 recipes.addAll(gottenRecipes);
                 recipesState.postSuccess(recipes);
+            }
+
+            @Override
+            public void OnFetchRecipes(Throwable throwable) {
+                recipesState.postError(throwable);
             }
         });
 
@@ -62,24 +68,17 @@ public class RecipesListViewModel {
      * Fetches the products using the use case
      */
     public void fetchRecipesByName(String name) {
-        recipeListService.getByName(name, new ProductStoreService.OnFetchProductsListener() {
+        recipeListService.getRecipe(name, new RecipeListService.OnGetRecipeListener() {
             @Override
-            public void onFetchProducts(List<Product> gottenProducts) {
-                recipes.clear();
-                recipes.addAll(gottenProducts);
+            public void OnGetRecipeSuccess(Recipe recipe) {
+                recipes.add(recipe);
                 recipesState.postSuccess(recipes);
             }
-        });
-    }
 
-    /**
-     * Hides a product in the products' list
-     * @param product the product to be hidden
-     */
-    public void hideProduct(Product product) {
-        /* EXERCICI 2: NO TOCAR */
-        int position = recipes.indexOf(product);
-        recipes.remove(position);
-        hiddenRecipeState.postValue(position);
+            @Override
+            public void OnGetRecipeError(Throwable throwable) {
+                recipesState.postError(throwable);
+            }
+        });
     }
 }

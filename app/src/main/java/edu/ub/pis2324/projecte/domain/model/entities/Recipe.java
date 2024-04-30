@@ -1,6 +1,9 @@
 package edu.ub.pis2324.projecte.domain.model.entities;
 
-public class Recipe {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Recipe implements Parcelable {
     private String id;
     private String name;
     private String description;
@@ -30,6 +33,8 @@ public class Recipe {
         this.imageUrl = imageUrl;
         this.isPremium = isPremium;
     }
+
+    public Recipe() {}
 
     public String getId() {
         return id;
@@ -101,4 +106,59 @@ public class Recipe {
     public void setPremium(boolean isPremium) {
         this.isPremium = isPremium;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.description);
+        dest.writeString(Integer.toString(this.duration));
+        dest.writeString(this.ingredients);
+        dest.writeString(this.steps);
+        dest.writeString(this.nutritionInfo);
+        dest.writeString(this.imageUrl);
+        dest.writeValue(this.isPremium);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.id = source.readString();
+        this.name = source.readString();
+        this.ingredients = source.readString();
+        this.description = source.readString();
+        this.steps = source.readString();
+        this.nutritionInfo = source.readString();
+        this.duration = Integer.parseInt(source.readString());
+        this.imageUrl = source.readString();
+        this.isPremium = (Boolean) source.readValue(Boolean.class.getClassLoader());
+    }
+
+    protected Recipe(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.ingredients = in.readString();
+        this.description = in.readString();
+        this.steps = in.readString();
+        this.nutritionInfo = in.readString();
+        this.duration = Integer.parseInt(in.readString());
+        this.imageUrl = in.readString();
+        this.isPremium = (Boolean) in.readValue(Boolean.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {
+        @Override
+        public Recipe createFromParcel(Parcel source) {
+            return new Recipe(source);
+        }
+
+        @Override
+        public Recipe[] newArray(int size) {
+            return new Recipe[size];
+        }
+    };
 }
+

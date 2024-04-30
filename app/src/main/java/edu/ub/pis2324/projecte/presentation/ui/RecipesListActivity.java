@@ -1,5 +1,6 @@
 package edu.ub.pis2324.projecte.presentation.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
@@ -11,7 +12,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import edu.ub.pis2324.projecte.databinding.ActivityRecipesListBinding;
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
+import edu.ub.pis2324.projecte.presentation.adapters.RecipeRecyclerViewAdapter;
 import edu.ub.pis2324.projecte.presentation.viewmodel.RecipesListViewModel;
 
 public class RecipesListActivity extends AppCompatActivity {
@@ -24,11 +27,11 @@ public class RecipesListActivity extends AppCompatActivity {
   private RecipesListViewModel recipeViewModel;
 
   /* View binding */
-  private ActivityRecipeBinding binding;
+  private ActivityRecipesListBinding binding;
   /* Client id */
   private String clientId;
   /* Adapter for the recycler view of products */
-  private ProductRecipeViewAdapter rvProductsAdapter;
+  private RecipeRecyclerViewAdapter rvRecipesAdapter;
   /* LayoutManager for the recycler view of products */
   private RecyclerView.LayoutManager rvLayoutManager;
   private Parcelable rvStateParcelable; // to save state of the rv's layout manager (scroll)
@@ -41,7 +44,7 @@ public class RecipesListActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     /* Set view binding */
-    binding = ActivityRecipeBinding.inflate(getLayoutInflater());
+    binding = ActivityRecipesListBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
 
     /* Get client id from intent */
@@ -52,7 +55,7 @@ public class RecipesListActivity extends AppCompatActivity {
     initRecyclerView();
     initViewModel();
 
-    recipeViewModel.fetchRecipeCatalog();
+    recipeViewModel.fetchRecipesCatalog();
   }
 
   /**
@@ -89,7 +92,7 @@ public class RecipesListActivity extends AppCompatActivity {
    */
   private void initWidgetListeners() {
     /* Search view */
-    binding.svRecipe.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+    binding.svRecipes.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
       @Override
       public boolean onQueryTextSubmit(String queryText) {
         recipeViewModel.fetchRecipesByName(queryText);
@@ -124,14 +127,10 @@ public class RecipesListActivity extends AppCompatActivity {
    * Initialize the recycler view adapter.
    */
   private void initRecyclerViewAdapter() {
-    rvProductsAdapter = new RecipeRecyclerViewAdapter(
-      product -> startViewRecipeDetailsActivity(product),
-        product -> {
-            recipeViewModel.hideRecipe(product);
-        }
-      /* EXERCICI 2 */
+    rvRecipesAdapter = new RecipeRecyclerViewAdapter(
+      recipe -> startViewRecipeDetailsActivity(recipe)
     );
-    binding.rvRecipe.setAdapter(rvProductsAdapter);
+    binding.rvRecipes.setAdapter(rvRecipesAdapter);
   }
 
   /**
@@ -170,7 +169,7 @@ public class RecipesListActivity extends AppCompatActivity {
 
     /* Observe the state of the product being hidden */
     recipeViewModel.getHiddenRecipeState().observe(this, hiddenProductPosition -> {
-      rvProductsAdapter.removeRecipe(hiddenProductPosition);
+      rvRecipesAdapter.removeRecipe(hiddenProductPosition);
     });
   }
 
@@ -184,10 +183,11 @@ public class RecipesListActivity extends AppCompatActivity {
    * Starts the ViewProductDetailsActivity.
    * @param recipe the recipe to be shown
    */
-  private void startViewProductDetailsActivity(Recipe recipe) {
-    //Intent intent = new Intent(this, ViewRecipeDetailsActivity.class);
-    //intent.putExtra("CLIENT_ID", clientId);
-    //intent.putExtra("Recipe", recipe); // Product class implements Parcelable
-    //startActivity(intent);
+  private void startViewRecipeDetailsActivity(Recipe recipe) {
+    Intent intent = new Intent(this, ViewRecipeDetailsActivity.class);
+    intent.putExtra("CLIENT_ID", clientId);
+    intent.putExtra("RECIPE", recipe); // Product class implements Parcelable
+    startActivity(intent);
+
   }
 }
