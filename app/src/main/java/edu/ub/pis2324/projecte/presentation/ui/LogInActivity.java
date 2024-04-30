@@ -76,9 +76,9 @@ public class LogInActivity extends AppCompatActivity {
                     break;
                 case SUCCESS:
                     assert logInState.getData() != null;
-                    //Intent intent = new Intent(this, RecipeListActivity.class);
-                    //intent.putExtra("CLIENT_ID", logInState.getData().getId());
-                    //startActivity(intent);
+                    Intent intent = new Intent(this, RecipesListActivity.class);
+                    intent.putExtra("CLIENT_ID", logInState.getData().getUsername());
+                    startActivity(intent);
                     finish();
                     break;
                 case ERROR:
