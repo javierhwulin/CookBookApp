@@ -4,11 +4,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import edu.ub.pis2324.projecte.domain.IUserRepository;
 import edu.ub.pis2324.projecte.domain.model.entities.User;
+import io.reactivex.rxjava3.core.Observable;
 
 
 public class UserRepository implements IUserRepository {
-
+    private static final String CLIENTS_COLLECTION_NAME = "users";
     private final FirebaseFirestore db;
+
 
     public UserRepository() {
         super();
@@ -37,7 +39,7 @@ public class UserRepository implements IUserRepository {
             listener.OnAddUserError(new Throwable("Password cannot be empty"));
         }
 
-        db.collection("users").document(user.getUsername()).set(user)
+        db.collection(CLIENTS_COLLECTION_NAME).document(user.getUsername()).set(user)
             .addOnSuccessListener(aVoid -> listener.OnAddUserSuccess())
             .addOnFailureListener(e -> listener.OnAddUserError(e));
     }
@@ -52,7 +54,7 @@ public class UserRepository implements IUserRepository {
             listener.OnGetUserError(new Throwable("Password cannot be empty"));
         }
 
-        db.collection("users").document(username).get()
+        db.collection(CLIENTS_COLLECTION_NAME).document(username).get()
                 .addOnFailureListener(e -> listener.OnGetUserError(e))
                 .addOnSuccessListener(usr -> {
                     if (!usr.exists()){
@@ -66,7 +68,5 @@ public class UserRepository implements IUserRepository {
                         }
                     }
                 });
-
     }
-
 }
