@@ -68,17 +68,26 @@ public class RecipesListViewModel extends ViewModel {
      * Fetches the products using the use case
      */
     public void fetchRecipesByName(String name) {
-        recipeListService.getRecipe(name, new RecipeListService.OnGetRecipeListener() {
+        recipeListService.getByName(name, new RecipeListService.OnFetchRecipesListener() {
             @Override
-            public void OnGetRecipeSuccess(Recipe recipe) {
-                recipes.add(recipe);
+            public void OnFetchRecipes(List<Recipe> gottenRecipes) {
+                recipes.clear();
+                recipes.addAll(gottenRecipes);
                 recipesState.postSuccess(recipes);
             }
 
             @Override
-            public void OnGetRecipeError(Throwable throwable) {
+            public void OnFetchRecipes(Throwable throwable) {
                 recipesState.postError(throwable);
             }
         });
     }
+
+    public void hideRecipe(Recipe recipe) {
+        /* EXERCICI 2: NO TOCAR */
+        int position = recipes.indexOf(recipe);
+        recipes.remove(position);
+        hiddenRecipeState.postValue(position);
+    }
+
 }

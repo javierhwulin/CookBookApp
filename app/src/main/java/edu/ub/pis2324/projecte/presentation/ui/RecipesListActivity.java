@@ -165,6 +165,8 @@ public class RecipesListActivity extends AppCompatActivity {
         default:
           break;
       }
+
+
     });
 
     /* Observe the state of the product being hidden */

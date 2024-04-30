@@ -19,33 +19,18 @@ public class RecipeListService {
         db = FirebaseFirestore.getInstance();
     }
 
-    public interface OnGetRecipeListener {
-        void OnGetRecipeSuccess(Recipe recipe);
-        void OnGetRecipeError(Throwable throwable);
-    }
-
     public interface OnFetchRecipesListener {
         void OnFetchRecipes(List<Recipe> recipes);
         void OnFetchRecipes(Throwable throwable);
     }
 
 
-    public void getRecipe(String id, OnGetRecipeListener listener){
-        // Add user to database)
-        if (id.isEmpty()){
-            listener.OnGetRecipeError(new Throwable("Username cannot be empty"));
-        }
-
-
-        db.collection("recipes").document(id).get()
-                .addOnFailureListener(e -> listener.OnGetRecipeError(e))
-                .addOnSuccessListener(rec -> {
-                    if (!rec.exists()){
-                        listener.OnGetRecipeError(new Throwable("Recipe does not exist"));
-                    } else {
-                        Recipe recipe = rec.toObject(Recipe.class);
-                        listener.OnGetRecipeSuccess(recipe);
-                    }
+    public void getByName(String name, OnFetchRecipesListener listener) {
+        db.collection("recipes").whereEqualTo("name", name).get()
+                .addOnFailureListener(e -> listener.OnFetchRecipes(e))
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    List<Recipe> recipes = queryDocumentSnapshots.toObjects(Recipe.class);
+                    listener.OnFetchRecipes(recipes);
                 });
     }
 

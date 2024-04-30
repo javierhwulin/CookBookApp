@@ -28,6 +28,8 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
   /* Listener to callback the activity */
   private final OnRecipeClickListener onRecipeClickListener;
 
+
+
   /* EXERCICI 2 */
   // ...
 
@@ -37,6 +39,8 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
   public interface OnRecipeClickListener {
     void onRecipeClick(Recipe recipeModel);
   }
+
+
 
   /* EXERCICI 2 */
   // ...
@@ -144,7 +148,6 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     public interface OnItemPositionClickListener {
       void onItemPositionClick(int position);
     }
-
 
 
 

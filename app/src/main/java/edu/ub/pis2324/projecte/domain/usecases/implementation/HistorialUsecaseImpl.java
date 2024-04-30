@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import edu.ub.pis2324.projecte.data.UserRepository;
 import edu.ub.pis2324.projecte.data.services.RecipeListService;
-import edu.ub.pis2324.projecte.domain.IRecipeListService;
+//import edu.ub.pis2324.projecte.domain.IRecipeListService;
 import edu.ub.pis2324.projecte.domain.IUserRepository;
 import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
 
@@ -15,7 +15,7 @@ import edu.ub.pis2324.projecte.domain.model.values.Record;
 import edu.ub.pis2324.projecte.domain.exceptions.UserException.UserNotFoundException;
 import edu.ub.pis2324.projecte.domain.exceptions.RecipeException;
 import edu.ub.pis2324.projecte.domain.exceptions.ExceptionType;
-
+/*
 public class HistorialUsecaseImpl {
     private final IUserRepository userRepository;
     private final IRecipeListService recipeListService;
@@ -169,4 +169,4 @@ public class HistorialUsecaseImpl {
             }
         });
     }
-}
+}*/
