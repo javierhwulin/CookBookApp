@@ -118,7 +118,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     holder.tvRecipeTime.setText(duration);
     holder.tvRecipeCalories.setText(calories);
     if (isPremium) holder.tvRecipePremium.setVisibility(View.VISIBLE);
-    else holder.tvRecipePremium.setVisibility(View.GONE);
+    else holder.tvRecipePremium.setVisibility(View.INVISIBLE);
 
     Picasso.get().load(imageUrl).into(holder.ivRecipeImage); // Internet URL image -> ImageView
   }

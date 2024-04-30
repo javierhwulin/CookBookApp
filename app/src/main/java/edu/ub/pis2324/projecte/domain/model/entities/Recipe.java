@@ -3,6 +3,8 @@ package edu.ub.pis2324.projecte.domain.model.entities;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.firebase.firestore.PropertyName;
+
 public class Recipe implements Parcelable {
     private String id;
     private String name;
@@ -67,6 +69,7 @@ public class Recipe implements Parcelable {
         return duration;
     }
 
+    @PropertyName("isPremium")
     public boolean isPremium() {
         return isPremium;
     }

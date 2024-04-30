@@ -39,12 +39,13 @@ public class RecipeListService {
                 .addOnFailureListener(e -> listener.OnFetchRecipes(e))
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     List<Recipe> recipes = queryDocumentSnapshots.toObjects(Recipe.class);
+                    List<Recipe> recipesByName = new java.util.ArrayList<>();
                     for (Recipe recipe : recipes) {
-                        if (!recipe.getName().toLowerCase().contains(name.toLowerCase())) {
-                            recipes.remove(recipe);
+                        if (recipe.getName().toLowerCase().contains(name.toLowerCase())) {
+                            recipesByName.add(recipe);
                         }
                     }
-                    listener.OnFetchRecipes(recipes);
+                    listener.OnFetchRecipes(recipesByName);
                 });
     }
 
