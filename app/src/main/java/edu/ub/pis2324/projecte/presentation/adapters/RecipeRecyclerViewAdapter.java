@@ -163,7 +163,6 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     public RecipeViewHolder(
       @NonNull View itemView,
       OnItemPositionClickListener onItemPositionClickListener
-      /* EXERCICI 2 */
     ) {
       super(itemView);
 
@@ -172,7 +171,6 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
       tvRecipeTime = itemView.findViewById(R.id.tvRecipeTime);
       tvRecipeCalories = itemView.findViewById(R.id.tvRecipeCalories);
       tvRecipePremium = itemView.findViewById(R.id.tvIsPremium);
-
 
       itemView.setOnClickListener(v ->
         onItemPositionClickListener.onItemPositionClick(getAdapterPosition())
