@@ -17,6 +17,7 @@ public class GetPremiumActivity extends AppCompatActivity {
     private ActivityGetPremiumBinding binding;
 
     private String clientId;
+    private boolean premiumStatus;
 
     /**
      * Called when the activity is being created.
@@ -30,6 +31,7 @@ public class GetPremiumActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         clientId = getIntent().getStringExtra("CLIENT_ID");
+        premiumStatus = getIntent().getBooleanExtra("PREMIUM_STATUS", false);
 
         /* Initializations */
         initWidgetListeners();
@@ -42,7 +44,8 @@ public class GetPremiumActivity extends AppCompatActivity {
     private void initWidgetListeners() {
         binding.getPremiumBtn.setOnClickListener(ignoredView -> {
             // Delegate the log-in logic to the viewmodel
-            getPremiumViewModel.getPremium(clientId);
+            getPremiumViewModel.getPremium(clientId, !premiumStatus);
+            premiumStatus = !premiumStatus;
         });
     }
 

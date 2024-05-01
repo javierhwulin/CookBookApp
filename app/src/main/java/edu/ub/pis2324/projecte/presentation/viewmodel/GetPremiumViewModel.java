@@ -22,10 +22,10 @@ public class GetPremiumViewModel extends ViewModel {
         return premiumState;
     }
 
-    public void getPremium(String username) {
+    public void getPremium(String username, boolean isPremium) {
 
         userRepository.updateUser(
-                username,
+                username, isPremium,
                 new UserRepository.OnUpdateUserListener() {
                     @Override
                     public void OnUpdateUserSuccess() {

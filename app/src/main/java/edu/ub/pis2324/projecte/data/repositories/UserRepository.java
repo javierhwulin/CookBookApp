@@ -73,11 +73,11 @@ public class UserRepository implements IUserRepository {
                 });
     }
 
-    public void updateUser(String username, OnUpdateUserListener listener){
+    public void updateUser(String username, boolean isPremium, OnUpdateUserListener listener){
 
         // Update user to database
         db.collection(CLIENTS_COLLECTION_NAME).document(username)
-                .update("isPremium", true)
+                .update("isPremium", isPremium)
                 .addOnSuccessListener(aVoid -> listener.OnUpdateUserSuccess())
                 .addOnFailureListener(e -> listener.OnUpdateUserError(e));
     }
