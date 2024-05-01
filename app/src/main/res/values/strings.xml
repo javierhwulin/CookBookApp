@@ -11,4 +11,9 @@
     <string name="log_in_btn.cat">Iniciar</string>
     <string name="search_recipe_hint">Search recipe by name…</string>
     <string name="no_data_available">Oops! No recipes were found</string>
+    <string name="start_button">Començar</string>
+    <string name="recipe_name">Name\n</string>
+    <string name="recipe_duration">Duration in min</string>
+    <string name="recipe_calories">Calories in recipe</string>
+    <string name="recipe_description">Description of the recipe</string>
 </resources>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvDetailsRecipeCalories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="224dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/recipe_calories"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tvDetailsRecipeName"
+            app:layout_constraintTop_toBottomOf="@+id/tvDetailsRecipeName" />
+
+        <TextView
+            android:id="@+id/tvDetailsRecipeName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:background="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
+            android:text="@string/recipe_name"
+            android:textSize="34sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvDetailsRecipeDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/recipe_duration"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tvDetailsRecipeName"
+            app:layout_constraintTop_toBottomOf="@+id/tvDetailsRecipeName" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="392dp"
+            android:layout_height="392dp"
+            android:layout_marginTop="16dp"
+            android:background="#FFEB3B"
+            app:cardCornerRadius="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDetailsRecipeDuration"> <!-- Adjust the corner radius as needed -->
+
+            <ImageView
+                android:id="@+id/ivDetailsRecipeImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/ic_launcher_foreground" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDialogRecipeDescription">
+
+
+            <Button
+                android:id="@+id/btnStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="#FFEB3B"
+                android:text="@string/start_button"
+                android:textColor="@color/black"
+                android:textColorHighlight="@android:color/holo_orange_light"
+                android:textColorLink="@android:color/holo_orange_light"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailsRecipeDuration"
+                app:layout_constraintVertical_bias="1.0"
+                tools:ignore="NotSibling" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tvDialogRecipeDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/recipe_description"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

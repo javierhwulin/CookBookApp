@@ -108,7 +108,7 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     /* Get the data from the data element */
     Recipe r = recipeList.get(position);
     String name = r.getName();
-    String duration = Integer.toString(r.getDuration());
+    String duration = Integer.toString(r.getDuration()) + " min";
     String calories = r.getNutritionInfo();
     boolean isPremium = r.isPremium();
     String imageUrl = r.getImageUrl();
