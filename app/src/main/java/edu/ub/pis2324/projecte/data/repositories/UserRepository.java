@@ -26,6 +26,11 @@ public class UserRepository implements IUserRepository {
         void OnGetUserError(Throwable throwable);
     }
 
+    public interface OnUpdateUserListener {
+        void OnUpdateUserSuccess();
+        void OnUpdateUserError(Throwable throwable);
+    }
+
     public void addUser(User user, OnAddUserListener listener){
         // Add user to database)
         if (user.getUsername().isEmpty()){
@@ -45,7 +50,7 @@ public class UserRepository implements IUserRepository {
 
 
     public void getUser(String username, String password, OnGetUserListener listener){
-        // Add user to database)
+        // Get user from database
         if (username.isEmpty()){
             listener.OnGetUserError(new Throwable("Username cannot be empty"));
         }
@@ -67,5 +72,14 @@ public class UserRepository implements IUserRepository {
                         }
                     }
                 });
+    }
+
+    public void updateUser(String username, OnUpdateUserListener listener){
+
+        // Update user to database
+        db.collection(CLIENTS_COLLECTION_NAME).document(username)
+                .update("isPremium", true)
+                .addOnSuccessListener(aVoid -> listener.OnUpdateUserSuccess())
+                .addOnFailureListener(e -> listener.OnUpdateUserError(e));
     }
 }
