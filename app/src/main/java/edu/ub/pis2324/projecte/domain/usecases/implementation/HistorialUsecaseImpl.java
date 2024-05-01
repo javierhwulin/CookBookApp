@@ -7,13 +7,14 @@ import edu.ub.pis2324.projecte.data.repositories.UserRepository;
 import edu.ub.pis2324.projecte.data.repositories.RecipeRepository;
 import edu.ub.pis2324.projecte.domain.model.repositories.IRecipeRepository;
 import edu.ub.pis2324.projecte.domain.model.repositories.IUserRepository;
+import edu.ub.pis2324.projecte.domain.usecases.HistorialUsecase;
 import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
 
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 import edu.ub.pis2324.projecte.domain.model.entities.User;
 import edu.ub.pis2324.projecte.domain.model.values.Record;
 
-public class HistorialUsecaseImpl {
+public class HistorialUsecaseImpl implements HistorialUsecase {
     private final IUserRepository userRepository;
     private final IRecipeRepository recipeListService;
     private final StateLiveData<User> userStateLiveData;
