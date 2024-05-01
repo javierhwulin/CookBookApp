@@ -10,7 +10,6 @@ public class UserRepository implements IUserRepository {
     private static final String CLIENTS_COLLECTION_NAME = "users";
     private final FirebaseFirestore db;
 
-
     public UserRepository() {
         super();
         db = FirebaseFirestore.getInstance();
