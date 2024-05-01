@@ -1,4 +1,6 @@
 package edu.ub.pis2324.projecte.domain.usecases.implementation;
 
-public class RecipeDescriptionUsecaseImpl {
+import edu.ub.pis2324.projecte.domain.usecases.RecipeDescriptionUsecase;
+
+public class RecipeDescriptionUsecaseImpl implements RecipeDescriptionUsecase {
 }

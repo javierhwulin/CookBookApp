@@ -1,4 +1,6 @@
 package edu.ub.pis2324.projecte.domain.usecases.implementation;
 
-public class LogInUsecaseImpl {
+import edu.ub.pis2324.projecte.domain.usecases.LogInUsecase;
+
+public class LogInUsecaseImpl implements LogInUsecase {
 }

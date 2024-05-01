@@ -2,9 +2,8 @@ package edu.ub.pis2324.projecte.data;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import edu.ub.pis2324.projecte.domain.IUserRepository;
+import edu.ub.pis2324.projecte.domain.model.repositories.IUserRepository;
 import edu.ub.pis2324.projecte.domain.model.entities.User;
-import io.reactivex.rxjava3.core.Observable;
 
 
 public class UserRepository implements IUserRepository {

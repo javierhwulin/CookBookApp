@@ -1,4 +1,6 @@
 package edu.ub.pis2324.projecte.domain.usecases.implementation;
 
-public class SettingsUsecaseImpl {
+import edu.ub.pis2324.projecte.domain.usecases.SettingsUsecase;
+
+public class SettingsUsecaseImpl implements SettingsUsecase {
 }

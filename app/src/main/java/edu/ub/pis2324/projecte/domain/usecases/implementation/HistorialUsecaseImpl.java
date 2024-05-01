@@ -5,8 +5,8 @@ import java.util.Objects;
 
 import edu.ub.pis2324.projecte.data.UserRepository;
 import edu.ub.pis2324.projecte.data.services.RecipeListService;
-//import edu.ub.pis2324.projecte.domain.IRecipeListService;
-import edu.ub.pis2324.projecte.domain.IUserRepository;
+import edu.ub.pis2324.projecte.domain.model.repositories.IRecipeListService;
+import edu.ub.pis2324.projecte.domain.model.repositories.IUserRepository;
 import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
 
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
@@ -15,14 +15,14 @@ import edu.ub.pis2324.projecte.domain.model.values.Record;
 import edu.ub.pis2324.projecte.domain.exceptions.UserException.UserNotFoundException;
 import edu.ub.pis2324.projecte.domain.exceptions.RecipeException;
 import edu.ub.pis2324.projecte.domain.exceptions.ExceptionType;
-/*
+
 public class HistorialUsecaseImpl {
     private final IUserRepository userRepository;
     private final IRecipeListService recipeListService;
     private final StateLiveData<User> userStateLiveData;
     private final StateLiveData<Recipe> recipeStateLiveData;
 
-    public HistorialUsecaseImpl(UserRepository userRepository, RecipeListService recipeListService) {
+    public HistorialUsecaseImpl(IUserRepository userRepository, IRecipeListService recipeListService) {
         this.userRepository = userRepository;
         this.recipeListService = recipeListService;
         this.userStateLiveData = new StateLiveData<>();
@@ -169,4 +169,4 @@ public class HistorialUsecaseImpl {
             }
         });
     }
-}*/
+}
