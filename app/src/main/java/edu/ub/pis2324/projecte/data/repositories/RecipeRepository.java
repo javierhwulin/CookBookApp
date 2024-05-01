@@ -16,6 +16,8 @@ import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 public class RecipeRepository implements IRecipeRepository {
     private final FirebaseFirestore db;
 
+    private static final String RECIPES_COLLECTION_NAME = "recipes";
+
     public interface OnGetRecipeListener {
         void OnGetRecipeSuccess(Recipe recipe);
         void OnGetRecipeError(Throwable throwable);
@@ -37,7 +39,7 @@ public class RecipeRepository implements IRecipeRepository {
             listener.OnGetRecipeError(new Throwable("Recipe cannot be empty"));
         }
 
-        db.collection("recipes").document(recipe).get()
+        db.collection(RECIPES_COLLECTION_NAME).document(recipe).get()
             .addOnFailureListener(e -> listener.OnGetRecipeError(e))
             .addOnSuccessListener(rec -> {
                 if (!rec.exists()){
@@ -50,7 +52,7 @@ public class RecipeRepository implements IRecipeRepository {
     }
 
     public void getAll(OnFetchRecipesListener listener){
-        db.collection("recipes").get()
+        db.collection(RECIPES_COLLECTION_NAME).get()
             .addOnFailureListener(e -> listener.OnFetchRecipes(e))
             .addOnSuccessListener(recipes -> {
                 java.util.List<DocumentSnapshot> documents = recipes.getDocuments();
@@ -64,7 +66,7 @@ public class RecipeRepository implements IRecipeRepository {
     }
 
     public void getByName(String name, OnFetchRecipesListener listener){
-        db.collection("recipes").get()
+        db.collection(RECIPES_COLLECTION_NAME).get()
                 .addOnFailureListener(e -> listener.OnFetchRecipes(e))
                 .addOnSuccessListener(recipes -> {
                     java.util.List<DocumentSnapshot> documents = recipes.getDocuments();
