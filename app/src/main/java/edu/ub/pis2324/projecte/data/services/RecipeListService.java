@@ -5,8 +5,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import edu.ub.pis2324.projecte.domain.IRecipeListService;
+import edu.ub.pis2324.projecte.domain.model.repositories.IRecipeListService;
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 
 /**
@@ -20,9 +21,9 @@ public class RecipeListService implements IRecipeListService {
         void OnGetRecipeError(Throwable throwable);
     }
 
-    public interface OnGetAllRecipesListener {
-        void OnGetAllRecipesSuccess(ArrayList<Recipe> recipes);
-        void OnGetAllRecipesError(Throwable throwable);
+    public interface OnFetchRecipesListener {
+        void OnFetchRecipes(List<Recipe> gottenRecipes);
+        void OnFetchRecipes(Throwable throwable);
     }
 
     public RecipeListService() {
@@ -48,9 +49,9 @@ public class RecipeListService implements IRecipeListService {
             });
     }
 
-    public void getAllRecipe(OnGetAllRecipesListener listener){
+    public void getAll(OnFetchRecipesListener listener){
         db.collection("recipes").get()
-            .addOnFailureListener(e -> listener.OnGetAllRecipesError(e))
+            .addOnFailureListener(e -> listener.OnFetchRecipes(e))
             .addOnSuccessListener(recipes -> {
                 java.util.List<DocumentSnapshot> documents = recipes.getDocuments();
                 ArrayList<Recipe> recipeList = new ArrayList<>();
@@ -58,7 +59,21 @@ public class RecipeListService implements IRecipeListService {
                     Recipe recipe = doc.toObject(Recipe.class);
                     recipeList.add(recipe);
                 }
-                listener.OnGetAllRecipesSuccess(recipeList);
+                listener.OnFetchRecipes(recipeList);
+            });
+    }
+
+    public void getByName(String name, OnFetchRecipesListener listener){
+        List<Recipe> recipeList = new ArrayList<>();
+        db.collection("recipes").whereEqualTo("name", name).get()
+            .addOnFailureListener(e -> System.out.println("Error getting documents: " + e))
+            .addOnSuccessListener(recipes -> {
+                java.util.List<DocumentSnapshot> documents = recipes.getDocuments();
+                for(DocumentSnapshot doc : documents){
+                    Recipe recipe = doc.toObject(Recipe.class);
+                    recipeList.add(recipe);
+                }
+                listener.OnFetchRecipes(recipeList);
             });
     }
 }
