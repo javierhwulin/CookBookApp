@@ -12,9 +12,6 @@ import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 import edu.ub.pis2324.projecte.domain.model.entities.User;
 import edu.ub.pis2324.projecte.domain.model.values.Record;
-import edu.ub.pis2324.projecte.domain.exceptions.UserException.UserNotFoundException;
-import edu.ub.pis2324.projecte.domain.exceptions.RecipeException;
-import edu.ub.pis2324.projecte.domain.exceptions.ExceptionType;
 
 public class HistorialUsecaseImpl {
     private final IUserRepository userRepository;
@@ -55,7 +52,7 @@ public class HistorialUsecaseImpl {
                     RecordsHolder.records.put(user, new Record());
                     userStateLiveData.postSuccess(user);
                 }else {
-                    userStateLiveData.postError(new UserNotFoundException(ExceptionType.USER_NOT_FOUND.getMessage()));
+                    userStateLiveData.postError(new NullPointerException("User is null"));
                 }
                 userStateLiveData.postComplete();
             }
@@ -82,7 +79,7 @@ public class HistorialUsecaseImpl {
                                     record.addRecipe(recipe);
                                     recipeStateLiveData.postSuccess(recipe);
                                 } else {
-                                    recipeStateLiveData.postError(new RecipeException.RecipeNotFoundException(ExceptionType.RECIPE_NOT_FOUND.getMessage()));
+                                    recipeStateLiveData.postError(new NullPointerException("Recipe is null"));
                                 }
                                 recipeStateLiveData.postComplete();
                             }
