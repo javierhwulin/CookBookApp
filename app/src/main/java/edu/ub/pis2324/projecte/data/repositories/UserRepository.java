@@ -1,4 +1,4 @@
-package edu.ub.pis2324.projecte.data;
+package edu.ub.pis2324.projecte.data.repositories;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 

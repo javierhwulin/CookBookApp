@@ -3,9 +3,9 @@ package edu.ub.pis2324.projecte.domain.usecases.implementation;
 import java.util.HashMap;
 import java.util.Objects;
 
-import edu.ub.pis2324.projecte.data.UserRepository;
-import edu.ub.pis2324.projecte.data.services.RecipeListService;
-import edu.ub.pis2324.projecte.domain.model.repositories.IRecipeListService;
+import edu.ub.pis2324.projecte.data.repositories.UserRepository;
+import edu.ub.pis2324.projecte.data.repositories.RecipeRepository;
+import edu.ub.pis2324.projecte.domain.model.repositories.IRecipeRepository;
 import edu.ub.pis2324.projecte.domain.model.repositories.IUserRepository;
 import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
 
@@ -18,11 +18,11 @@ import edu.ub.pis2324.projecte.domain.exceptions.ExceptionType;
 
 public class HistorialUsecaseImpl {
     private final IUserRepository userRepository;
-    private final IRecipeListService recipeListService;
+    private final IRecipeRepository recipeListService;
     private final StateLiveData<User> userStateLiveData;
     private final StateLiveData<Recipe> recipeStateLiveData;
 
-    public HistorialUsecaseImpl(IUserRepository userRepository, IRecipeListService recipeListService) {
+    public HistorialUsecaseImpl(IUserRepository userRepository, IRecipeRepository recipeListService) {
         this.userRepository = userRepository;
         this.recipeListService = recipeListService;
         this.userStateLiveData = new StateLiveData<>();
@@ -75,7 +75,7 @@ public class HistorialUsecaseImpl {
                 if (user != null) {
                     Record record = RecordsHolder.records.get(user);
                     if (record != null) {
-                        recipeListService.getRecipe(recipeId, new RecipeListService.OnGetRecipeListener() {
+                        recipeListService.getRecipe(recipeId, new RecipeRepository.OnGetRecipeListener() {
                             @Override
                             public void OnGetRecipeSuccess(Recipe recipe) {
                                 if (recipe != null) {

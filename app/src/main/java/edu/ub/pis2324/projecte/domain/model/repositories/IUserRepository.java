@@ -1,6 +1,6 @@
 package edu.ub.pis2324.projecte.domain.model.repositories;
 
-import edu.ub.pis2324.projecte.data.UserRepository;
+import edu.ub.pis2324.projecte.data.repositories.UserRepository;
 import edu.ub.pis2324.projecte.domain.model.entities.User;
 
 public interface IUserRepository {

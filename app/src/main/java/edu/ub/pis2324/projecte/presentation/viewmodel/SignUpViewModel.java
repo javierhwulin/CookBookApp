@@ -2,7 +2,7 @@ package edu.ub.pis2324.projecte.presentation.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 
-import edu.ub.pis2324.projecte.data.UserRepository;
+import edu.ub.pis2324.projecte.data.repositories.UserRepository;
 import edu.ub.pis2324.projecte.domain.model.entities.User;
 import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
 

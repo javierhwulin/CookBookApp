@@ -1,4 +1,4 @@
-package edu.ub.pis2324.projecte.data.services;
+package edu.ub.pis2324.projecte.data.repositories;
 
 
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -7,13 +7,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.ub.pis2324.projecte.domain.model.repositories.IRecipeListService;
+import edu.ub.pis2324.projecte.domain.model.repositories.IRecipeRepository;
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 
 /**
  * Cloud Firestore implementation of the data store.
  */
-public class RecipeListService implements IRecipeListService {
+public class RecipeRepository implements IRecipeRepository {
     private final FirebaseFirestore db;
 
     public interface OnGetRecipeListener {
@@ -26,7 +26,7 @@ public class RecipeListService implements IRecipeListService {
         void OnFetchRecipes(Throwable throwable);
     }
 
-    public RecipeListService() {
+    public RecipeRepository() {
         super();
         db = FirebaseFirestore.getInstance();
     }

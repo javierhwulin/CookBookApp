@@ -7,13 +7,13 @@ import androidx.lifecycle.ViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.ub.pis2324.projecte.data.services.RecipeListService;
+import edu.ub.pis2324.projecte.data.repositories.RecipeRepository;
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
 
 
 public class RecipesListViewModel extends ViewModel {
-    RecipeListService recipeListService;
+    RecipeRepository recipeRepository;
     private final List<Recipe> recipes;
     /* LiveData */
     private final StateLiveData<List<Recipe>> recipesState;  // products' list
@@ -22,7 +22,7 @@ public class RecipesListViewModel extends ViewModel {
     /* Constructor */
     public RecipesListViewModel() {
         super();
-        recipeListService = new RecipeListService();
+        recipeRepository = new RecipeRepository();
         recipes = new ArrayList<>();
         recipesState = new StateLiveData<>();
         hiddenRecipeState = new MutableLiveData<>();
@@ -48,7 +48,7 @@ public class RecipesListViewModel extends ViewModel {
      * Fetches the products from a data store
      */
     public void fetchRecipesCatalog() {
-        recipeListService.getAll(new RecipeListService.OnFetchRecipesListener() {
+        recipeRepository.getAll(new RecipeRepository.OnFetchRecipesListener() {
             @Override
             public void OnFetchRecipes(List<Recipe> gottenRecipes) {
                 recipes.clear();
@@ -68,7 +68,7 @@ public class RecipesListViewModel extends ViewModel {
      * Fetches the products using the use case
      */
     public void fetchRecipesByName(String name) {
-        recipeListService.getByName(name, new RecipeListService.OnFetchRecipesListener() {
+        recipeRepository.getByName(name, new RecipeRepository.OnFetchRecipesListener() {
             @Override
             public void OnFetchRecipes(List<Recipe> gottenRecipes) {
                 recipes.clear();

@@ -68,8 +68,8 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
   @SuppressLint("NotifyDataSetChanged")
   public void setRecipesData(List<Recipe> recipeModelList) {
     this.recipeList = recipeModelList; // Note that this is a reference, not a copy. It is
-                                    // instead modified by the ViewModel directly
-    notifyDataSetChanged(); // Reflect the changes in the UI
+                                       // instead modified by the ViewModel directly
+    notifyDataSetChanged();            // Reflect the changes in the UI
   }
 
   /* EXERCICI 2 */
