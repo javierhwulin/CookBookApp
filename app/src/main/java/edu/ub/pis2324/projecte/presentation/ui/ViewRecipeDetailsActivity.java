@@ -50,7 +50,7 @@ public class ViewRecipeDetailsActivity extends AppCompatActivity {
         Picasso.get().load(recipe.getImageUrl()).into(binding.ivDetailsRecipeImage);
         binding.tvDetailsRecipeName.setText(recipe.getName());
         binding.tvDialogRecipeDescription.setText(recipe.getIngredients());
-        binding.tvDetailsRecipeDuration.setText(String.valueOf(recipe.getDuration()));
+        binding.tvDetailsRecipeDuration.setText(String.valueOf(recipe.getDuration()) + " min");
         binding.tvDetailsRecipeCalories.setText(String.valueOf(recipe.getNutritionInfo()));
     }
 
