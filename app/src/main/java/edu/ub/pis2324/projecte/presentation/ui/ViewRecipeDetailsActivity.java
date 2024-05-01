@@ -33,11 +33,12 @@ public class ViewRecipeDetailsActivity extends AppCompatActivity {
 
         Recipe recipe = (Recipe) getIntent()
                 .getParcelableExtra("RECIPE");
+        boolean premium = getIntent().getBooleanExtra("PREMIUM", false);
 
         /* Initializations */
         assert recipe != null;
         initWidgets(recipe);
-        initWidgetListeners(recipe);
+        initWidgetListeners(recipe,premium);
         initViewModel();
     }
 
@@ -57,10 +58,10 @@ public class ViewRecipeDetailsActivity extends AppCompatActivity {
      * Initialize the listeners of the widgets
      * @param recipe The product model whose details are being shown.
      */
-    private void initWidgetListeners(Recipe recipe) {
+    private void initWidgetListeners(Recipe recipe, boolean premium) {
 
         binding.btnStart.setOnClickListener(v -> {
-            viewRecipeDetailsViewModel.startRecipe();
+            viewRecipeDetailsViewModel.startRecipe(recipe, premium);
         });
     }
 
@@ -78,9 +79,11 @@ public class ViewRecipeDetailsActivity extends AppCompatActivity {
      */
     private void initObservers() {
         viewRecipeDetailsViewModel.getStartState().observe(this, startState -> {
-            if (startState) {
+            if (startState.intValue() == 1){
                 Toast.makeText(this, "Button clicked", Toast.LENGTH_SHORT).show();
                 //Hacer un intent a la pantalla del paso por paso
+            } else if (startState.intValue() == 2){
+                Toast.makeText(this, "Hazte premium para acceder a esta receta", Toast.LENGTH_SHORT).show();
             }
         });
     }
