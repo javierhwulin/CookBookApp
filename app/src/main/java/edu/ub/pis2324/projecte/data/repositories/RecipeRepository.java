@@ -64,16 +64,20 @@ public class RecipeRepository implements IRecipeRepository {
     }
 
     public void getByName(String name, OnFetchRecipesListener listener){
-        List<Recipe> recipeList = new ArrayList<>();
-        db.collection("recipes").whereEqualTo("name", name).get()
-            .addOnFailureListener(e -> System.out.println("Error getting documents: " + e))
-            .addOnSuccessListener(recipes -> {
-                java.util.List<DocumentSnapshot> documents = recipes.getDocuments();
-                for(DocumentSnapshot doc : documents){
-                    Recipe recipe = doc.toObject(Recipe.class);
-                    recipeList.add(recipe);
-                }
-                listener.OnFetchRecipes(recipeList);
-            });
+        db.collection("recipes").get()
+                .addOnFailureListener(e -> listener.OnFetchRecipes(e))
+                .addOnSuccessListener(recipes -> {
+                    java.util.List<DocumentSnapshot> documents = recipes.getDocuments();
+                    ArrayList<Recipe> recipeList = new ArrayList<>();
+
+                    for(DocumentSnapshot doc : documents){
+                        Recipe recipe = doc.toObject(Recipe.class);
+                        // Check if the recipe name contains the name
+                        if (recipe.getName().toLowerCase().contains(name.toLowerCase())) {
+                            recipeList.add(recipe);
+                        }
+                    }
+                    listener.OnFetchRecipes(recipeList);
+                });
     }
 }
