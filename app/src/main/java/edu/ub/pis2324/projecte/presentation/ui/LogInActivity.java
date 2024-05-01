@@ -78,6 +78,7 @@ public class LogInActivity extends AppCompatActivity {
                     assert logInState.getData() != null;
                     Intent intent = new Intent(this, RecipesListActivity.class);
                     intent.putExtra("CLIENT_ID", logInState.getData().getUsername());
+                    intent.putExtra("PREMIUM", logInState.getData().isPremium());
                     startActivity(intent);
                     finish();
                     break;

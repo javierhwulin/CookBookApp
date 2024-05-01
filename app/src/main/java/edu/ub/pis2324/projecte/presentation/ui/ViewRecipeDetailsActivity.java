@@ -48,8 +48,9 @@ public class ViewRecipeDetailsActivity extends AppCompatActivity {
     private void initWidgets(Recipe recipe) {
         Picasso.get().load(recipe.getImageUrl()).into(binding.ivDetailsRecipeImage);
         binding.tvDetailsRecipeName.setText(recipe.getName());
-        binding.tvDialogRecipeDescription.setText(recipe.getDescription());
+        binding.tvDialogRecipeDescription.setText(recipe.getIngredients());
         binding.tvDetailsRecipeDuration.setText(String.valueOf(recipe.getDuration()));
+        binding.tvDetailsRecipeCalories.setText(String.valueOf(recipe.getNutritionInfo()));
     }
 
     /**
@@ -78,9 +79,8 @@ public class ViewRecipeDetailsActivity extends AppCompatActivity {
     private void initObservers() {
         viewRecipeDetailsViewModel.getStartState().observe(this, startState -> {
             if (startState) {
-                Toast.makeText(this, "Product bought!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Button clicked", Toast.LENGTH_SHORT).show();
                 //Hacer un intent a la pantalla del paso por paso
-                finish();
             }
         });
     }

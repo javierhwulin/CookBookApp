@@ -120,14 +120,25 @@ public class Recipe implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.name);
         dest.writeString(this.description);
-        dest.writeString(Integer.toString(this.duration));
+        dest.writeInt(this.duration);
         dest.writeString(this.ingredients);
         dest.writeString(this.steps);
         dest.writeString(this.nutritionInfo);
         dest.writeString(this.imageUrl);
-        dest.writeValue(this.isPremium);
+        dest.writeInt(this.isPremium ? 1 : 0);
     }
 
+    protected Recipe(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+        this.description = in.readString();
+        this.duration = in.readInt();
+        this.ingredients = in.readString();
+        this.steps = in.readString();
+        this.nutritionInfo = in.readString();
+        this.imageUrl = in.readString();
+        this.isPremium = in.readInt() == 1;
+    }
     public void readFromParcel(Parcel source) {
         this.id = source.readString();
         this.name = source.readString();
@@ -135,22 +146,12 @@ public class Recipe implements Parcelable {
         this.description = source.readString();
         this.steps = source.readString();
         this.nutritionInfo = source.readString();
-        this.duration = Integer.parseInt(source.readString());
+        this.duration = source.readInt();
         this.imageUrl = source.readString();
-        this.isPremium = (Boolean) source.readValue(Boolean.class.getClassLoader());
+        this.isPremium = source.readInt() == 1;
     }
 
-    protected Recipe(Parcel in) {
-        this.id = in.readString();
-        this.name = in.readString();
-        this.ingredients = in.readString();
-        this.description = in.readString();
-        this.steps = in.readString();
-        this.nutritionInfo = in.readString();
-        this.duration = Integer.parseInt(in.readString());
-        this.imageUrl = in.readString();
-        this.isPremium = (Boolean) in.readValue(Boolean.class.getClassLoader());
-    }
+
 
     public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {
         @Override

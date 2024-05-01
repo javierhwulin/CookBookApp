@@ -187,7 +187,9 @@ public class RecipesListActivity extends AppCompatActivity {
    */
   private void startViewRecipeDetailsActivity(Recipe recipe) {
     Intent intent = new Intent(this, ViewRecipeDetailsActivity.class);
+    boolean premium = getIntent().getBooleanExtra("PREMIUM", false);
     intent.putExtra("CLIENT_ID", clientId);
+    intent.putExtra("PREMIUM", premium);
     intent.putExtra("RECIPE", recipe); // Product class implements Parcelable
     startActivity(intent);
 
