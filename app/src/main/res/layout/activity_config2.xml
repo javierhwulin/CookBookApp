@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.ui.ConfigActivity">
+
+    <Button
+        android:id="@+id/change_pfp_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="104dp"
+        android:layout_marginBottom="204dp"
+        android:background="#7C7A7A"
+        android:backgroundTint="#7C7A7A"
+        android:text="@string/change_pfp"
+        android:textColor="#000000"
+        android:textColorHighlight="#7C7A7A"
+        android:textColorLink="#7C7A7A"
+        android:theme="@style/Gray_Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/change_username_btn"
+        android:layout_width="202dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginBottom="12dp"
+        android:background="#7C7A7A"
+        android:backgroundTint="#7C7A7A"
+        android:shadowColor="#7C7A7A"
+        android:text="@string/change_username"
+        android:textColor="#000000"
+        android:textColorHighlight="#757575"
+        android:textColorLink="#7C7A7A"
+        app:layout_constraintBottom_toTopOf="@+id/change_password_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="#7C7A7A"
+        app:strokeColor="#7C7A7A" />
+
+    <Button
+        android:id="@+id/change_password_btn"
+        android:layout_width="202dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="104dp"
+        android:layout_marginBottom="16dp"
+        android:background="#7C7A7A"
+        android:backgroundTint="#7C7A7A"
+        android:shadowColor="#7C7A7A"
+        android:text="@string/change_password"
+        android:textColor="#000000"
+        android:textColorHighlight="#7C7A7A"
+        android:textColorLink="#7C7A7A"
+        app:layout_constraintBottom_toTopOf="@+id/change_pfp_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="#7C7A7A" />
+
+    <TextView
+        android:id="@+id/TextUsuari"
+        android:layout_width="112dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginBottom="30dp"
+        android:text="@string/user_normal.cat"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/change_username_btn"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="130dp"
+        android:layout_height="51dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="48dp"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
