@@ -5,7 +5,7 @@ import java.util.HashMap;
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 import edu.ub.pis2324.projecte.domain.model.entities.User;
 import edu.ub.pis2324.projecte.domain.model.values.Record;
-import edu.ub.pis2324.projecte.data.UserRepository;
+import edu.ub.pis2324.projecte.data.repositories.UserRepository;
 /*
 import edu.ub.pis2324.projecte.data.RecipeRepository;
 
@@ -81,4 +81,5 @@ public class HistorialUsecase {
         record.clear();
     }
 public interface HistorialUsecase {
-}
+}*/
+
