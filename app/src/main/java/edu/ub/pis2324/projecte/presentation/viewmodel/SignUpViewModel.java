@@ -4,8 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.UUID;
-
 import edu.ub.pis2324.projecte.domain.exceptions.AppError;
 import edu.ub.pis2324.projecte.domain.exceptions.AppThrowable;
 import edu.ub.pis2324.projecte.domain.model.values.ClientId;
@@ -40,7 +38,7 @@ public class SignUpViewModel extends ViewModel {
     }
 
     public void SignUp (String username, String email ,String password, String passwordConfirmation){
-        ClientId clientId = new ClientId(UUID.randomUUID().toString());
+        ClientId clientId = new ClientId(username);
         Disposable d = signUpUseCase.execute(clientId, username, email, password, passwordConfirmation)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -48,6 +46,7 @@ public class SignUpViewModel extends ViewModel {
                     ignored -> signUpState.postComplete(),
                     throwable -> handleSignUpError(throwable)
                 );
+        compositeDisposable.add(d);
     }
 
     public void handleSignUpError(Throwable throwable){
@@ -70,9 +69,9 @@ public class SignUpViewModel extends ViewModel {
             message = "Password cannot be empty";
         if(error == SignUpUsecase.Error.PASSWORD_CONFIRMATION_EMPTY)
             message = "Password confirmation cannot be empty";
-        if(error == SignUpUsecase.Error.PASSWORDS_DO_NOT_MATCH)
+        if(error == SignUpUsecase.Error.PASSWORD_AND_CONFIRMATION_MISMATCH)
             message = "Passwords do not match";
-        if(error == SignUpUsecase.Error.USER_ALREADY_EXISTS)
+        if(error == SignUpUsecase.Error.CLIENT_ALREADY_EXISTS)
             message = "User already exists";
         if(error == SignUpUsecase.Error.CLIENTS_DATA_ACCESS_ERROR)
             message = "Error accessing data";

@@ -10,6 +10,7 @@ public interface IUserRepository {
     /* Interface for UserRepository */
     interface OnUpdateListener{
         void onUpdate(User user);
+        void onError(Throwable throwable);
     }
 
     Observable<Boolean> add(User user);
