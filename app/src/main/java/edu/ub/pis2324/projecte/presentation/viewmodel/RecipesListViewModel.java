@@ -9,23 +9,26 @@ import java.util.List;
 
 import edu.ub.pis2324.projecte.data.repositories.RecipeRepository;
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
+import edu.ub.pis2324.projecte.domain.usecases.RecipeViewUsecase;
 import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 
 public class RecipesListViewModel extends ViewModel {
-    RecipeRepository recipeRepository;
-    private final List<Recipe> recipes;
     /* LiveData */
+    private final List<Recipe> recipes = new ArrayList<>();
     private final StateLiveData<List<Recipe>> recipesState;  // products' list
     private final MutableLiveData<Integer> hiddenRecipeState;
+    private final RecipeViewUsecase recipeView;
+    private final CompositeDisposable compositeDisposable;
 
     /* Constructor */
-    public RecipesListViewModel() {
+    public RecipesListViewModel(RecipeViewUsecase recipeView) {
         super();
-        recipeRepository = new RecipeRepository();
-        recipes = new ArrayList<>();
         recipesState = new StateLiveData<>();
         hiddenRecipeState = new MutableLiveData<>();
+        this.recipeView = recipeView;
+        compositeDisposable = new CompositeDisposable();
     }
 
     /**
@@ -48,39 +51,32 @@ public class RecipesListViewModel extends ViewModel {
      * Fetches the products from a data store
      */
     public void fetchRecipesCatalog() {
-        recipeRepository.getAll(new RecipeRepository.OnFetchRecipesListener() {
-            @Override
-            public void OnFetchRecipes(List<Recipe> gottenRecipes) {
-                recipes.clear();
-                recipes.addAll(gottenRecipes);
-                recipesState.postSuccess(recipes);
-            }
-
-            @Override
-            public void OnFetchRecipes(Throwable throwable) {
-                recipesState.postError(throwable);
-            }
-        });
-
+        compositeDisposable.add(recipeView.getRecipes()
+                .subscribe(
+                        recipes -> handleFetchRecipesSuccess(recipes),
+                        throwable -> handleFetchRecipesError(throwable)
+                ));
     }
 
     /**
      * Fetches the products using the use case
      */
     public void fetchRecipesByName(String name) {
-        recipeRepository.getByName(name, new RecipeRepository.OnFetchRecipesListener() {
-            @Override
-            public void OnFetchRecipes(List<Recipe> gottenRecipes) {
-                recipes.clear();
-                recipes.addAll(gottenRecipes);
-                recipesState.postSuccess(recipes);
-            }
+        compositeDisposable.add(recipeView.getRecipeByName(name)
+                .subscribe(
+                        recipes -> handleFetchRecipesSuccess(recipes),
+                        throwable -> handleFetchRecipesError(throwable)
+                ));
+    }
 
-            @Override
-            public void OnFetchRecipes(Throwable throwable) {
-                recipesState.postError(throwable);
-            }
-        });
+    public void handleFetchRecipesSuccess(List<Recipe> recipes) {
+        this.recipes.clear();
+        this.recipes.addAll(recipes);
+        recipesState.postSuccess(recipes);
+    }
+
+    public void handleFetchRecipesError(Throwable throwable) {
+        recipesState.postError(throwable);
     }
 
     public void hideRecipe(Recipe recipe) {
@@ -89,5 +85,4 @@ public class RecipesListViewModel extends ViewModel {
         recipes.remove(position);
         hiddenRecipeState.postValue(position);
     }
-
 }

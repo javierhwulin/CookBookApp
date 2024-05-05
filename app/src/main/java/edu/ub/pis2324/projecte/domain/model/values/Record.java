@@ -1,15 +1,21 @@
 package edu.ub.pis2324.projecte.domain.model.values;
 
 import java.util.HashMap;
+import java.util.List;
 
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
-import edu.ub.pis2324.projecte.domain.model.entities.User;
 
 public class Record {
-    private final HashMap<String, Recipe> recipes;
+    private final ClientId id;
+    private final HashMap<RecipeId, Recipe> recipes;
 
-    public Record() {
+    public Record(ClientId id) {
         this.recipes = new HashMap<>();
+        this.id = id;
+    }
+
+    public List<Recipe> getAllRecipes(){
+        return (List<Recipe>) recipes.values();
     }
 
     public void addRecipe(Recipe recipe) {

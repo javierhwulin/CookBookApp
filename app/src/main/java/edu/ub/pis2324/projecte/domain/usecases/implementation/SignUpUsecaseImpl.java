@@ -12,7 +12,7 @@ import io.reactivex.rxjava3.core.Observable;
 public class SignUpUsecaseImpl implements SignUpUsecase {
     private final UserRepository userRepository;
     private final AppThrowableMapper throwableMapper;
-    private CheckClientExistsService checkClientExistsService;
+    private final CheckClientExistsService checkClientExistsService;
 
     public SignUpUsecaseImpl(CheckClientExistsService checkClientExistsService, UserRepository userRepository) {
         this.userRepository = userRepository;
