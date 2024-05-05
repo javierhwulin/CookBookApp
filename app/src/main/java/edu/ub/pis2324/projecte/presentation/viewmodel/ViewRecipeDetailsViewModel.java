@@ -22,13 +22,9 @@ public class ViewRecipeDetailsViewModel extends ViewModel {
         viewRecipeDetailsActivity = new ViewRecipeDetailsActivity();
     }
 
-
-
     public LiveData<Integer> getStartState() {
         return startState;
     }
-
-
 
     public void startRecipe(Recipe recipe, boolean premium) {
         if(!recipe.isPremium()) startState.postValue(1);
@@ -37,7 +33,4 @@ public class ViewRecipeDetailsViewModel extends ViewModel {
             else startState.postValue(2);
         }
     }
-
-
-
 }
