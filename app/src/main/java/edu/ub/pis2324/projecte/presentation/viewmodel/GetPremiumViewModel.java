@@ -2,10 +2,7 @@ package edu.ub.pis2324.projecte.presentation.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 
-import edu.ub.pis2324.projecte.data.repositories.UserRepository;
-import edu.ub.pis2324.projecte.domain.exceptions.AppError;
 import edu.ub.pis2324.projecte.domain.exceptions.AppThrowable;
-import edu.ub.pis2324.projecte.domain.model.entities.User;
 import edu.ub.pis2324.projecte.domain.model.repositories.IUserRepository;
 import edu.ub.pis2324.projecte.domain.model.values.ClientId;
 import edu.ub.pis2324.projecte.domain.services.CheckClientIsPremiumService;

@@ -3,16 +3,21 @@ package edu.ub.pis2324.projecte.presentation.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import edu.ub.pis2324.projecte.AppContainer;
 import edu.ub.pis2324.projecte.databinding.ActivityLogInBinding;
 import edu.ub.pis2324.projecte.presentation.viewmodel.LogInViewModel;
+import edu.ub.pis2324.projecte.App;
 
 public class LogInActivity extends AppCompatActivity {
 
     private LogInViewModel logInViewModel;
+
+    private AppContainer appContainer;
 
     private ActivityLogInBinding binding;
 
@@ -22,9 +27,12 @@ public class LogInActivity extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("LogInActirevity", "onCreate");
         super.onCreate(savedInstanceState);
         /* Set view binding */
         binding = ActivityLogInBinding.inflate(getLayoutInflater());
+        App app = (App) getApplication();
+        appContainer = app.getAppContainer();
         setContentView(binding.getRoot());
 
         /* Initializations */
@@ -46,6 +54,7 @@ public class LogInActivity extends AppCompatActivity {
 
         binding.signUpBtn.setOnClickListener(ignoredView -> {
             // Start the sign-up activity
+            Log.i("LogInActivity", "Starting SignUpActivity");
             Intent intent = new Intent(this, SignUpActivity.class);
             startActivity(intent);
         });
@@ -57,7 +66,7 @@ public class LogInActivity extends AppCompatActivity {
     private void initViewModel() {
         /* Init viewmodel */
         logInViewModel = new ViewModelProvider(
-               this
+               this, new LogInViewModel.Factory(appContainer.logInUsecase)
         ).get(LogInViewModel.class);
 
         initObservers();
@@ -76,8 +85,9 @@ public class LogInActivity extends AppCompatActivity {
                     break;
                 case SUCCESS:
                     assert logInState.getData() != null;
+                    Log.i("LogInActivity", "Log in success");
                     Intent intent = new Intent(this, RecipesListActivity.class);
-                    intent.putExtra("CLIENT_ID", logInState.getData().getUsername());
+                    intent.putExtra("CLIENT_ID", logInState.getData().getId().toString());
                     intent.putExtra("PREMIUM", logInState.getData().isPremium());
                     startActivity(intent);
                     finish();

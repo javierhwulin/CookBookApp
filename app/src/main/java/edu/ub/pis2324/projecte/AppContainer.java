@@ -36,7 +36,7 @@ public class AppContainer {
     /* Use cases */
     public final FetchClientUsecase fetchClientUseCase = new FetchClientUsecaseImpl(userRepository);
     public final HistorialUsecase historialUsecase = new HistorialUsecaseImpl(userRepository, recipeRepository);
-    public final LogInUsecase logInUsecase = new LogInUsecaseImpl(userRepository, fetchClientUseCase);
+    public final LogInUsecase logInUsecase = new LogInUsecaseImpl(fetchClientUseCase);
     public final RecipeDescriptionUsecase recipeDescriptionUsecase = new RecipeDescriptionUsecaseImpl();
     public final RecipeViewUsecase recipeViewUsecase = new RecipeViewUsecaseImpl(recipeRepository);
     public final SettingsUsecase settingsUsecase = new SettingsUsecaseImpl();

@@ -1,4 +1,6 @@
 package edu.ub.pis2324.projecte.data.repositories;
+import android.util.Log;
+
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -30,19 +32,24 @@ public class UserRepository implements IUserRepository {
     }
 
     public Observable<User> getById(ClientId id){
+        Log.e("UserRepository", "execute");
         return Observable.create(emitter -> {
             db.collection(CLIENTS_COLLECTION_NAME)
                 .document(id.toString())
                 .get()
                 .addOnFailureListener(exception -> {
+                    Log.e("UserRepository", "Error getting user by id");
                     emitter.onError(new AppThrowable(Error.GETBYID_UNKNOWN_ERROR));
                 })
                 .addOnSuccessListener(ds -> {
                     if (ds.exists()) {
+                        Log.i("UserRepository", "User found");
                         User user = ds.toObject(User.class);
+                        Log.i("UserRepository", "User: " + user.getUsername());
                         emitter.onNext(user);
                         emitter.onComplete();
                     } else {
+                        Log.e("UserRepository", "User not found");
                         emitter.onError(new AppThrowable(Error.USER_NOT_FOUND));
                     }
                 });

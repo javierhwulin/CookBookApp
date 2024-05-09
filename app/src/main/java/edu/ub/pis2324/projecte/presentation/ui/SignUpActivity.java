@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import edu.ub.pis2324.projecte.App;
+import edu.ub.pis2324.projecte.AppContainer;
 import edu.ub.pis2324.projecte.R;
 
 import edu.ub.pis2324.projecte.databinding.ActivitySignUpBinding;
@@ -18,11 +20,14 @@ public class SignUpActivity extends AppCompatActivity {
 
     private ActivitySignUpBinding binding;
 
+    private AppContainer appContainer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
+        appContainer = ((App) getApplication()).getAppContainer();
         setContentView(binding.getRoot());
 
         initWidgetListeners();
@@ -40,9 +45,16 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
     }
+    /*
+    logInViewModel = new ViewModelProvider(
+               this,
+                new LogInViewModel.Factory(appContainer.logInUsecase)
+        ).get(LogInViewModel.class);
+     */
     private void initViewModel(){
         SignUpViewModel = new ViewModelProvider(
-                this
+                this,
+                new SignUpViewModel.Factory(appContainer.signUpUsecase)
         ).get(SignUpViewModel.class);
 
         initObservers();

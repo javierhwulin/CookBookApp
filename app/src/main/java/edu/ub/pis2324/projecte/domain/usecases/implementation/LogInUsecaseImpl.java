@@ -1,5 +1,7 @@
 package edu.ub.pis2324.projecte.domain.usecases.implementation;
 
+import android.util.Log;
+
 import edu.ub.pis2324.projecte.data.repositories.UserRepository;
 import edu.ub.pis2324.projecte.domain.exceptions.AppThrowable;
 import edu.ub.pis2324.projecte.domain.exceptions.AppThrowableMapper;
@@ -13,7 +15,7 @@ public class LogInUsecaseImpl implements LogInUsecase {
     private final AppThrowableMapper throwableMapper;
     private final FetchClientUsecase fetchClientUseCase;
 
-    public LogInUsecaseImpl(UserRepository userRepository, FetchClientUsecase fetchClientUseCase){
+    public LogInUsecaseImpl(FetchClientUsecase fetchClientUseCase){
         this.fetchClientUseCase = fetchClientUseCase;
         this.throwableMapper = new AppThrowableMapper();
         throwableMapper.add(UserRepository.Error.USER_NOT_FOUND, Error.CLIENT_NOT_FOUND);
@@ -21,6 +23,13 @@ public class LogInUsecaseImpl implements LogInUsecase {
 
     @Override
     public Observable<User> execute(ClientId clientId, String enteredPassword) {
+        Log.e("LogInUsecaseImpl", "execute");
+        if(clientId == null || clientId.toString().isEmpty()) {
+            Log.e("LogInUsecaseImpl", "Client id is empty");
+        }else if(enteredPassword == null || enteredPassword.isEmpty()){
+            Log.e("LogInUsecaseImpl", "Password is empty");
+        }
+        Log.i("LogInUsecaseImpl", "Client id: " + clientId.toString() + " Password: " + enteredPassword);
         return checkUsernameNotEmpty(clientId)
                 .concatMap(ignored -> checkPasswordNotEmpty(enteredPassword))
                 .concatMap(ignored -> fetchClientUseCase.execute(clientId))
@@ -31,14 +40,29 @@ public class LogInUsecaseImpl implements LogInUsecase {
     }
 
     private Observable<Boolean> checkUsernameNotEmpty(ClientId clientId) {
-        return clientId.toString().isEmpty() ? Observable.error(new AppThrowable(Error.USERNAME_EMPTY)) : Observable.just(true);
+        Log.e("LogInUsecaseImpl", "checkUsernameNotEmpty");
+        if (clientId == null || clientId.toString().isEmpty()) {
+            return Observable.error(new AppThrowable(Error.USERNAME_EMPTY));
+        }
+        return Observable.just(true);
     }
 
     private Observable<Boolean> checkPasswordNotEmpty(String enteredPassword) {
-        return enteredPassword.isEmpty() ? Observable.error(new AppThrowable(Error.PASSWORD_EMPTY)) : Observable.just(true);
+        Log.e("LogInUsecaseImpl", "checkPasswordNotEmpty");
+        if (enteredPassword == null || enteredPassword.isEmpty()) {
+            return Observable.error(new AppThrowable(Error.PASSWORD_EMPTY));
+        }
+        return Observable.just(true);
     }
 
     private Observable<Boolean> checkPasswordIsCorrect(User user, String enteredPassword) {
-        return user.getPassword().equals(enteredPassword) ? Observable.just(true) : Observable.error(new AppThrowable(Error.PASSWORD_INCORRECT));
+        Log.i("LogInUsecaseImpl", "checkPasswordIsCorrect");
+        if (user == null || user.getPassword() == null || !user.getPassword().equals(enteredPassword)) {
+            Log.e("LogInUsecaseImpl", "Password is incorrect");
+            return Observable.error(new AppThrowable(Error.PASSWORD_INCORRECT));
+        }
+        Log.i("LogInUsecaseImpl", "Password is correct");
+        Log.i("LogInUsecaseImpl", "User: " + user.getUsername());
+        return Observable.just(true);
     }
 }

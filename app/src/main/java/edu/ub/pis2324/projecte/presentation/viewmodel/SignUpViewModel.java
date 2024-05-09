@@ -49,7 +49,7 @@ public class SignUpViewModel extends ViewModel {
         compositeDisposable.add(d);
     }
 
-    public void handleSignUpError(Throwable throwable){
+    private void handleSignUpError(Throwable throwable){
         if(throwable instanceof AppThrowable){
             AppThrowable appThrowable = (AppThrowable) throwable;
             handleAppError(appThrowable);
@@ -58,7 +58,7 @@ public class SignUpViewModel extends ViewModel {
         }
     }
 
-    public void handleAppError(AppThrowable appThrowable){
+    private void handleAppError(AppThrowable appThrowable){
         String message;
         AppError error = appThrowable.getError();
         if(error == SignUpUsecase.Error.USERNAME_EMPTY)

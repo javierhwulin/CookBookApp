@@ -6,14 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import edu.ub.pis2324.projecte.data.repositories.UserRepository;
+import dagger.hilt.android.lifecycle.HiltViewModel;
 import edu.ub.pis2324.projecte.domain.exceptions.AppError;
 import edu.ub.pis2324.projecte.domain.exceptions.AppThrowable;
 import edu.ub.pis2324.projecte.domain.model.entities.User;
-import edu.ub.pis2324.projecte.domain.model.repositories.IUserRepository;
 import edu.ub.pis2324.projecte.domain.model.values.ClientId;
 import edu.ub.pis2324.projecte.domain.usecases.LogInUsecase;
-import edu.ub.pis2324.projecte.domain.usecases.SignUpUsecase;
 import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -29,7 +27,7 @@ public class LogInViewModel extends ViewModel {
     CompositeDisposable compositeDisposable;
 
     /* Constructor */
-    public LogInViewModel(LogInUsecase logInUsecase){
+    public LogInViewModel(LogInUsecase logInUsecase) {
         logInState = new StateLiveData<>();
         this.logInUsecase = logInUsecase;
         compositeDisposable = new CompositeDisposable();
@@ -56,7 +54,6 @@ public class LogInViewModel extends ViewModel {
 
     public void logIn(String username, String password) {
         logInState.postLoading();
-
         ClientId clientId = new ClientId(username);
 
         Disposable d = logInUsecase.execute(clientId, password)
@@ -64,17 +61,27 @@ public class LogInViewModel extends ViewModel {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         this::handleLogInSuccess,
-                        throwable -> handleLogInError((AppThrowable) throwable)
+                        throwable -> {
+                            if(throwable instanceof AppThrowable) {
+                                Log.e("LogInViewModel", "Log in error: " + ((AppThrowable) throwable).getError().toString());
+                                handleLogInError((AppThrowable) throwable);
+                            } else{
+                                Log.e("LogInViewModel", "Log in error: " + throwable.getMessage());
+                                logInState.postError(throwable);
+                            }
+                        }
                 );
 
         compositeDisposable.add(d);
     }
 
     private void handleLogInSuccess(User user){
+        Log.i("LogInViewModel", "Log in success");
         logInState.postSuccess(user);
     }
 
     private void handleLogInError(AppThrowable throwable){
+        Log.e("LogInViewModel", "Log in error: " + throwable.getError().toString());
         String message;
         AppError error = throwable.getError();
         if (error == LogInUsecase.Error.USERNAME_EMPTY)
@@ -88,7 +95,7 @@ public class LogInViewModel extends ViewModel {
         else if (error == LogInUsecase.Error.CLIENTS_DATA_ACCESS_ERROR)
             message = "Clients' data access error";
         else
-            message = "Unknown error";
+            message = "Unknown error: " + throwable.getMessage();
 
         logInState.postError(new Throwable(message));
     }
@@ -102,8 +109,12 @@ public class LogInViewModel extends ViewModel {
 
         @NonNull
         @Override
-        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T) new LogInViewModel(logInUseCase);
+        public <T extends ViewModel> T create(Class<T> modelClass) {
+            if(modelClass.isAssignableFrom(LogInViewModel.class)){
+                return (T) new LogInViewModel(logInUseCase);
+            }else{
+                throw new IllegalArgumentException("ViewModel Not Found");
+            }
         }
     }
 }
