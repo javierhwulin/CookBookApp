@@ -8,7 +8,7 @@ import com.google.firebase.firestore.PropertyName;
 import edu.ub.pis2324.projecte.domain.model.values.RecipeId;
 
 public class Recipe implements Parcelable {
-    private RecipeId id;
+    private String id;
     private String name;
     private String description;
     private int duration;
@@ -18,7 +18,7 @@ public class Recipe implements Parcelable {
     private String imageUrl;
     private boolean isPremium;
 
-    public Recipe(RecipeId id, String name, String description, String imageUrl, boolean isPremium) {
+    public Recipe(String id, String name, String description, String imageUrl, boolean isPremium) {
         this.name = name;
         this.id = id;
         this.description = description;
@@ -26,7 +26,7 @@ public class Recipe implements Parcelable {
         this.isPremium = isPremium;
     }
 
-    public Recipe(RecipeId id, String name, String description, int duration, String ingredients, String steps, String nutritionInfo, String imageUrl, boolean isPremium) {
+    public Recipe(String id, String name, String description, int duration, String ingredients, String steps, String nutritionInfo, String imageUrl, boolean isPremium) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -41,7 +41,7 @@ public class Recipe implements Parcelable {
     public Recipe() {}
 
     public RecipeId getId() {
-        return id;
+        return new RecipeId(id);
     }
     public String getName() {
         return name;
@@ -127,7 +127,7 @@ public class Recipe implements Parcelable {
     }
 
     protected Recipe(Parcel in) {
-        this.id = new RecipeId(in.readString());
+        this.id = in.readString();
         this.name = in.readString();
         this.description = in.readString();
         this.duration = in.readInt();
@@ -138,7 +138,7 @@ public class Recipe implements Parcelable {
         this.isPremium = in.readInt() == 1;
     }
     public void readFromParcel(Parcel source) {
-        this.id = new RecipeId(source.readString());
+        this.id = source.readString();
         this.name = source.readString();
         this.ingredients = source.readString();
         this.description = source.readString();

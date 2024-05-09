@@ -71,7 +71,6 @@ public class LogInViewModel extends ViewModel {
                             }
                         }
                 );
-
         compositeDisposable.add(d);
     }
 
