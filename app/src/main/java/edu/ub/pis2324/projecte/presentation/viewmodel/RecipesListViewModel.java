@@ -3,29 +3,35 @@ package edu.ub.pis2324.projecte.presentation.viewmodel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.ub.pis2324.projecte.data.repositories.RecipeRepository;
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
+import edu.ub.pis2324.projecte.domain.usecases.RecipeViewUsecase;
 import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.annotations.NonNull;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 
 public class RecipesListViewModel extends ViewModel {
-    RecipeRepository recipeRepository;
-    private final List<Recipe> recipes;
     /* LiveData */
+    private final List<Recipe> recipes = new ArrayList<>();
     private final StateLiveData<List<Recipe>> recipesState;  // products' list
     private final MutableLiveData<Integer> hiddenRecipeState;
+    private final RecipeViewUsecase recipeView;
+    private final CompositeDisposable compositeDisposable;
 
     /* Constructor */
-    public RecipesListViewModel() {
+    public RecipesListViewModel(RecipeViewUsecase recipeView) {
         super();
-        recipeRepository = new RecipeRepository();
-        recipes = new ArrayList<>();
         recipesState = new StateLiveData<>();
         hiddenRecipeState = new MutableLiveData<>();
+        this.recipeView = recipeView;
+        compositeDisposable = new CompositeDisposable();
     }
 
     /**
@@ -44,43 +50,45 @@ public class RecipesListViewModel extends ViewModel {
         return hiddenRecipeState;
     }
 
+    @Override
+    protected void onCleared() {
+        super.onCleared();
+        compositeDisposable.dispose();
+    }
     /**
      * Fetches the products from a data store
      */
     public void fetchRecipesCatalog() {
-        recipeRepository.getAll(new RecipeRepository.OnFetchRecipesListener() {
-            @Override
-            public void OnFetchRecipes(List<Recipe> gottenRecipes) {
-                recipes.clear();
-                recipes.addAll(gottenRecipes);
-                recipesState.postSuccess(recipes);
-            }
-
-            @Override
-            public void OnFetchRecipes(Throwable throwable) {
-                recipesState.postError(throwable);
-            }
-        });
-
+        compositeDisposable.add(recipeView.getRecipes()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        recipes -> handleFetchRecipesSuccess(recipes),
+                        throwable -> handleFetchRecipesError(throwable)
+                ));
     }
 
     /**
      * Fetches the products using the use case
      */
     public void fetchRecipesByName(String name) {
-        recipeRepository.getByName(name, new RecipeRepository.OnFetchRecipesListener() {
-            @Override
-            public void OnFetchRecipes(List<Recipe> gottenRecipes) {
-                recipes.clear();
-                recipes.addAll(gottenRecipes);
-                recipesState.postSuccess(recipes);
-            }
+        compositeDisposable.add(recipeView.getRecipeByName(name)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        recipes -> handleFetchRecipesSuccess(recipes),
+                        throwable -> handleFetchRecipesError(throwable)
+                ));
+    }
 
-            @Override
-            public void OnFetchRecipes(Throwable throwable) {
-                recipesState.postError(throwable);
-            }
-        });
+    public void handleFetchRecipesSuccess(List<Recipe> recipes) {
+        this.recipes.clear();
+        this.recipes.addAll(recipes);
+        recipesState.postSuccess(recipes);
+    }
+
+    public void handleFetchRecipesError(Throwable throwable) {
+        recipesState.postError(throwable);
     }
 
     public void hideRecipe(Recipe recipe) {
@@ -89,5 +97,22 @@ public class RecipesListViewModel extends ViewModel {
         recipes.remove(position);
         hiddenRecipeState.postValue(position);
     }
+    public static class Factory extends ViewModelProvider.NewInstanceFactory {
+        private final RecipeViewUsecase recipeView;
 
+        public Factory(RecipeViewUsecase recipeView) {
+            this.recipeView = recipeView;
+        }
+        @NonNull
+        @Override
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+            if(modelClass.isAssignableFrom(RecipesListViewModel.class)){
+                return (T) new RecipesListViewModel(recipeView);
+            }else{
+                throw new IllegalArgumentException("ViewModel Not Found");
+            }
+        }
+    }
 }
+
+

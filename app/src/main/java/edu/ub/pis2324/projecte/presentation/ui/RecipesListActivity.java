@@ -3,6 +3,7 @@ package edu.ub.pis2324.projecte.presentation.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -12,8 +13,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import edu.ub.pis2324.projecte.App;
+import edu.ub.pis2324.projecte.AppContainer;
 import edu.ub.pis2324.projecte.databinding.ActivityRecipesListBinding;
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
+import edu.ub.pis2324.projecte.domain.model.values.ClientId;
 import edu.ub.pis2324.projecte.presentation.adapters.RecipeRecyclerViewAdapter;
 import edu.ub.pis2324.projecte.presentation.viewmodel.RecipesListViewModel;
 
@@ -22,14 +26,13 @@ public class RecipesListActivity extends AppCompatActivity {
   private static final String RECYCLER_VIEW_STATE = "recycler_view_state";
 
   /* Attributes */
-
+  private AppContainer appContainer;
   /* This activity's view model */
   private RecipesListViewModel recipeViewModel;
-
   /* View binding */
   private ActivityRecipesListBinding binding;
   /* Client id */
-  private String clientId;
+  private ClientId clientId;
   /* Adapter for the recycler view of products */
   private RecipeRecyclerViewAdapter rvRecipesAdapter;
   /* LayoutManager for the recycler view of products */
@@ -42,20 +45,22 @@ public class RecipesListActivity extends AppCompatActivity {
    */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    Log.i("RecipesListActivity", "onCreate");
     super.onCreate(savedInstanceState);
     /* Set view binding */
+    App app = (App) getApplication();
+    appContainer = app.getAppContainer();
+
     binding = ActivityRecipesListBinding.inflate(getLayoutInflater());
     setContentView(binding.getRoot());
 
     /* Get client id from intent */
-    clientId = getIntent().getStringExtra("CLIENT_ID");
+    clientId = new ClientId(getIntent().getStringExtra("CLIENT_ID"));
 
     /* Initializations */
     initWidgetListeners();
     initRecyclerView();
     initViewModel();
-
-    recipeViewModel.fetchRecipesCatalog();
   }
 
   /**
@@ -143,7 +148,14 @@ public class RecipesListActivity extends AppCompatActivity {
      * is destroyed and recreated, the view model would be a new one, and we would lose the
      * data that we had in the previous one, when to keep the data is its very own purpose.
      */
-    recipeViewModel = new ViewModelProvider(this).get(RecipesListViewModel.class);
+    Log.i("RecipesListActivity", "initViewModel");
+
+    recipeViewModel = new ViewModelProvider(
+            this, new RecipesListViewModel.Factory(appContainer.recipeViewUsecase)
+    ).get(RecipesListViewModel.class.getName(), RecipesListViewModel.class);
+
+    recipeViewModel.fetchRecipesCatalog();
+
     initObservers();
   }
 

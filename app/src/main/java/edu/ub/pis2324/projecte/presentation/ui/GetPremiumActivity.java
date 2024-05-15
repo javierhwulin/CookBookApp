@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import edu.ub.pis2324.projecte.databinding.ActivityGetPremiumBinding;
+import edu.ub.pis2324.projecte.domain.model.values.ClientId;
 import edu.ub.pis2324.projecte.presentation.viewmodel.GetPremiumViewModel;
 
 public class GetPremiumActivity extends AppCompatActivity {
@@ -44,7 +45,7 @@ public class GetPremiumActivity extends AppCompatActivity {
     private void initWidgetListeners() {
         binding.getPremiumBtn.setOnClickListener(ignoredView -> {
             // Delegate the log-in logic to the viewmodel
-            getPremiumViewModel.getPremium(clientId, !premiumStatus);
+            getPremiumViewModel.getPremium(clientId);
             premiumStatus = !premiumStatus;
         });
     }

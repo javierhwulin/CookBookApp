@@ -12,9 +12,4 @@ public class PremiumRecipeStepsUsecaseImpl implements RecipeStepsUsecase {
         this.recipe = recipe;
         this.recipeRepository = recipeRepository;
     }
-
-    @Override
-    public void getSteps(RecipeRepository.OnGetRecipeListener listener){
-        recipeRepository.getRecipe(recipe.getName(), listener);
-    }
 }

@@ -10,6 +10,10 @@ public class AppThrowableMapper {
         errorMap = new HashMap<>();
     }
 
+    public void add(AppError xError, AppError xMappedError) {
+        errorMap.put(xError, xMappedError);
+    }
+
     public Throwable map(Throwable throwable) {
         return (throwable instanceof AppThrowable)
             ? map((AppThrowable) throwable)

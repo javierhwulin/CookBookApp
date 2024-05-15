@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.google.firebase.firestore.PropertyName;
 
+import edu.ub.pis2324.projecte.domain.model.values.RecipeId;
+
 public class Recipe implements Parcelable {
     private String id;
     private String name;
@@ -38,8 +40,8 @@ public class Recipe implements Parcelable {
 
     public Recipe() {}
 
-    public String getId() {
-        return id;
+    public RecipeId getId() {
+        return new RecipeId(id);
     }
     public String getName() {
         return name;
@@ -72,10 +74,6 @@ public class Recipe implements Parcelable {
     @PropertyName("isPremium")
     public boolean isPremium() {
         return isPremium;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public void setName(String name) {
@@ -117,7 +115,7 @@ public class Recipe implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
+        dest.writeString(this.id.toString());
         dest.writeString(this.name);
         dest.writeString(this.description);
         dest.writeInt(this.duration);
@@ -150,8 +148,6 @@ public class Recipe implements Parcelable {
         this.imageUrl = source.readString();
         this.isPremium = source.readInt() == 1;
     }
-
-
 
     public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {
         @Override

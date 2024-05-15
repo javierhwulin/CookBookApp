@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import edu.ub.pis2324.projecte.databinding.ActivityRecentRecipesBinding;
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 import edu.ub.pis2324.projecte.presentation.adapters.RecipeRecyclerViewAdapter;
@@ -55,7 +57,7 @@ protected void onCreate(Bundle savedInstanceState) {
         initRecyclerView();
         initViewModel();
 
-        recipeViewModel.fetchRecipesCatalog();
+        recipeViewModel.fetchRecentRecipes(clientId);
         }
 
 /**
@@ -95,7 +97,7 @@ private void initWidgetListeners() {
         binding.svRecipes.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 @Override
 public boolean onQueryTextSubmit(String queryText) {
-        recipeViewModel.fetchRecipesByName(queryText);
+        recipeViewModel.fetchRecentRecipes(queryText);
         return true;
         }
 @Override
@@ -107,7 +109,7 @@ public boolean onQueryTextChange(String queryText) {
          * Altrament fariem simplement: return false.
          */
         if (!queryText.isEmpty()) return false;
-        recipeViewModel.fetchRecipesCatalog();
+        recipeViewModel.fetchRecentRecipes(clientId);
         return true;
         }
         });
@@ -157,7 +159,7 @@ private void initObservers() {
         case SUCCESS:
         assert state.getData() != null;
         showNoRecipesAvailable(state.getData().isEmpty());
-        rvRecipesAdapter.setRecipesData(state.getData());
+        rvRecipesAdapter.setRecipesData((state.getData().getAllRecipes()));
         break;
         case ERROR:
         showNoRecipesAvailable(true);

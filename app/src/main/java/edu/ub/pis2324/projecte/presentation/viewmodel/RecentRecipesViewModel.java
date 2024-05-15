@@ -4,34 +4,37 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.ub.pis2324.projecte.data.repositories.RecipeRepository;
-import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
+import edu.ub.pis2324.projecte.domain.model.values.ClientId;
+import edu.ub.pis2324.projecte.domain.model.values.RecipeId;
+import edu.ub.pis2324.projecte.domain.usecases.HistorialUsecase;
+import edu.ub.pis2324.projecte.domain.model.values.Record;
 import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class RecentRecipesViewModel extends ViewModel {
-    RecipeRepository recipeRepository;
-    private final List<Recipe> recipes;
+    private final HistorialUsecase historialUsecase;
+    private final CompositeDisposable compositeDisposable;
     /* LiveData */
-    private final StateLiveData<List<Recipe>> recipesState;  // products' list
+    private final StateLiveData<Record> recipesState;  // products' list
     private final MutableLiveData<Integer> hiddenRecipeState;
 
     /* Constructor */
-    public RecentRecipesViewModel() {
+    public RecentRecipesViewModel(HistorialUsecase historialUsecase) {
         super();
-        recipeRepository = new RecipeRepository();
-        recipes = new ArrayList<>();
+        this.historialUsecase = historialUsecase;
         recipesState = new StateLiveData<>();
         hiddenRecipeState = new MutableLiveData<>();
+        compositeDisposable = new CompositeDisposable();
     }
 
     /**
      * Returns the state of the products being fetched
      * @return the state of the products being fetched
      */
-    public StateLiveData<List<Recipe>> getRecipesState() {
+    public StateLiveData<Record> getRecipesState() {
         return recipesState;
     }
 
@@ -46,46 +49,44 @@ public class RecentRecipesViewModel extends ViewModel {
     /**
      * Fetches the products from a data store
      */
-    public void fetchRecipesCatalog() {
-        recipeRepository.getAll(new RecipeRepository.OnFetchRecipesListener() {
-            @Override
-            public void OnFetchRecipes(List<Recipe> gottenRecipes) {
-                recipes.clear();
-                recipes.addAll(gottenRecipes);
-                recipesState.postSuccess(recipes);
-            }
-
-            @Override
-            public void OnFetchRecipes(Throwable throwable) {
-                recipesState.postError(throwable);
-            }
-        });
-
+    public void fetchRecentRecipes(String username) {
+        ClientId id = new ClientId(username);
+        Disposable d = historialUsecase.get(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        recipes -> handleFetchRecentRecipesSuccess(recipes),
+                        throwable -> handleFetchRecentRecipesError(throwable)
+                );
+        compositeDisposable.add(d);
     }
 
-    /**
-     * Fetches the products using the use case
-     */
-    public void fetchRecipesByName(String name) {
-        recipeRepository.getByName(name, new RecipeRepository.OnFetchRecipesListener() {
-            @Override
-            public void OnFetchRecipes(List<Recipe> gottenRecipes) {
-                recipes.clear();
-                recipes.addAll(gottenRecipes);
-                recipesState.postSuccess(recipes);
-            }
-
-            @Override
-            public void OnFetchRecipes(Throwable throwable) {
-                recipesState.postError(throwable);
-            }
-        });
+    public void handleFetchRecentRecipesSuccess(Record recipes) {
+        recipesState.postSuccess(recipes);
     }
 
-    public void hideRecipe(Recipe recipe) {
-        /* EXERCICI 2: NO TOCAR */
-        int position = recipes.indexOf(recipe);
-        recipes.remove(position);
-        hiddenRecipeState.postValue(position);
+    public void handleFetchRecentRecipesError(Throwable throwable) {
+        recipesState.postError(throwable);
+    }
+
+    public void removeFromHistorial(String username, String recipe) {
+        ClientId clientId = new ClientId(username);
+        RecipeId recipeId = new RecipeId(recipe);
+        Disposable d = historialUsecase.remove(clientId, recipeId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        ignored -> handleRemoveFromHistorialSuccess(),
+                        throwable -> handleRemoveFromHistorialError(throwable)
+                );
+        compositeDisposable.add(d);
+    }
+
+    public void handleRemoveFromHistorialSuccess() {
+        hiddenRecipeState.postValue(1);
+    }
+
+    public void handleRemoveFromHistorialError(Throwable throwable) {
+        recipesState.postError(throwable);
     }
 }
