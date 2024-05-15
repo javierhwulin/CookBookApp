@@ -31,6 +31,12 @@ public class ChangePremiumActivity extends AppCompatActivity {
         appContainer = ((App) getApplication()).getAppContainer();
         setContentView(binding.getRoot());
 
+        if(true){   // cambiar a "si es premium"
+            binding.getPremiumBtn.setText("Aconsegueix ser Premium!");
+        }
+        else{
+            binding.getPremiumBtn.setText("Deixa de ser Premium");
+        }
         initWidgetListeners();
         initViewModel();
 
