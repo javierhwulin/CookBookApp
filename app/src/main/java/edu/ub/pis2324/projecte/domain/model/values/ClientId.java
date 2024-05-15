@@ -12,7 +12,7 @@ public class ClientId implements Serializable {
     }
 
     public ClientId() {
-        this.id = "OOO";
+        this.id = null;
     }
 
     public String getId() {

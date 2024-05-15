@@ -148,4 +148,20 @@ public class UserRepository implements IUserRepository {
                 });
         });
     }
+
+    @Override
+    public Observable<Boolean> changePassword(ClientId id, String newPassword) {
+        return Observable.create(emitter -> {
+            db.collection(CLIENTS_COLLECTION_NAME)
+                    .document(id.toString())
+                    .update("password", newPassword)
+                    .addOnFailureListener(exception -> {
+                        emitter.onError(new AppThrowable(Error.UPDATE_UNKNOWN_ERROR));
+                    })
+                    .addOnSuccessListener(ignored -> {
+                        emitter.onNext(true);
+                        emitter.onComplete();
+                    });
+        });
+    }
 }

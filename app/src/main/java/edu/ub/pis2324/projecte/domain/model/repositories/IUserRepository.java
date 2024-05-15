@@ -22,6 +22,8 @@ public interface IUserRepository {
 
     Observable<User> changeUsername(ClientId id, String newUsername);
 
+    Observable<Boolean> changePassword(ClientId id, String newPassword);
+
     enum Error implements AppError{
         USER_NOT_FOUND,
         ADD_UNKNOWN_ERROR,

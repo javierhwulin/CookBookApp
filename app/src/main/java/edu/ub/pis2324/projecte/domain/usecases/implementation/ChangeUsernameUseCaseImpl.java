@@ -45,8 +45,7 @@ public class ChangeUsernameUseCaseImpl implements ChangeUsernameUseCase{
     private Observable<User> changeUsername(User fetchedClient, String newUsername) {
         Log.i("UsernameUseCaseImpl", "changeUsername");
         //TODO: DO WITH ID NOT USERNAME??
-        userRepository.changeUsername(new ClientId(fetchedClient.getUsername()), newUsername);
-        return Observable.just(fetchedClient);
+        return userRepository.changeUsername(new ClientId(fetchedClient.getUsername()), newUsername);
     }
 
     private Observable<Boolean> checkIdEmpty(ClientId clientId) {

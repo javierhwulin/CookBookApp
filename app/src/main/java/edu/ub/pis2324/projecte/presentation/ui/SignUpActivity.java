@@ -63,12 +63,12 @@ public class SignUpActivity extends AppCompatActivity {
     private void initObservers(){
         SignUpViewModel.getSignUpState().observe(this, state -> {
             switch (state.getStatus()) {
-                case SUCCESS:
-                    Toast.makeText(this, "bien", Toast.LENGTH_SHORT).show();
+                case COMPLETE:
+                    Toast.makeText(this, "Usuari Creat", Toast.LENGTH_SHORT).show();
                     finish();
                     break;
                 case ERROR:
-                    Toast.makeText(this, "mal", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
                     break;
             }
         });
