@@ -7,7 +7,7 @@
     tools:context=".presentation.ui.ChangeUsernameActivity">
 
     <TextView
-        android:id="@+id/TextView_password"
+        android:id="@+id/TextView_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="140dp"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/Text_password"
+        android:id="@+id/Text_username"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginStart="98dp"
@@ -29,20 +29,20 @@
         android:text="Name"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextView_password" />
+        app:layout_constraintTop_toBottomOf="@+id/TextView_username" />
 
     <TextView
-        android:id="@+id/TextView_new_password"
+        android:id="@+id/TextViewNewUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="148dp"
         android:layout_marginTop="44dp"
         android:text="@string/config_new_username"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Text_password" />
+        app:layout_constraintTop_toBottomOf="@+id/Text_username" />
 
     <EditText
-        android:id="@+id/Text_repeatnew_password"
+        android:id="@+id/TextNewUsername"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginStart="100dp"
@@ -52,7 +52,7 @@
         android:inputType="text"
         android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextView_new_password" />
+        app:layout_constraintTop_toBottomOf="@+id/TextViewNewUserName" />
 
     <Button
         android:id="@+id/Changebtn"
@@ -62,5 +62,5 @@
         android:layout_marginTop="88dp"
         android:text="@string/config_change"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Text_repeatnew_password" />
+        app:layout_constraintTop_toBottomOf="@+id/TextNewUsername" />
 </androidx.constraintlayout.widget.ConstraintLayout>

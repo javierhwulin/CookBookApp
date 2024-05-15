@@ -41,8 +41,8 @@ public class ConfigActivity extends AppCompatActivity {
             startActivity(intent);
         });
         binding.changePasswordBtn.setOnClickListener(ignoredView -> {
-            //Intent intent = new Intent(this, ChangePasswordActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(this, ChangePasswordActivity.class);
+            startActivity(intent);
         });
 
         binding.changePfpBtn.setOnClickListener(ignoredView -> {

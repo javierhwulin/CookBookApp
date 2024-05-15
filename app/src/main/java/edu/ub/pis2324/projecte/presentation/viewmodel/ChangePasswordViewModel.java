@@ -42,6 +42,7 @@ public class ChangePasswordViewModel extends ViewModel {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             ignored -> changePasswordState.postSuccess(null),
+                            //TODO: DISPLAY ERRORS
                             throwable -> changePasswordState.postError(throwable)
                     ));
         }
@@ -54,7 +55,7 @@ public class ChangePasswordViewModel extends ViewModel {
 
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
-            if (modelClass.isAssignableFrom(ChangePasswordUseCase.class)) {
+            if (modelClass.isAssignableFrom(ChangePasswordViewModel.class)) {
                 return (T) new ChangePasswordViewModel(changePasswordUseCase);
             }
             throw new IllegalArgumentException("Unknown ViewModel class");
