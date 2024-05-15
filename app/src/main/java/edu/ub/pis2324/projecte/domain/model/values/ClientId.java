@@ -11,6 +11,10 @@ public class ClientId implements Serializable {
         this.id = id;
     }
 
+    public ClientId() {
+        this.id = "OOO";
+    }
+
     public String getId() {
         return id;
     }

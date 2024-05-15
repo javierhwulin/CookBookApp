@@ -45,4 +45,8 @@ public class User implements Serializable {
     public void setPremium(boolean premium) {
         isPremium = premium;
     }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

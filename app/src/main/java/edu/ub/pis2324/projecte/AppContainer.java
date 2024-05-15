@@ -8,6 +8,7 @@ import edu.ub.pis2324.projecte.domain.services.CheckClientExistsService;
 import edu.ub.pis2324.projecte.domain.services.CheckClientIsPremiumService;
 import edu.ub.pis2324.projecte.domain.services.implementation.CheckClientExistsServiceImpl;
 import edu.ub.pis2324.projecte.domain.services.implementation.CheckClientIsPremiumServiceImpl;
+import edu.ub.pis2324.projecte.domain.usecases.ChangeUsernameUseCase;
 import edu.ub.pis2324.projecte.domain.usecases.FetchClientUsecase;
 import edu.ub.pis2324.projecte.domain.usecases.HistorialUsecase;
 import edu.ub.pis2324.projecte.domain.usecases.LogInUsecase;
@@ -16,6 +17,7 @@ import edu.ub.pis2324.projecte.domain.usecases.RecipeStepsUsecase;
 import edu.ub.pis2324.projecte.domain.usecases.RecipeViewUsecase;
 import edu.ub.pis2324.projecte.domain.usecases.SettingsUsecase;
 import edu.ub.pis2324.projecte.domain.usecases.SignUpUsecase;
+import edu.ub.pis2324.projecte.domain.usecases.implementation.ChangeUsernameUseCaseImpl;
 import edu.ub.pis2324.projecte.domain.usecases.implementation.FetchClientUsecaseImpl;
 import edu.ub.pis2324.projecte.domain.usecases.implementation.HistorialUsecaseImpl;
 import edu.ub.pis2324.projecte.domain.usecases.implementation.LogInUsecaseImpl;
@@ -41,4 +43,7 @@ public class AppContainer {
     public final RecipeViewUsecase recipeViewUsecase = new RecipeViewUsecaseImpl(recipeRepository);
     public final SettingsUsecase settingsUsecase = new SettingsUsecaseImpl();
     public final SignUpUsecase signUpUsecase = new SignUpUsecaseImpl(checkUserExistsService, userRepository);
+
+    public final ChangeUsernameUseCase changeUsernameUseCase = new ChangeUsernameUseCaseImpl(fetchClientUseCase);
+
 }

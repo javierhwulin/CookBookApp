@@ -111,4 +111,41 @@ public class UserRepository implements IUserRepository {
                 });
         });
     }
+
+    public Observable<User> changeUsername(ClientId id, String newUsername){
+        Log.i("Change Username", "ID es: " + id + " Username: " + newUsername);
+        return Observable.create(emitter -> {
+            db.collection(CLIENTS_COLLECTION_NAME)
+                .document(id.toString())
+                .get()
+                .addOnFailureListener(exception -> {
+                    emitter.onError(new AppThrowable(Error.GETBYID_UNKNOWN_ERROR));
+                })
+                .addOnSuccessListener(ds -> {
+                    if (ds.exists()) {
+                        User user = ds.toObject(User.class);
+                        user.setUsername(newUsername);
+                        db.collection(CLIENTS_COLLECTION_NAME)
+                            .document(newUsername)
+                            .set(user)
+                            .addOnFailureListener(exception -> {
+                                emitter.onError(new AppThrowable(Error.UPDATE_UNKNOWN_ERROR));
+                            })
+                            .addOnSuccessListener(ignored -> {
+                                db.collection(CLIENTS_COLLECTION_NAME)
+                                    .document(id.toString())
+                                    .delete()
+                                    .addOnFailureListener(exception -> {
+                                        emitter.onError(new AppThrowable(Error.REMOVE_UNKNOWN_ERROR));
+                                    })
+                                    .addOnSuccessListener(ignored2 -> {
+                                emitter.onNext(user);
+                                emitter.onComplete();
+                            });});
+                    } else {
+                        emitter.onError(new AppThrowable(Error.USER_NOT_FOUND));
+                    }
+                });
+        });
+    }
 }

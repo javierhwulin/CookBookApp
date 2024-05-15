@@ -18,6 +18,8 @@ public interface IUserRepository {
     Observable<Boolean> update(ClientId id, OnUpdateListener onUpdateListener);
     Observable<Boolean> remove(ClientId id);
 
+    Observable<User> changeUsername(ClientId id, String newUsername);
+
     enum Error implements AppError{
         USER_NOT_FOUND,
         ADD_UNKNOWN_ERROR,

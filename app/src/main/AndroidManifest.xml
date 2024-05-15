@@ -16,6 +16,9 @@
         android:theme="@style/Theme.Projecte"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.ui.ChangeUsernameActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.ui.ConfigActivity"
             android:exported="true"
             android:label="@string/title_activity_config"
