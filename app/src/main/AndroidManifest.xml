@@ -19,6 +19,9 @@
             android:name=".presentation.ui.ChangePasswordActivity"
             android:exported="false" />
         <activity
+            android:name=".presentation.ui.ChangePremiumActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.ui.ChangeUsernameActivity"
             android:exported="false" />
         <activity

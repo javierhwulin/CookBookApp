@@ -23,11 +23,11 @@ public class ConfigActivity extends AppCompatActivity {
         binding = ActivityConfigBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        if(true){
-            binding.button4.setText("Fes-te premium");
+        if(true){   // cambiar a "si es premium"
+            binding.changePremium.setText("Fes-te premium");
         }
         else{
-            binding.button4.setText("Gestionar premium");
+            binding.changePremium.setText("Gestionar premium");
         }
         initWidgetListeners();
         initViewModel();
@@ -48,6 +48,11 @@ public class ConfigActivity extends AppCompatActivity {
         binding.changePfpBtn.setOnClickListener(ignoredView -> {
             //Intent intent = new Intent(this, ChangePfpActivity.class);
             //startActivity(intent);
+        });
+
+        binding.changePremium.setOnClickListener(ignoredView -> {
+            Intent intent = new Intent(this, ChangePremiumActivity.class);
+            startActivity(intent);
         });
     }
 

@@ -48,7 +48,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/change_premium"
         android:layout_width="175dp"
         android:layout_height="51dp"
         android:layout_marginEnd="40dp"
