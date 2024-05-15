@@ -1,7 +1,6 @@
 package edu.ub.pis2324.projecte.domain.model.repositories;
 
-import io.reactivex.rxjava3.core.Observable;
-
+import edu.ub.pis2324.projecte.data.repositories.UserRepository;
 import edu.ub.pis2324.projecte.domain.model.entities.User;
 import edu.ub.pis2324.projecte.domain.model.values.ClientId;
 import edu.ub.pis2324.projecte.domain.exceptions.AppError;
@@ -27,4 +26,8 @@ public interface IUserRepository {
         UPDATE_UNKNOWN_ERROR,
         REMOVE_UNKNOWN_ERROR;
     }
+    void addUser(User user, UserRepository.OnAddUserListener listener);
+    void getUser(String username, String password, UserRepository.OnGetUserListener listener);
+
+    void changeUsername(User user, String newUsername, UserRepository.OnChangeUsernameListener listener);
 }
