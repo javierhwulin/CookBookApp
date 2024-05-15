@@ -8,9 +8,9 @@
 
     <Button
         android:id="@+id/change_pfp_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="112dp"
+        android:layout_width="202dp"
+        android:layout_height="57dp"
+        android:layout_marginStart="104dp"
         android:layout_marginBottom="272dp"
         android:text="@string/change_pfp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,13 +29,12 @@
     <Button
         android:id="@+id/change_password_btn"
         android:layout_width="202dp"
-        android:layout_height="52dp"
+        android:layout_height="57dp"
         android:layout_marginStart="104dp"
         android:layout_marginBottom="16dp"
         android:text="@string/change_password"
         app:layout_constraintBottom_toTopOf="@+id/change_pfp_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/TextUsuari"
@@ -50,7 +49,7 @@
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="130dp"
+        android:layout_width="175dp"
         android:layout_height="51dp"
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="48dp"

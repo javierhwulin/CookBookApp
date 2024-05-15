@@ -30,6 +30,16 @@ public class UserRepository implements IUserRepository {
         void OnUpdateUserError(Throwable throwable);
     }
 
+    public interface OnChangeUsernameListener {
+        void OnChangeUsernameSuccess(User user);
+        void OnChangeUsernameError(Throwable throwable);
+    }
+
+    public interface OnChangePasswordListener {
+        void OnChangePasswordSuccess();
+        void OnChangePasswordError(Throwable throwable);
+    }
+
     public void addUser(User user, OnAddUserListener listener){
         // Add user to database)
         if (user.getUsername().isEmpty()){
@@ -80,5 +90,31 @@ public class UserRepository implements IUserRepository {
                 .update("isPremium", isPremium)
                 .addOnSuccessListener(aVoid -> listener.OnUpdateUserSuccess())
                 .addOnFailureListener(e -> listener.OnUpdateUserError(e));
+    }
+
+    public void changeUsername(User user, String newUsername,OnChangeUsernameListener listener){
+        // Change username in database
+
+        db.collection(CLIENTS_COLLECTION_NAME).document(user.getUsername()).get()
+                .addOnFailureListener(e -> listener.OnChangeUsernameError(e))
+                .addOnSuccessListener(usr -> {
+                    if (!usr.exists()){
+                        listener.OnChangeUsernameError(new Throwable("Username does not exist"));
+                    } else {
+                        User usuari = usr.toObject(User.class);
+                        usuari.setUsername(newUsername);
+                        if (!user.getPassword().equals(usuari.getPassword())){
+                            listener.OnChangeUsernameError(new Throwable("Incorrect password"));
+                        } else {
+                            db.collection(CLIENTS_COLLECTION_NAME).document(newUsername).set(usuari)
+                                    .addOnSuccessListener(aVoid -> {
+                                        db.collection(CLIENTS_COLLECTION_NAME).document(user.getUsername()).delete()
+                                                .addOnSuccessListener(aVoid1 -> listener.OnChangeUsernameSuccess(usuari))
+                                                .addOnFailureListener(e -> listener.OnChangeUsernameError(e));
+                                    })
+                                    .addOnFailureListener(e -> listener.OnChangeUsernameError(e));
+                        }
+                    }
+                });
     }
 }

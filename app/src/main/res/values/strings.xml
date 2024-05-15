@@ -15,6 +15,9 @@
     <string name="title_activity_config">Config</string>
     <string name="change_pfp">Canviar foto de perfil</string>
     <string name="change_password">Canviar contrasenya</string>
+    <string name="config_username">Nom d\'usuari actual: </string>
+    <string name="config_new_username">Nou nom d\'usuari: </string>
+    <string name="config_change">Canviar</string>
     <string name="change_username">Canviar nom d\'usuari</string>
     <string name="search_recipe_hint">Search recipe by name…</string>
     <string name="no_data_available">Oops! No recipes were found</string>

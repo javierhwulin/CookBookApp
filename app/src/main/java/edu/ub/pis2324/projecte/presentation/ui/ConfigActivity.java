@@ -1,7 +1,9 @@
 package edu.ub.pis2324.projecte.presentation.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import edu.ub.pis2324.projecte.R;
@@ -20,7 +22,7 @@ public class ConfigActivity extends AppCompatActivity {
         setContentView(R.layout.activity_config);
         binding = ActivityConfigBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-/*
+
         if(true){
             binding.button4.setText("Fes-te premium");
         }
@@ -30,13 +32,13 @@ public class ConfigActivity extends AppCompatActivity {
         initWidgetListeners();
         initViewModel();
 
- */
+
     }
-/*
+
     private void initWidgetListeners(){
         binding.changeUsernameBtn.setOnClickListener(ignoredView -> {
-            //Intent intent = new Intent(this, ChangeUsernameActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(this, ChangeUsernameActivity.class);
+            startActivity(intent);
         });
         binding.changePasswordBtn.setOnClickListener(ignoredView -> {
             //Intent intent = new Intent(this, ChangePasswordActivity.class);
@@ -54,6 +56,6 @@ public class ConfigActivity extends AppCompatActivity {
                 this
         ).get(ConfigViewModel.class);
     }
-  */
+
 }
 
