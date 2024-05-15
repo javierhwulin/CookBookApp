@@ -1,5 +1,6 @@
 package edu.ub.pis2324.projecte.presentation.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -39,7 +40,7 @@ public class ViewRecipeDetailsActivity extends AppCompatActivity {
         assert recipe != null;
         initWidgets(recipe);
         initWidgetListeners(recipe,premium);
-        initViewModel();
+        initViewModel(recipe);
     }
 
     /**
@@ -68,20 +69,21 @@ public class ViewRecipeDetailsActivity extends AppCompatActivity {
     /**
      * Initialize the view model
      */
-    private void initViewModel() {
+    private void initViewModel(Recipe recipe) {
         viewRecipeDetailsViewModel = new ViewModelProvider(this)
                 .get(ViewRecipeDetailsViewModel.class);
-        initObservers();
+        initObservers(recipe);
     }
 
     /**
      * Initialize the observers of the view model
      */
-    private void initObservers() {
+    private void initObservers(Recipe recipe) {
         viewRecipeDetailsViewModel.getStartState().observe(this, startState -> {
             if (startState.intValue() == 1){
-                Toast.makeText(this, "Button clicked", Toast.LENGTH_SHORT).show();
-                //Hacer un intent a la pantalla del paso por paso
+                Intent intent = new Intent(this, StepsRecipeActivity.class);
+                intent.putExtra("RECIPE", recipe);
+                startActivity(intent);
             } else if (startState.intValue() == 2){
                 Toast.makeText(this, "Hazte premium para acceder a esta receta", Toast.LENGTH_SHORT).show();
             }

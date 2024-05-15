@@ -41,6 +41,9 @@
         <activity
             android:name=".presentation.ui.ViewRecipeDetailsActivity"
             android:exported="false" />
+        <activity
+            android:name=".presentation.ui.StepsRecipeActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

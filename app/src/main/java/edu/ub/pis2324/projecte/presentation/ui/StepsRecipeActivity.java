@@ -1,6 +1,8 @@
 package edu.ub.pis2324.projecte.presentation.ui;
 
+import android.opengl.Visibility;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,7 +42,7 @@ public class StepsRecipeActivity extends AppCompatActivity {
         assert recipe != null;
         initWidgets(stepsArray);
         initWidgetListeners(stepsArray);
-        initViewModel();
+        initViewModel(stepsArray);
     }
 
     /**
@@ -50,7 +52,7 @@ public class StepsRecipeActivity extends AppCompatActivity {
     private void initWidgets(String[] steps) {
         binding.tvStepNumber.setText("Step 1");
         binding.tvStepDescription.setText(steps[0]);
-        binding.btnPrevious.setEnabled(false);
+        binding.btnPrevious.setVisibility(View.GONE);
     }
 
     /**
@@ -70,30 +72,30 @@ public class StepsRecipeActivity extends AppCompatActivity {
     /**
      * Initialize the view model
      */
-    private void initViewModel() {
+    private void initViewModel(String[] steps) {
         stepsRecipeViewModel = new ViewModelProvider(this)
                 .get(StepsRecipeViewModel.class);
-        initObservers();
+        initObservers(steps);
     }
 
     /**
      * Initialize the observers of the view model
      */
-    private void initObservers() {
+    private void initObservers(String[] steps) {
         stepsRecipeViewModel.getStepsState().observe(this, stepsState -> {
-            binding.tvStepNumber.setText("Step " + stepsState.intValue());
-            binding.tvStepDescription.setText(stepsState.toString());
+            binding.tvStepNumber.setText("Step " + (stepsState.intValue()+1));
+            binding.tvStepDescription.setText(steps[stepsState.intValue()]);
 
             if (stepsState.intValue() == 0){
-                binding.btnPrevious.setEnabled(false);
+                binding.btnPrevious.setVisibility(View.GONE);
             } else {
-                binding.btnPrevious.setEnabled(true);
+                binding.btnPrevious.setVisibility(View.VISIBLE);
             }
 
-            if (stepsState.intValue() == stepsState.toString().length()){
-                binding.btnNext.setEnabled(false);
+            if (stepsState.intValue() == stepsState.toString().length()+1){
+                binding.btnNext.setVisibility(View.GONE);
             } else {
-                binding.btnNext.setEnabled(true);
+                binding.btnNext.setVisibility(View.VISIBLE);
             }
         });
     }
