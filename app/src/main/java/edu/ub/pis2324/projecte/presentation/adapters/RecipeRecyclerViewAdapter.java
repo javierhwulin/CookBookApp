@@ -29,10 +29,6 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
   private final OnRecipeClickListener onRecipeClickListener;
 
 
-
-  /* EXERCICI 2 */
-  // ...
-
   /**
    * Interface to callback the activity when a product is clicked.
    */
@@ -40,10 +36,6 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
     void onRecipeClick(Recipe recipeModel);
   }
 
-
-
-  /* EXERCICI 2 */
-  // ...
 
   /**
    * Constructor
@@ -71,9 +63,6 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
                                        // instead modified by the ViewModel directly
     notifyDataSetChanged();            // Reflect the changes in the UI
   }
-
-  /* EXERCICI 2 */
-  // ...
 
   /**
    * Create a ViewHolder object for each data element.
@@ -175,7 +164,6 @@ public class RecipeRecyclerViewAdapter extends RecyclerView.Adapter<RecipeRecycl
       itemView.setOnClickListener(v ->
         onItemPositionClickListener.onItemPositionClick(getAdapterPosition())
       );
-
     }
   }
 }

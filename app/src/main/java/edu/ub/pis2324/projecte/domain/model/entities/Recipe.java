@@ -149,8 +149,6 @@ public class Recipe implements Parcelable {
         this.isPremium = source.readInt() == 1;
     }
 
-
-
     public static final Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {
         @Override
         public Recipe createFromParcel(Parcel source) {

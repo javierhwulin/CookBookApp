@@ -23,4 +23,6 @@
     <string name="recipe_duration">Duration in min</string>
     <string name="recipe_calories">Calories in recipe</string>
     <string name="recipe_description">Description of the recipe</string>
+    <string name="next_button">Siguiente</string>
+    <string name="previous">Anterior</string>
 </resources>
