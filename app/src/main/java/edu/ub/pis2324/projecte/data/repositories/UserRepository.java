@@ -169,7 +169,7 @@ public class UserRepository implements IUserRepository {
         return Observable.create(emitter -> {
             db.collection(CLIENTS_COLLECTION_NAME)
                     .document(id.toString())
-                    .update("isPremium", isPremium)
+                    .update("premium", isPremium)
                     .addOnFailureListener(exception -> {
                         emitter.onError(new AppThrowable(Error.UPDATE_UNKNOWN_ERROR));
                     })
