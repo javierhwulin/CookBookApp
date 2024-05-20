@@ -88,6 +88,7 @@ public class ViewRecipeDetailsFragment extends Fragment {
         viewRecipeDetailsViewModel.getStartState().observe(getActivity(), startState -> {
             if (startState.intValue() == 1){
                 navController.navigate(R.id.action_viewRecipeDetailsFragment_to_stepsRecipeFragment);
+                viewRecipeDetailsViewModel.updateStartState(0);
             } else if (startState.intValue() == 2){
                 Toast.makeText(getActivity(), "Hazte premium para acceder a esta receta", Toast.LENGTH_SHORT).show();
             }

@@ -30,4 +30,8 @@ public class ViewRecipeDetailsViewModel extends ViewModel {
             else startState.postValue(2);
         }
     }
+
+    public void updateStartState(int state){
+        startState.postValue(state);
+    }
 }

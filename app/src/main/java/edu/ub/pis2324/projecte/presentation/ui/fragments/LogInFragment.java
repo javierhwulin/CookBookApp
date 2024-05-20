@@ -19,8 +19,6 @@ import edu.ub.pis2324.projecte.App;
 import edu.ub.pis2324.projecte.R;
 import edu.ub.pis2324.projecte.AppContainer;
 import edu.ub.pis2324.projecte.databinding.ActivityLogInBinding;
-import edu.ub.pis2324.projecte.presentation.ui.RecipesListActivity;
-import edu.ub.pis2324.projecte.presentation.ui.SignUpActivity;
 import edu.ub.pis2324.projecte.presentation.viewmodel.LogInViewModel;
 import edu.ub.pis2324.projecte.presentation.viewmodel.SharedViewModel;
 
