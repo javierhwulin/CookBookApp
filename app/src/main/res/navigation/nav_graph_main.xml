@@ -1,0 +1,100 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_main"
+    app:startDestination="@id/logInFragment">
+
+    <fragment
+        android:id="@+id/logInFragment"
+        android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.LogInFragment"
+        android:label="LogIn"
+        tools:layout="@layout/activity_log_in" >
+        <action
+            android:id="@+id/action_logInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+        <action
+            android:id="@+id/action_logInFragment_to_recipesListFragment"
+            app:destination="@id/recipesListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.SignUpFragment"
+        android:label="SignUp"
+        tools:layout="@layout/activity_sign_up" >
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/recipesListFragment"
+        android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.RecipesListFragment"
+        android:label="RecipesList"
+        tools:layout="@layout/activity_recipes_list" >
+        <action
+            android:id="@+id/action_recipesListFragment_to_viewRecipeDetailsFragment"
+            app:destination="@id/recipeDetailsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/recipeDetailsFragment"
+        android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.ViewRecipeDetailsFragment"
+        android:label="RecipeDetails"
+        tools:layout="@layout/activity_view_recipe_details" >
+        <action
+            android:id="@+id/action_viewRecipeDetailsFragment_to_stepsRecipeFragment"
+            app:destination="@id/stepsRecipeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/stepsRecipeFragment"
+        android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.StepsRecipeFragment"
+        android:label="StepsRecipe"
+        tools:layout="@layout/activity_steps_recipe" >
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/recentRecipesFragment"
+        android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.RecentRecipesFragment"
+        android:label="RecentRecipes"
+        tools:layout="@layout/activity_recent_recipes" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/configFragment"
+        android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.ConfigFragment"
+        android:label="Config"
+        tools:layout="@layout/activity_config" >
+        <action
+            android:id="@+id/action_configFragment_to_changePasswordFragment"
+            app:destination="@id/changePasswordFragment" />
+        <action
+            android:id="@+id/action_configFragment_to_changePremiumFragment"
+            app:destination="@id/changePremiumFragment" />
+        <action
+            android:id="@+id/action_configFragment_to_changeUsernameFragment"
+            app:destination="@id/changeUsernameFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.ChangePasswordFragment"
+        android:label="Change Password"
+        tools:layout="@layout/activity_change_password" >
+        <!-- Define actions and arguments here if needed -->
+    </fragment>
+    <fragment
+        android:id="@+id/changePremiumFragment"
+        android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.ChangePremiumFragment"
+        android:label="Change Premium"
+        tools:layout="@layout/activity_change_premium" >
+        <!-- Define actions and arguments here if needed -->
+    </fragment>
+    <fragment
+        android:id="@+id/changeUsernameFragment"
+        android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.ChangeUsernameFragment"
+        android:label="Change Username"
+        tools:layout="@layout/activity_change_username" >
+        <!-- Define actions and arguments here if needed -->
+    </fragment>
+
+</navigation>

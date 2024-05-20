@@ -3,17 +3,11 @@ package edu.ub.pis2324.projecte.presentation.viewmodel;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import edu.ub.pis2324.projecte.domain.exceptions.AppThrowable;
-import edu.ub.pis2324.projecte.domain.model.repositories.IUserRepository;
 import edu.ub.pis2324.projecte.domain.model.values.ClientId;
-import edu.ub.pis2324.projecte.domain.services.CheckClientIsPremiumService;
-import edu.ub.pis2324.projecte.domain.usecases.ChangePasswordUseCase;
 import edu.ub.pis2324.projecte.domain.usecases.ChangePremiumUseCase;
-import edu.ub.pis2324.projecte.presentation.ui.ChangePremiumActivity;
 import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ChangePremiumViewModel extends ViewModel {
