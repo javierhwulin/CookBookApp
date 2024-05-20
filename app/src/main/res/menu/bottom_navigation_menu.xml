@@ -7,13 +7,16 @@
     <item
         android:id="@+id/recipesListFragment"
         android:enabled="true"
+        android:icon="@drawable/ic_shop"
         android:title="Recipes List" />
     <item
         android:id="@+id/recentRecipesFragment"
         android:enabled="true"
+        android:icon="@drawable/baseline_assignment_24"
         android:title="Recent Recipes" />
     <item
         android:id="@+id/configFragment"
         android:enabled="true"
+        android:icon="@drawable/ic_profile"
         android:title="Config" />
 </menu>

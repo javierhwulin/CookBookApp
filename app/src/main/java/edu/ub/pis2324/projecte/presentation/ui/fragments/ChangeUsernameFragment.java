@@ -45,13 +45,13 @@ public class ChangeUsernameFragment extends Fragment {
         navController = Navigation.findNavController(view);
 
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        binding.TextUsername.setText(sharedViewModel.getClientName().getValue());
 
         initWidgetListeners();
         initViewModel();
     }
 
     private void initWidgetListeners() {
-        //TODO: USERNAME HARDCODED. FRAGMENT?
         binding.Changebtn.setOnClickListener(ignoredView -> {
             changeUsernameViewModel.ChangeUsername(
                     new ClientId(String.valueOf(binding.TextUsername.getText())),

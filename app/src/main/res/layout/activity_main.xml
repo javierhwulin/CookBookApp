@@ -43,6 +43,7 @@
             android:id="@+id/bottom_navigation_view"
             style="@style/Widget.MaterialComponents.BottomNavigationView.Colored"
             android:layout_width="match_parent"
+            app:itemIconSize="24dp"
             android:layout_height="@dimen/design_bottom_navigation_height"
             app:menu="@menu/bottom_navigation_menu" />
 
