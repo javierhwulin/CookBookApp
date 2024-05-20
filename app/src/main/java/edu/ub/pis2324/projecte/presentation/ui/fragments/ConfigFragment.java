@@ -26,6 +26,8 @@ public class ConfigFragment extends Fragment {
     private AppContainer appContainer;
     private ActivityConfigBinding binding;
 
+    private SharedViewModel sharedViewModel;
+
     private NavController navController;
     @Nullable
     @Override
@@ -39,6 +41,18 @@ public class ConfigFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         appContainer = ((App) getActivity().getApplication()).getAppContainer();
         navController = Navigation.findNavController(view);
+
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        boolean premium = sharedViewModel.getIsPremium().getValue();
+
+        if(!premium){
+            binding.changePremium.setText("Fes-te premium");
+            binding.TextUsuari.setText("Usuari Normal");
+        }
+        else{
+            binding.changePremium.setText("Gestionar premium");
+            binding.TextUsuari.setText("Usuari Premium");
+        }
 
         initWidgetListeners();
         initViewModel();

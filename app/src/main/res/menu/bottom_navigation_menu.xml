@@ -5,15 +5,15 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_recipes_list"
+        android:id="@+id/recipesListFragment"
         android:enabled="true"
         android:title="Recipes List" />
     <item
-        android:id="@+id/nav_recent_recipes"
+        android:id="@+id/recentRecipesFragment"
         android:enabled="true"
         android:title="Recent Recipes" />
     <item
-        android:id="@+id/nav_config"
+        android:id="@+id/configFragment"
         android:enabled="true"
         android:title="Config" />
 </menu>

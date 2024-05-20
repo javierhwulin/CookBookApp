@@ -48,7 +48,7 @@ public class ChangePremiumFragment extends Fragment {
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         premium = sharedViewModel.getIsPremium().getValue();
 
-        if(premium){
+        if(!premium){
             binding.getPremiumBtn.setText("Aconsegueix ser Premium!");
         }
         else{
