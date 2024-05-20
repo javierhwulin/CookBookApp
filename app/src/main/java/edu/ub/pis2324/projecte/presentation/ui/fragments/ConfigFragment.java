@@ -73,6 +73,10 @@ public class ConfigFragment extends Fragment {
         binding.changePremium.setOnClickListener(ignoredView -> {
             navController.navigate(R.id.action_configFragment_to_changePremiumFragment);
         });
+
+        binding.logOut.setOnClickListener(ignoredView -> {
+            navController.navigate(R.id.action_configFragment_to_logInFragment);
+        });
     }
 
     private void initViewModel() {
