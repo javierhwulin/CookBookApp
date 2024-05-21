@@ -51,6 +51,7 @@ public class RecentRecipesFragment extends Fragment {
 
     private AppContainer appContainer;
 
+    private SharedViewModel sharedViewModel;
     private NavController navController;
     @Nullable
     @Override
@@ -66,7 +67,7 @@ public class RecentRecipesFragment extends Fragment {
         navController = Navigation.findNavController(view);
 
         // clientId will be the username of the logged user
-        SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         clientId = sharedViewModel.getClientName().getValue();
         Log.i("RecentRecipesFragment", "clientId: " + clientId);
 
@@ -134,7 +135,7 @@ public class RecentRecipesFragment extends Fragment {
      */
     private void initRecyclerViewAdapter() {
         rvRecipesAdapter = new RecipeRecyclerViewAdapter(
-                recipe -> startViewRecipeDetailsActivity(recipe)
+                recipe -> startViewRecipeDetailsFragment(recipe)
         );
         binding.rvRecipes.setAdapter(rvRecipesAdapter);
     }
@@ -182,18 +183,13 @@ public class RecentRecipesFragment extends Fragment {
         );
     }
 
+
     /**
      * Starts the ViewProductDetailsActivity.
      * @param recipe the recipe to be shown
      */
-
-    private void startViewRecipeDetailsActivity(Recipe recipe) {
-        /*Intent intent;
-        intent = new Intent(this, ViewRecipeDetailsActivity.class);
-        boolean premium = getIntent().getBooleanExtra("PREMIUM", false);
-        intent.putExtra("CLIENT_ID", clientId);
-        intent.putExtra("PREMIUM", premium);
-        intent.putExtra("RECIPE", recipe); // Product class implements Parcelable
-        startActivity(intent);*/
+    private void startViewRecipeDetailsFragment(Recipe recipe) {
+        sharedViewModel.setRecipe(recipe);
+        navController.navigate(R.id.action_recentRecipesFragment_to_viewRecipeDetailsFragment);
     }
 }

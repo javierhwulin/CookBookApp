@@ -59,6 +59,9 @@
         android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.RecentRecipesFragment"
         android:label="RecentRecipes"
         tools:layout="@layout/activity_recent_recipes" >
+        <action
+            android:id="@+id/action_recentRecipesFragment_to_viewRecipeDetailsFragment"
+            app:destination="@id/recipeDetailsFragment" />
     </fragment>
 
     <fragment
