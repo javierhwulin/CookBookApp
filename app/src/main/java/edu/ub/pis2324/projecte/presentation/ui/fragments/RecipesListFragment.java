@@ -71,6 +71,7 @@ public class RecipesListFragment extends Fragment {
         initViewModel();
     }
 
+
     /**
      * Lifecycle method called when the activity is being resumed.
      */

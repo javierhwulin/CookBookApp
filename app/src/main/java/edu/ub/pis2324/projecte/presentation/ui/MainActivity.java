@@ -1,6 +1,7 @@
 package edu.ub.pis2324.projecte.presentation.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.fragment.NavHostFragment;
@@ -15,12 +16,19 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import edu.ub.pis2324.projecte.R;
 import edu.ub.pis2324.projecte.databinding.ActivityMainBinding;
+import edu.ub.pis2324.projecte.presentation.ui.fragments.ConfigFragment;
+import edu.ub.pis2324.projecte.presentation.ui.fragments.RecentRecipesFragment;
+import edu.ub.pis2324.projecte.presentation.ui.fragments.RecipesListFragment;
 
 public class MainActivity extends AppCompatActivity {
   /* Attributes */
   private NavController navController;
   AppBarConfiguration appBarConfiguration;
   private ActivityMainBinding binding;
+
+
+
+
 
   /**
    * Called when the activity is being created.
@@ -106,5 +114,20 @@ public class MainActivity extends AppCompatActivity {
     /* Enable the up navigation: the button shown in the left of the action bar */
     return NavigationUI.navigateUp(navController, appBarConfiguration)
             || super.onSupportNavigateUp();
+  }
+  @Override
+  public void onBackPressed() {
+    int currentDestinationId = navController.getCurrentDestination().getId();
+
+    if (currentDestinationId == R.id.configFragment || currentDestinationId == R.id.recentRecipesFragment) {
+      // Navigate to the recipes list fragment
+      navController.navigate(R.id.recipesListFragment);
+    } else if (currentDestinationId == R.id.recipesListFragment) {
+      // Exit the app
+      finish();
+    } else {
+      // Let the system handle the back press
+      super.onBackPressed();
+    }
   }
 }

@@ -91,12 +91,7 @@ public class RecipesListViewModel extends ViewModel {
         recipesState.postError(throwable);
     }
 
-    public void hideRecipe(Recipe recipe) {
-        /* EXERCICI 2: NO TOCAR */
-        int position = recipes.indexOf(recipe);
-        recipes.remove(position);
-        hiddenRecipeState.postValue(position);
-    }
+
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
         private final RecipeViewUsecase recipeView;
 

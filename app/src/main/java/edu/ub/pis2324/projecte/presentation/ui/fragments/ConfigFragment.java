@@ -58,6 +58,7 @@ public class ConfigFragment extends Fragment {
         initViewModel();
     }
 
+
     private void initWidgetListeners() {
         binding.changeUsernameBtn.setOnClickListener(ignoredView -> {
             navController.navigate(R.id.action_configFragment_to_changeUsernameFragment);
