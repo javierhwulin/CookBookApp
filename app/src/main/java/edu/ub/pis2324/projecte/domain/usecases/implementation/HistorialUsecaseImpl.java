@@ -49,4 +49,10 @@ public class HistorialUsecaseImpl implements HistorialUsecase {
         return historyRepository.getAll(clientId)
                 .onErrorResumeNext(throwable -> Observable.error(throwableMapper.map(throwable)));
     }
+
+    @Override
+    public Observable<List<Recipe>> getRecipesByName(ClientId clientId, String recipeName) {
+        return historyRepository.getRecipesByName(clientId, recipeName)
+                .onErrorResumeNext(throwable -> Observable.error(throwableMapper.map(throwable)));
+    }
 }

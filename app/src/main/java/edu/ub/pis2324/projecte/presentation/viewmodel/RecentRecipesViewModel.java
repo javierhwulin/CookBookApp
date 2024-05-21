@@ -73,6 +73,17 @@ public class RecentRecipesViewModel extends ViewModel {
         compositeDisposable.add(d);
     }
 
+    public void fetchRecipesByName(ClientId clientId, String query) {
+        Disposable d = historialUsecase.getRecipesByName(clientId, query)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        recipes -> handleFetchRecentRecipesSuccess(recipes),
+                        throwable -> handleFetchRecentRecipesError(throwable)
+                );
+        compositeDisposable.add(d);
+    }
+
     public void handleRemoveFromHistorialSuccess(Boolean success) {
         historyState.postSuccess(null);
     }

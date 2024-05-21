@@ -82,4 +82,17 @@ public class HistoryRepository implements IHistoryRepository {
                     .addOnFailureListener(e -> emitter.onError(new AppThrowable((AppError) e)));
         });
     }
+
+    public Observable<List<Recipe>> getRecipesByName(ClientId clientId, String recipeName) {
+        return getAll(clientId)
+                .map(recipes -> {
+                    List<Recipe> filteredRecipes = new ArrayList<>();
+                    for (Recipe recipe : recipes) {
+                        if (recipe.getName().toLowerCase().contains(recipeName.toLowerCase())) {
+                            filteredRecipes.add(recipe);
+                        }
+                    }
+                    return filteredRecipes;
+                });
+    }
 }

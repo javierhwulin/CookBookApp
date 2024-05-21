@@ -12,6 +12,8 @@ public interface IHistoryRepository {
     Observable<Boolean> add(ClientId clientId, RecipeId recipe);
     Observable<List<Recipe>> getAll(ClientId clientId);
 
+    Observable<List<Recipe>> getRecipesByName(ClientId clientId, String recipeName);
+
     enum Error implements AppError {
         GETALL_UNKNOWN_ERROR
     }
