@@ -5,15 +5,15 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/recentRecipesFragment"
-        android:enabled="true"
-        android:icon="@drawable/baseline_youtube_searched_for_24"
-        android:title="Historial" />
-    <item
         android:id="@+id/recipesListFragment"
         android:enabled="true"
         android:icon="@drawable/baseline_food_bank_24"
         android:title="Receptes" />
+    <item
+        android:id="@+id/recentRecipesFragment"
+        android:enabled="true"
+        android:icon="@drawable/baseline_youtube_searched_for_24"
+        android:title="Historial" />
     <item
         android:id="@+id/configFragment"
         android:enabled="true"
