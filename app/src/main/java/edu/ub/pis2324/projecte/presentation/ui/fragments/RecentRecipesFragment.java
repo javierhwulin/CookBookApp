@@ -2,6 +2,7 @@ package edu.ub.pis2324.projecte.presentation.ui.fragments;
 
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +10,17 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import edu.ub.pis2324.projecte.App;
 import edu.ub.pis2324.projecte.AppContainer;
 import edu.ub.pis2324.projecte.databinding.ActivityRecentRecipesBinding;
+import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 import edu.ub.pis2324.projecte.presentation.adapters.RecipeRecyclerViewAdapter;
 import edu.ub.pis2324.projecte.presentation.viewmodel.RecentRecipesViewModel;
 import edu.ub.pis2324.projecte.presentation.viewmodel.SharedViewModel;
@@ -25,6 +29,7 @@ import androidx.navigation.NavController;
 public class RecentRecipesFragment extends Fragment {
 
     /* Attributes */
+    private static final String RECYCLER_VIEW_STATE = "recycler_view_state";
 
     /* This activity's view model */
     private RecentRecipesViewModel recipeViewModel;
@@ -54,16 +59,126 @@ public class RecentRecipesFragment extends Fragment {
         appContainer = ((App) getActivity().getApplication()).getAppContainer();
         navController = Navigation.findNavController(view);
 
-        //initWidgetListeners();
+        clientId = "Javier Hengda";
+
+        initWidgetListeners();
+        initRecyclerView();
         initViewModel();
+
+        recipeViewModel.fetchRecentRecipes(clientId);
     }
 
+    public void onResume() {
+        super.onResume();
+        if (rvStateParcelable != null) {
+            rvLayoutManager.onRestoreInstanceState(rvStateParcelable);
+        }
+    }
+
+    public void onSaveInstanceState(@NonNull Bundle state) {
+        super.onSaveInstanceState(state);
+        rvStateParcelable = rvLayoutManager.onSaveInstanceState();
+        state.putParcelable(RECYCLER_VIEW_STATE, rvStateParcelable);
+    }
+
+    private void initWidgetListeners() {
+        /* Search view */
+        binding.svRecipes.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String queryText) {
+                recipeViewModel.fetchRecentRecipes(queryText);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String queryText) {
+                /*
+                 * "Hack" per suplir OnCloseListener. Més info:
+                 *  See: https://stackoverflow.com/questions/9327826/
+                 *   searchviews-oncloselistener-doesnt-work
+                 * Altrament fariem simplement: return false.
+                 */
+                if (!queryText.isEmpty()) return false;
+                recipeViewModel.fetchRecentRecipes(clientId);
+                return true;
+            }
+        });
+    }
+
+    /**
+     * Initialize the recycler view.
+     */
+    private void initRecyclerView() {
+        rvLayoutManager = new LinearLayoutManager(getContext());
+        binding.rvRecipes.setLayoutManager(rvLayoutManager);
+
+        initRecyclerViewAdapter();
+    }
+
+    /**
+     * Initialize the recycler view adapter.
+     */
+    private void initRecyclerViewAdapter() {
+        rvRecipesAdapter = new RecipeRecyclerViewAdapter(
+                recipe -> startViewRecipeDetailsActivity(recipe)
+        );
+        binding.rvRecipes.setAdapter(rvRecipesAdapter);
+    }
+
+    /**
+     * Initialize the view model.
+     */
     private void initViewModel() {
-        recipeViewModel = new ViewModelProvider(this).get(RecentRecipesViewModel.class);
-        //initObservers();
+        /*
+         * Get the view model from the ViewModelProvider. If we where to use "new ShoppingViewModel()"
+         * the view model would not be aware of the activity's lifecycle. So every time the activity
+         * is destroyed and recreated, the view model would be a new one, and we would lose the
+         * data that we had in the previous one, when to keep the data is its very own purpose.
+         */
+        Log.i("RecentRecipesActivity", "initViewModel");
+        Log.i("RecentRecipesActivity", "clientId: " + clientId);
+        recipeViewModel = new ViewModelProvider(this, new RecentRecipesViewModel.Factory(appContainer.historialUsecase)).get(RecentRecipesViewModel.class);
+        initObservers();
     }
 
+    /**
+     * Initialize the observers of the view model.
+     */
+    private void initObservers() {
+        /* Observe the state of the products' catalog */
+        recipeViewModel.getRecipesState().observe(getViewLifecycleOwner(), state -> {
+            switch (state.getStatus()) {
+                case SUCCESS:
+                    assert state.getData() != null;
+                    showNoRecipesAvailable(state.getData().isEmpty());
+                    rvRecipesAdapter.setRecipesData((state.getData()));
+                    break;
+                case ERROR:
+                    showNoRecipesAvailable(true);
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
 
-    // TODO: FALTA ADAPTAR EL RESTO DEL CÓDIGO DE LA ACTIVITY. NO LO HE HECHO AÚN PORQUE NO SÉ SI FUNCIONA
+    private void showNoRecipesAvailable(boolean mustShow) {
+        binding.clNoRecipesAvailable.setVisibility(
+                mustShow ? View.VISIBLE : View.GONE
+        );
+    }
 
+    /**
+     * Starts the ViewProductDetailsActivity.
+     * @param recipe the recipe to be shown
+     */
+
+    private void startViewRecipeDetailsActivity(Recipe recipe) {
+        /*Intent intent;
+        intent = new Intent(this, ViewRecipeDetailsActivity.class);
+        boolean premium = getIntent().getBooleanExtra("PREMIUM", false);
+        intent.putExtra("CLIENT_ID", clientId);
+        intent.putExtra("PREMIUM", premium);
+        intent.putExtra("RECIPE", recipe); // Product class implements Parcelable
+        startActivity(intent);*/
+    }
 }
