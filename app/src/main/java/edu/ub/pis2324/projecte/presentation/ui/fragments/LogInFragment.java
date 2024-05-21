@@ -19,6 +19,7 @@ import edu.ub.pis2324.projecte.App;
 import edu.ub.pis2324.projecte.R;
 import edu.ub.pis2324.projecte.AppContainer;
 import edu.ub.pis2324.projecte.databinding.ActivityLogInBinding;
+import edu.ub.pis2324.projecte.domain.exceptions.AppThrowable;
 import edu.ub.pis2324.projecte.presentation.viewmodel.LogInViewModel;
 import edu.ub.pis2324.projecte.presentation.viewmodel.SharedViewModel;
 
@@ -94,8 +95,7 @@ public class LogInFragment extends Fragment {
                     break;
                 case ERROR:
                     assert logInState.getError() != null;
-                    String errorMessage = logInState.getError().getMessage();
-                    Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), ((AppThrowable) logInState.getError()).getErrorName(), Toast.LENGTH_SHORT).show();
                     binding.logInBtn.setEnabled(true);
                     break;
                 default:
