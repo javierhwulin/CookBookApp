@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -19,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import edu.ub.pis2324.projecte.App;
 import edu.ub.pis2324.projecte.AppContainer;
+import edu.ub.pis2324.projecte.R;
 import edu.ub.pis2324.projecte.databinding.ActivityRecentRecipesBinding;
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 import edu.ub.pis2324.projecte.presentation.adapters.RecipeRecyclerViewAdapter;
@@ -51,6 +55,7 @@ public class RecentRecipesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = ActivityRecentRecipesBinding.inflate(inflater, container, false);
+        setHasOptionsMenu(true);
         return binding.getRoot();
     }
     @Override
@@ -61,11 +66,36 @@ public class RecentRecipesFragment extends Fragment {
 
         clientId = "Javier Hengda";
 
-        initWidgetListeners();
         initRecyclerView();
         initViewModel();
 
         recipeViewModel.fetchRecentRecipes(clientId);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.search_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.searchView);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setQueryHint(getString(R.string.shop_search_hint));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                recipeViewModel.fetchRecentRecipes(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    recipeViewModel.fetchRecentRecipes(newText);
+                }
+                return false;
+            }
+        });
     }
 
     public void onResume() {
@@ -81,28 +111,7 @@ public class RecentRecipesFragment extends Fragment {
         state.putParcelable(RECYCLER_VIEW_STATE, rvStateParcelable);
     }
 
-    private void initWidgetListeners() {
-        /* Search view */
-        binding.svRecipes.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String queryText) {
-                recipeViewModel.fetchRecentRecipes(queryText);
-                return true;
-            }
-            @Override
-            public boolean onQueryTextChange(String queryText) {
-                /*
-                 * "Hack" per suplir OnCloseListener. Més info:
-                 *  See: https://stackoverflow.com/questions/9327826/
-                 *   searchviews-oncloselistener-doesnt-work
-                 * Altrament fariem simplement: return false.
-                 */
-                if (!queryText.isEmpty()) return false;
-                recipeViewModel.fetchRecentRecipes(clientId);
-                return true;
-            }
-        });
-    }
+
 
     /**
      * Initialize the recycler view.

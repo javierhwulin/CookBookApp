@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -55,6 +58,7 @@ public class RecipesListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = ActivityRecipesListBinding.inflate(inflater, container, false);
+        setHasOptionsMenu(true);
         return binding.getRoot();
     }
 
@@ -66,11 +70,35 @@ public class RecipesListFragment extends Fragment {
 
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
 
-        initWidgetListeners();
         initRecyclerView();
         initViewModel();
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.search_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.searchView);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setQueryHint(getString(R.string.shop_search_hint));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                recipeViewModel.fetchRecipesByName(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    recipeViewModel.fetchRecipesByName(newText);
+                }
+                return false;
+            }
+        });
+    }
 
     /**
      * Lifecycle method called when the activity is being resumed.
@@ -100,31 +128,6 @@ public class RecipesListFragment extends Fragment {
         }
     }
 
-    /**
-     * Initialize the listeners of the widgets.
-     */
-    private void initWidgetListeners() {
-        /* Search view */
-        binding.svRecipes.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String queryText) {
-                recipeViewModel.fetchRecipesByName(queryText);
-                return true;
-            }
-            @Override
-            public boolean onQueryTextChange(String queryText) {
-                /*
-                 * "Hack" per suplir OnCloseListener. Més info:
-                 *  See: https://stackoverflow.com/questions/9327826/
-                 *   searchviews-oncloselistener-doesnt-work
-                 * Altrament fariem simplement: return false.
-                 */
-                if (!queryText.isEmpty()) return false;
-                recipeViewModel.fetchRecipesCatalog();
-                return true;
-            }
-        });
-    }
 
     /**
      * Initialize the recycler view.
