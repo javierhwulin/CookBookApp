@@ -92,7 +92,7 @@ public class HistoryRepository implements IHistoryRepository {
                             emitter.onNext(recipeList);
                             emitter.onComplete();
                         } else {
-                            Observable.merge(observables)
+                            Observable.concatEager(observables)
                                     .subscribe(recipeList::add, emitter::onError, () -> {
                                         emitter.onNext(recipeList);
                                         emitter.onComplete();
