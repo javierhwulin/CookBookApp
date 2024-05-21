@@ -3,11 +3,8 @@ package edu.ub.pis2324.projecte.presentation.viewmodel;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import dagger.internal.Factory;
 import edu.ub.pis2324.projecte.domain.model.values.ClientId;
 import edu.ub.pis2324.projecte.domain.usecases.ChangePasswordUseCase;
-import edu.ub.pis2324.projecte.domain.usecases.ChangeUsernameUseCase;
-import edu.ub.pis2324.projecte.presentation.ui.ChangePasswordActivity;
 import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;

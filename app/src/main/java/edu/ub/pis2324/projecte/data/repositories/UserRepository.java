@@ -164,4 +164,19 @@ public class UserRepository implements IUserRepository {
                     });
         });
     }
+
+    public Observable<Boolean> changePremium(ClientId id, boolean isPremium){
+        return Observable.create(emitter -> {
+            db.collection(CLIENTS_COLLECTION_NAME)
+                    .document(id.toString())
+                    .update("premium", isPremium)
+                    .addOnFailureListener(exception -> {
+                        emitter.onError(new AppThrowable(Error.UPDATE_UNKNOWN_ERROR));
+                    })
+                    .addOnSuccessListener(ignored -> {
+                        emitter.onNext(true);
+                        emitter.onComplete();
+                    });
+        });
+    }
 }

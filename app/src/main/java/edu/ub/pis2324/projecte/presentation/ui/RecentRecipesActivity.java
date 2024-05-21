@@ -191,13 +191,14 @@ private void showNoRecipesAvailable(boolean mustShow) {
  * Starts the ViewProductDetailsActivity.
  * @param recipe the recipe to be shown
  */
+
 private void startViewRecipeDetailsActivity(Recipe recipe) {
-        Intent intent;
+        /*Intent intent;
         intent = new Intent(this, ViewRecipeDetailsActivity.class);
         boolean premium = getIntent().getBooleanExtra("PREMIUM", false);
         intent.putExtra("CLIENT_ID", clientId);
         intent.putExtra("PREMIUM", premium);
         intent.putExtra("RECIPE", recipe); // Product class implements Parcelable
-        startActivity(intent);
+        startActivity(intent);*/
         }
 }
