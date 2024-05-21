@@ -20,6 +20,9 @@ import edu.ub.pis2324.projecte.presentation.viewmodel.ConfigViewModel;
 import edu.ub.pis2324.projecte.presentation.viewmodel.SharedViewModel;
 
 import androidx.navigation.NavController;
+
+import com.squareup.picasso.Picasso;
+
 public class ConfigFragment extends Fragment {
 
     private ConfigViewModel configViewModel;
@@ -45,6 +48,10 @@ public class ConfigFragment extends Fragment {
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         boolean premium = sharedViewModel.getIsPremium().getValue();
 
+
+        Picasso.get().load(sharedViewModel.getPhotoUrl().getValue()).into(binding.ivProfileImage);
+        binding.nomCLient.setText(sharedViewModel.getClientName().getValue());
+
         if(!premium){
             binding.changePremium.setText("Fes-te premium");
             binding.TextUsuari.setText("Usuari Normal");
@@ -68,7 +75,7 @@ public class ConfigFragment extends Fragment {
         });
 
         binding.changePfpBtn.setOnClickListener(ignoredView -> {
-            //navController.navigate(R.id.action_configFragment_to_changePfpFragment);
+            navController.navigate(R.id.action_configFragment_to_changePhotoFragment);
         });
 
         binding.changePremium.setOnClickListener(ignoredView -> {

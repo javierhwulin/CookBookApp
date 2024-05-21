@@ -89,13 +89,16 @@ public class LogInFragment extends Fragment {
                     assert logInState.getData() != null;
                     Log.i("LogInFragment", "Log in success");
 
+                    sharedViewModel.setClientID(logInState.getData().getId().getId());
                     sharedViewModel.setClientName(logInState.getData().getUsername());
                     sharedViewModel.setIsPremium(logInState.getData().isPremium());
+                    sharedViewModel.setPhotoUrl(logInState.getData().getPhotoUrl());
+
                     navController.navigate(R.id.action_logInFragment_to_recipesListFragment);
                     break;
                 case ERROR:
                     assert logInState.getError() != null;
-                    Toast.makeText(getContext(), ((AppThrowable) logInState.getError()).getErrorName(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), logInState.getError().getMessage(), Toast.LENGTH_SHORT).show();
                     binding.logInBtn.setEnabled(true);
                     break;
                 default:

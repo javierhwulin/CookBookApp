@@ -13,6 +13,8 @@ public interface LogInUsecase {
         PASSWORD_EMPTY,
         CLIENT_NOT_FOUND,
         PASSWORD_INCORRECT,
-        CLIENTS_DATA_ACCESS_ERROR;
+        CLIENTS_DATA_ACCESS_ERROR,
+
+        USER__NOT_FOUND;
     }
 }

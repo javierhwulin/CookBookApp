@@ -7,65 +7,103 @@
     android:background="#FFFFFF">
 
     <Button
-        android:id="@+id/change_pfp_btn"
-        android:layout_width="202dp"
-        android:layout_height="57dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginBottom="272dp"
-        android:text="@string/change_pfp"
+        android:id="@+id/log_out"
+        android:layout_width="175dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="100dp"
+        android:text="Log Out"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/change_username_btn"
-        android:layout_width="202dp"
-        android:layout_height="57dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginBottom="12dp"
-        android:text="@string/change_username"
-        app:layout_constraintBottom_toTopOf="@+id/change_password_btn"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/change_password_btn"
-        android:layout_width="202dp"
-        android:layout_height="57dp"
-        android:layout_marginStart="104dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/change_password"
-        app:layout_constraintBottom_toTopOf="@+id/change_pfp_btn"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/TextUsuari"
-        android:layout_width="112dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="148dp"
-        android:layout_marginBottom="30dp"
-        android:text="@string/user_normal.cat"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toTopOf="@+id/change_username_btn"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/change_premium"
         android:layout_width="175dp"
         android:layout_height="51dp"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="20dp"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
-        android:id="@+id/log_out"
-        android:layout_width="175dp"
-        android:layout_height="51dp"
-        android:layout_marginBottom="152dp"
-        android:text="Log Out"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/change_pfp_btn"
+        android:layout_width="202dp"
+        android:layout_height="57dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/change_pfp"
+        app:layout_constraintBottom_toTopOf="@+id/log_out"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/change_username_btn"
+        android:layout_width="202dp"
+        android:layout_height="57dp"
+        android:layout_marginBottom="2dp"
+        android:text="@string/change_username"
+        app:layout_constraintBottom_toTopOf="@+id/change_password_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/change_password_btn"
+        android:layout_width="202dp"
+        android:layout_height="57dp"
+        android:layout_marginBottom="2dp"
+        android:text="@string/change_password"
+        app:layout_constraintBottom_toTopOf="@+id/change_pfp_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/nomCLient"
+        android:layout_width="188dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="-5dp"
+        android:text="@string/user_normal.cat"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/TextUsuari"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/TextUsuari"
+        android:layout_width="112dp"
+        android:layout_height="33dp"
+        android:layout_marginBottom="5dp"
+        android:text="@string/user_normal.cat"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/change_username_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvProfilePhoto"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:elevation="24dp"
+        app:cardCornerRadius="75dp"
+        app:layout_constraintBottom_toTopOf="@+id/nomCLient"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/ivProfileImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_foreground" />
+
+    </androidx.cardview.widget.CardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

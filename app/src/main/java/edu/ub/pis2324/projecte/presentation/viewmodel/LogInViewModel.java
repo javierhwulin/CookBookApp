@@ -88,11 +88,11 @@ public class LogInViewModel extends ViewModel {
         else if (error == LogInUsecase.Error.PASSWORD_EMPTY)
             message = "Password is empty";
         else if (error == LogInUsecase.Error.CLIENT_NOT_FOUND)
-            message = "Client not found";
+            message = "User not found";
         else if (error == LogInUsecase.Error.PASSWORD_INCORRECT)
             message = "Password is incorrect";
         else if (error == LogInUsecase.Error.CLIENTS_DATA_ACCESS_ERROR)
-            message = "Clients' data access error";
+            message = "Users' data access error";
         else
             message = "Unknown error: " + throwable.getMessage();
 

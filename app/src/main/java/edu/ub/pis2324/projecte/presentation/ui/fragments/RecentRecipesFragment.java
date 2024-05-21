@@ -68,7 +68,7 @@ public class RecentRecipesFragment extends Fragment {
 
         // clientId will be the username of the logged user
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        clientId = sharedViewModel.getClientName().getValue();
+        clientId = sharedViewModel.getClientID().getValue();
         Log.i("RecentRecipesFragment", "clientId: " + clientId);
 
         initRecyclerView();

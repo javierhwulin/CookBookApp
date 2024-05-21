@@ -30,6 +30,8 @@ public interface IUserRepository {
         ADD_UNKNOWN_ERROR,
         GETBYID_UNKNOWN_ERROR,
         UPDATE_UNKNOWN_ERROR,
-        REMOVE_UNKNOWN_ERROR;
+        REMOVE_UNKNOWN_ERROR,
+
+        CLIENT_NOT_FOUND;
     }
 }

@@ -10,6 +10,8 @@ public class User implements Serializable {
     private String password;
     private String email;
 
+    private String photoUrl;
+
     private boolean isPremium;
 
     public User(ClientId id, String username, String password, String email) {
@@ -18,6 +20,7 @@ public class User implements Serializable {
         this.password = password;
         this.email = email;
         this.isPremium = false;
+        this.photoUrl = "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg";
     }
 
     public User() {
@@ -52,5 +55,13 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setPhotoUrl(String url) {
+        this.photoUrl = url;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 }

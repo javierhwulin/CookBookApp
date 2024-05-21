@@ -36,7 +36,7 @@ public class LogInUsecaseImpl implements LogInUsecase {
                 .concatMap(fetchedClient -> checkPasswordIsCorrect(fetchedClient, enteredPassword)
                         .concatMap(ignored -> Observable.just(fetchedClient))
                 )
-                .onErrorResumeNext(throwable -> Observable.error(throwableMapper.map(throwable)));
+                .onErrorResumeNext(throwable -> Observable.error(new AppThrowable(Error.CLIENT_NOT_FOUND)));
     }
 
     private Observable<Boolean> checkUsernameNotEmpty(ClientId clientId) {

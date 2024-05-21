@@ -10,30 +10,33 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import edu.ub.pis2324.projecte.App;
 import edu.ub.pis2324.projecte.AppContainer;
-import edu.ub.pis2324.projecte.databinding.ActivitySignUpBinding;
+import edu.ub.pis2324.projecte.databinding.ActivityChangePhotoBinding;
 import edu.ub.pis2324.projecte.domain.exceptions.AppThrowable;
-import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
+import edu.ub.pis2324.projecte.domain.model.values.ClientId;
+import edu.ub.pis2324.projecte.presentation.viewmodel.ChangePhotoViewModel;
 import edu.ub.pis2324.projecte.presentation.viewmodel.SharedViewModel;
-import edu.ub.pis2324.projecte.presentation.viewmodel.SignUpViewModel;
 
-public class SignUpFragment extends Fragment {
+import androidx.navigation.NavController;
+public class ChangePhotoFragment extends Fragment {
 
-    private SignUpViewModel SignUpViewModel;
+    private ChangePhotoViewModel changePhotoViewModel;
     private AppContainer appContainer;
-    private ActivitySignUpBinding binding;
+    private ActivityChangePhotoBinding binding;
 
+    private SharedViewModel sharedViewModel;
+
+    private boolean Photo = false;
     private NavController navController;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = ActivitySignUpBinding.inflate(inflater, container, false);
+        binding = ActivityChangePhotoBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
@@ -43,40 +46,39 @@ public class SignUpFragment extends Fragment {
         appContainer = ((App) getActivity().getApplication()).getAppContainer();
         navController = Navigation.findNavController(view);
 
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+
         initWidgetListeners();
         initViewModel();
-
     }
 
     private void initWidgetListeners() {
-        binding.SignUpBtn.setOnClickListener(ignoredView -> {
-            SignUpViewModel.SignUp(
-                    String.valueOf(binding.UsernameText.getText()),
-                    String.valueOf(binding.emailText.getText()),
-                    String.valueOf(binding.PasswordText.getText()),
-                    String.valueOf(binding.RPasswordText.getText())
+        binding.Changebtn.setOnClickListener(ignoredView -> {
+            changePhotoViewModel.ChangePhoto(
+                    new ClientId(sharedViewModel.getClientName().getValue()),
+                    String.valueOf(binding.TextNewPhoto.getText())
             );
         });
-    }
 
+    }
     private void initViewModel() {
-        SignUpViewModel = new ViewModelProvider(
-                this,
-                new SignUpViewModel.Factory(appContainer.signUpUsecase)
-        ).get(SignUpViewModel.class);
+        changePhotoViewModel = new ViewModelProvider(
+                this, new ChangePhotoViewModel.Factory(appContainer.changePhotoUseCase)
+        ).get(ChangePhotoViewModel.class);
 
         initObservers();
     }
 
     private void initObservers() {
-        SignUpViewModel.getSignUpState().observe(getViewLifecycleOwner(), state -> {
-            switch (state.getStatus()) {
-                case COMPLETE:
-                    Toast.makeText(getActivity(), "Usuari Creat", Toast.LENGTH_SHORT).show();
+        changePhotoViewModel.getChangePhotoState().observe(getViewLifecycleOwner(), changeState -> {
+            switch (changeState.getStatus()) {
+                case SUCCESS:
+                    Toast.makeText(getContext(), "Photo changed", Toast.LENGTH_SHORT).show();
+                    sharedViewModel.setPhotoUrl(String.valueOf(binding.TextNewPhoto.getText()));
                     navController.navigateUp();
                     break;
                 case ERROR:
-                    Toast.makeText(getContext(), state.getError().getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), ((AppThrowable) changeState.getError()).getErrorName(), Toast.LENGTH_SHORT).show();
                     break;
             }
         });

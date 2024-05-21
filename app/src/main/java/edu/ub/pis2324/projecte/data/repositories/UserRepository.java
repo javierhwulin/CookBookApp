@@ -196,4 +196,19 @@ public class UserRepository implements IUserRepository {
                     });
         });
     }
+
+    public Observable<Boolean> changePhoto(ClientId id, String url){
+        return Observable.create(emitter -> {
+            db.collection(CLIENTS_COLLECTION_NAME)
+                    .document(id.toString())
+                    .update("photoUrl", url)
+                    .addOnFailureListener(exception -> {
+                        emitter.onError(new AppThrowable(Error.UPDATE_UNKNOWN_ERROR));
+                    })
+                    .addOnSuccessListener(ignored -> {
+                        emitter.onNext(true);
+                        emitter.onComplete();
+                    });
+        });
+    }
 }
