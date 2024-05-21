@@ -29,22 +29,39 @@ public class HistoryRepository implements IHistoryRepository {
         this.recipeRepository = recipeRepository;
     }
 
-    public Observable<Boolean> add(ClientId clientId, RecipeId recipe) {
-        Log.i("HistoryRepository", "add: " + clientId.toString() + " " + recipe.getId().toString());
+    public Observable<Boolean> add(ClientId clientId, RecipeId recipeId) {
+        Log.i("HistoryRepository", "add: " + clientId.toString() + " " + recipeId.toString());
         return Observable.create(emitter -> {
-            Map<String, Object> data = new HashMap<>();
-            data.put("clientId", clientId.toString());
-            data.put("recipeId", recipe.getId());
-
             db.collection(HISTORY_COLLECTION_NAME)
-                    .add(data)
-                    .addOnSuccessListener(documentReference -> {
-                        emitter.onNext(true);
-                        emitter.onComplete();
+                    .whereEqualTo("clientId", clientId.toString())
+                    .whereEqualTo("recipeId", recipeId.toString())
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            // Document already exists
+                            Log.i("HistoryRepository", "Document with same clientId and recipeId already exists.");
+                            emitter.onNext(false);
+                            emitter.onComplete();
+                        } else {
+                            // Document does not exist, proceed to add
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("clientId", clientId.toString());
+                            data.put("recipeId", recipeId.toString());
+
+                            db.collection(HISTORY_COLLECTION_NAME)
+                                    .add(data)
+                                    .addOnSuccessListener(documentReference -> {
+                                        Log.i("HistoryRepository", "Document added with ID: " + documentReference.getId());
+                                        emitter.onNext(true);
+                                        emitter.onComplete();
+                                    })
+                                    .addOnFailureListener(emitter::onError);
+                        }
                     })
                     .addOnFailureListener(emitter::onError);
         });
     }
+
 
 
     public Observable<List<Recipe>> getAll(ClientId clientId) {
