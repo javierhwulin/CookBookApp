@@ -25,6 +25,7 @@ import edu.ub.pis2324.projecte.AppContainer;
 import edu.ub.pis2324.projecte.R;
 import edu.ub.pis2324.projecte.databinding.ActivityRecentRecipesBinding;
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
+import edu.ub.pis2324.projecte.domain.model.values.ClientId;
 import edu.ub.pis2324.projecte.presentation.adapters.RecipeRecyclerViewAdapter;
 import edu.ub.pis2324.projecte.presentation.viewmodel.RecentRecipesViewModel;
 import edu.ub.pis2324.projecte.presentation.viewmodel.SharedViewModel;
@@ -64,7 +65,10 @@ public class RecentRecipesFragment extends Fragment {
         appContainer = ((App) getActivity().getApplication()).getAppContainer();
         navController = Navigation.findNavController(view);
 
-        clientId = "Javier Hengda";
+        // clientId will be the username of the logged user
+        SharedViewModel sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        clientId = sharedViewModel.getClientName().getValue();
+        Log.i("RecentRecipesFragment", "clientId: " + clientId);
 
         initRecyclerView();
         initViewModel();
@@ -84,14 +88,14 @@ public class RecentRecipesFragment extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                recipeViewModel.fetchRecentRecipes(query);
+                recipeViewModel.fetchRecipesByName(new ClientId(clientId), query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 if (newText.isEmpty()) {
-                    recipeViewModel.fetchRecentRecipes(newText);
+                    recipeViewModel.fetchRecipesByName(new ClientId(clientId), newText);
                 }
                 return false;
             }

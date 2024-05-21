@@ -16,6 +16,8 @@ public interface HistorialUsecase {
     Observable<Boolean> clear(ClientId clientId);
     Observable<List<Recipe>> get(ClientId clientId);
 
+    Observable<List<Recipe>> getRecipesByName(ClientId clientId, String recipeName);
+
     enum Error implements AppError {
         ADD_UNKNOWN_ERROR,
         REMOVE_UNKNOWN_ERROR,

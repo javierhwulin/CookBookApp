@@ -22,6 +22,7 @@ import edu.ub.pis2324.projecte.R;
 import edu.ub.pis2324.projecte.AppContainer;
 import edu.ub.pis2324.projecte.databinding.ActivityViewRecipeDetailsBinding;
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
+import edu.ub.pis2324.projecte.domain.model.values.ClientId;
 import edu.ub.pis2324.projecte.presentation.viewmodel.SharedViewModel;
 import edu.ub.pis2324.projecte.presentation.viewmodel.ViewRecipeDetailsViewModel;
 
@@ -73,13 +74,14 @@ public class ViewRecipeDetailsFragment extends Fragment {
      * @param recipe The product model whose details are being shown.
      */
     private void initWidgetListeners(Recipe recipe, boolean premium) {
-
         binding.btnStart.setOnClickListener(v -> {
             viewRecipeDetailsViewModel.startRecipe(recipe, premium);
+            viewRecipeDetailsViewModel.addHistorial(new ClientId(sharedViewModel.getClientName().getValue()), recipe.getId());
         });
     }
     private void initViewModel() {
-        viewRecipeDetailsViewModel = new ViewModelProvider(this)
+        viewRecipeDetailsViewModel = new ViewModelProvider(this,
+                new ViewRecipeDetailsViewModel.Factory(appContainer.historialUsecase))
                 .get(ViewRecipeDetailsViewModel.class);
         initObservers();
     }

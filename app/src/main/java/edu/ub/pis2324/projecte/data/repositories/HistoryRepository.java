@@ -3,10 +3,14 @@ package edu.ub.pis2324.projecte.data.repositories;
 import android.util.Log;
 
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.ub.pis2324.projecte.domain.exceptions.AppError;
 import edu.ub.pis2324.projecte.domain.exceptions.AppThrowable;
@@ -27,16 +31,48 @@ public class HistoryRepository implements IHistoryRepository {
         this.recipeRepository = recipeRepository;
     }
 
-    public Observable<List<Recipe>> getAll(ClientId clientId) {
-        Log.i("HistoryRepository", "getAll");
-        Log.i("HistoryRepository", "clientId: " + clientId.toString());
-
+    public Observable<Boolean> add(ClientId clientId, RecipeId recipeId) {
+        Log.i("HistoryRepository", "add: " + clientId.toString() + " " + recipeId.toString());
         return Observable.create(emitter -> {
             db.collection(HISTORY_COLLECTION_NAME)
                     .whereEqualTo("clientId", clientId.toString())
+                    .whereEqualTo("recipeId", recipeId.toString())
                     .get()
                     .addOnSuccessListener(queryDocumentSnapshots -> {
-                        Log.i("HistoryRepository", "queryDocumentSnapshots: " + queryDocumentSnapshots.getDocuments().size());
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            // Document already exists
+                            Log.i("HistoryRepository", "Document with same clientId and recipeId already exists.");
+                            emitter.onNext(false);
+                            emitter.onComplete();
+                        } else {
+                            // Document does not exist, proceed to add
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("clientId", clientId.toString());
+                            data.put("recipeId", recipeId.toString());
+                            data.put("timestamp", FieldValue.serverTimestamp());
+
+                            db.collection(HISTORY_COLLECTION_NAME)
+                                    .add(data)
+                                    .addOnSuccessListener(documentReference -> {
+                                        Log.i("HistoryRepository", "Document added with ID: " + documentReference.getId());
+                                        emitter.onNext(true);
+                                        emitter.onComplete();
+                                    })
+                                    .addOnFailureListener(emitter::onError);
+                        }
+                    })
+                    .addOnFailureListener(emitter::onError);
+        });
+    }
+
+    public Observable<List<Recipe>> getAll(ClientId clientId) {
+        Log.i("HistoryRepository", "getHistoryByRecent: " + clientId.toString());
+        return Observable.create(emitter -> {
+            db.collection(HISTORY_COLLECTION_NAME)
+                    .whereEqualTo("clientId", clientId.toString())
+                    .orderBy("timestamp", Query.Direction.DESCENDING)
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
                         List<Recipe> recipeList = new ArrayList<>();
                         List<Observable<Recipe>> observables = new ArrayList<>();
 
@@ -51,15 +87,26 @@ public class HistoryRepository implements IHistoryRepository {
                             emitter.onComplete();
                         } else {
                             Observable.merge(observables)
-                                    .subscribe(recipe -> {
-                                        recipeList.add(recipe);
-                                    }, emitter::onError, () -> {
+                                    .subscribe(recipeList::add, emitter::onError, () -> {
                                         emitter.onNext(recipeList);
                                         emitter.onComplete();
                                     });
                         }
                     })
-                    .addOnFailureListener(e -> emitter.onError(new AppThrowable((AppError) e)));
+                    .addOnFailureListener(emitter::onError);
         });
+    }
+
+    public Observable<List<Recipe>> getRecipesByName(ClientId clientId, String recipeName) {
+        return getAll(clientId)
+                .map(recipes -> {
+                    List<Recipe> filteredRecipes = new ArrayList<>();
+                    for (Recipe recipe : recipes) {
+                        if (recipe.getName().toLowerCase().contains(recipeName.toLowerCase())) {
+                            filteredRecipes.add(recipe);
+                        }
+                    }
+                    return filteredRecipes;
+                });
     }
 }

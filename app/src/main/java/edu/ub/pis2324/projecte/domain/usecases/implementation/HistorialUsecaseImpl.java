@@ -29,7 +29,8 @@ public class HistorialUsecaseImpl implements HistorialUsecase {
 
     @Override
     public Observable<Boolean> add(ClientId clientId, RecipeId recipeId) {
-        return null;
+        return historyRepository.add(clientId, recipeId)
+                .onErrorResumeNext(throwable -> Observable.error(throwableMapper.map(throwable)));
     }
 
     @Override
@@ -46,6 +47,12 @@ public class HistorialUsecaseImpl implements HistorialUsecase {
     @Override
     public Observable<List<Recipe>> get(ClientId clientId) {
         return historyRepository.getAll(clientId)
+                .onErrorResumeNext(throwable -> Observable.error(throwableMapper.map(throwable)));
+    }
+
+    @Override
+    public Observable<List<Recipe>> getRecipesByName(ClientId clientId, String recipeName) {
+        return historyRepository.getRecipesByName(clientId, recipeName)
                 .onErrorResumeNext(throwable -> Observable.error(throwableMapper.map(throwable)));
     }
 }
