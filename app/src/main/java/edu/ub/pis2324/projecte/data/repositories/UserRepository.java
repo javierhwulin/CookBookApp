@@ -115,40 +115,57 @@ public class UserRepository implements IUserRepository {
     public Observable<User> changeUsername(ClientId id, String newUsername){
         Log.i("Change Username", "ID es: " + id + " Username: " + newUsername);
         return Observable.create(emitter -> {
+            // Check if new username already exists
             db.collection(CLIENTS_COLLECTION_NAME)
-                .document(id.toString())
-                .get()
-                .addOnFailureListener(exception -> {
-                    emitter.onError(new AppThrowable(Error.GETBYID_UNKNOWN_ERROR));
-                })
-                .addOnSuccessListener(ds -> {
-                    if (ds.exists()) {
-                        User user = ds.toObject(User.class);
-                        user.setUsername(newUsername);
-                        db.collection(CLIENTS_COLLECTION_NAME)
-                            .document(newUsername)
-                            .set(user)
-                            .addOnFailureListener(exception -> {
-                                emitter.onError(new AppThrowable(Error.UPDATE_UNKNOWN_ERROR));
-                            })
-                            .addOnSuccessListener(ignored -> {
+                    .document(newUsername)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                // If new username already exists, emit an error
+                                emitter.onError(new AppThrowable(Error.USER_ALREADY_EXISTS));
+                            } else {
+                                // If new username does not exist, proceed with changing the username
                                 db.collection(CLIENTS_COLLECTION_NAME)
-                                    .document(id.toString())
-                                    .delete()
-                                    .addOnFailureListener(exception -> {
-                                        emitter.onError(new AppThrowable(Error.REMOVE_UNKNOWN_ERROR));
-                                    })
-                                    .addOnSuccessListener(ignored2 -> {
-                                emitter.onNext(user);
-                                emitter.onComplete();
-                            });});
-                    } else {
-                        emitter.onError(new AppThrowable(Error.USER_NOT_FOUND));
-                    }
-                });
+                                        .document(id.toString())
+                                        .get()
+                                        .addOnFailureListener(exception -> {
+                                            emitter.onError(new AppThrowable(Error.GETBYID_UNKNOWN_ERROR));
+                                        })
+                                        .addOnSuccessListener(ds -> {
+                                            if (ds.exists()) {
+                                                User user = ds.toObject(User.class);
+                                                user.setUsername(newUsername);
+                                                db.collection(CLIENTS_COLLECTION_NAME)
+                                                        .document(newUsername)
+                                                        .set(user)
+                                                        .addOnFailureListener(exception -> {
+                                                            emitter.onError(new AppThrowable(Error.UPDATE_UNKNOWN_ERROR));
+                                                        })
+                                                        .addOnSuccessListener(ignored -> {
+                                                            db.collection(CLIENTS_COLLECTION_NAME)
+                                                                    .document(id.toString())
+                                                                    .delete()
+                                                                    .addOnFailureListener(exception -> {
+                                                                        emitter.onError(new AppThrowable(Error.REMOVE_UNKNOWN_ERROR));
+                                                                    })
+                                                                    .addOnSuccessListener(ignored2 -> {
+                                                                        emitter.onNext(user);
+                                                                        emitter.onComplete();
+                                                                    });
+                                                        });
+                                            } else {
+                                                emitter.onError(new AppThrowable(Error.USER_NOT_FOUND));
+                                            }
+                                        });
+                            }
+                        } else {
+                            emitter.onError(task.getException());
+                        }
+                    });
         });
     }
-
     @Override
     public Observable<Boolean> changePassword(ClientId id, String newPassword) {
         return Observable.create(emitter -> {

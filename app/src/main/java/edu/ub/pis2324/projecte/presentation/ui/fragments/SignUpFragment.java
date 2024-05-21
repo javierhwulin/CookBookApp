@@ -17,6 +17,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import edu.ub.pis2324.projecte.App;
 import edu.ub.pis2324.projecte.AppContainer;
 import edu.ub.pis2324.projecte.databinding.ActivitySignUpBinding;
+import edu.ub.pis2324.projecte.domain.exceptions.AppThrowable;
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 import edu.ub.pis2324.projecte.presentation.viewmodel.SharedViewModel;
 import edu.ub.pis2324.projecte.presentation.viewmodel.SignUpViewModel;
@@ -75,7 +76,7 @@ public class SignUpFragment extends Fragment {
                     navController.navigateUp();
                     break;
                 case ERROR:
-                    Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), ((AppThrowable) state.getError()).getErrorName(), Toast.LENGTH_SHORT).show();
                     break;
             }
         });

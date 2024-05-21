@@ -10,4 +10,8 @@ public class AppThrowable extends Throwable{
     public AppError getError() {
         return error;
     }
+
+    public String getErrorName() {
+        return error.toString();
+    }
 }

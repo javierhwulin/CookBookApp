@@ -16,6 +16,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import edu.ub.pis2324.projecte.App;
 import edu.ub.pis2324.projecte.AppContainer;
 import edu.ub.pis2324.projecte.databinding.ActivityChangePremiumBinding;
+import edu.ub.pis2324.projecte.domain.exceptions.AppThrowable;
 import edu.ub.pis2324.projecte.domain.model.values.ClientId;
 import edu.ub.pis2324.projecte.presentation.viewmodel.ChangePremiumViewModel;
 import edu.ub.pis2324.projecte.presentation.viewmodel.SharedViewModel;
@@ -85,7 +86,7 @@ public class ChangePremiumFragment extends Fragment {
                     navController.navigateUp();
                     break;
                 case ERROR:
-                    Toast.makeText(getContext(), changeState.getError().getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), ((AppThrowable) changeState.getError()).getErrorName(), Toast.LENGTH_SHORT).show();
                     break;
             }
         });
