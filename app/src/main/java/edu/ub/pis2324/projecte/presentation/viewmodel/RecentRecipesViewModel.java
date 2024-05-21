@@ -37,7 +37,7 @@ public class RecentRecipesViewModel extends ViewModel {
         return historyState;
     }
 
-    /**
+      /**
      * Fetches the products from a data store
      */
     public void fetchRecentRecipes(String username) {

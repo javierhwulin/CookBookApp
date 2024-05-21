@@ -32,7 +32,7 @@ public class HistoryRepository implements IHistoryRepository {
     }
 
     public Observable<Boolean> add(ClientId clientId, RecipeId recipeId) {
-        Log.i("HistoryRepository", "add: " + clientId.toString() + " " + recipeId.toString());
+        Log.i("HistoryRepository", "addOrUpdate: " + clientId.toString() + " " + recipeId.toString());
         return Observable.create(emitter -> {
             db.collection(HISTORY_COLLECTION_NAME)
                     .whereEqualTo("clientId", clientId.toString())
@@ -40,10 +40,15 @@ public class HistoryRepository implements IHistoryRepository {
                     .get()
                     .addOnSuccessListener(queryDocumentSnapshots -> {
                         if (!queryDocumentSnapshots.isEmpty()) {
-                            // Document already exists
-                            Log.i("HistoryRepository", "Document with same clientId and recipeId already exists.");
-                            emitter.onNext(false);
-                            emitter.onComplete();
+                            // Document already exists, update the timestamp
+                            Log.i("HistoryRepository", "Document with same clientId and recipeId already exists. Updating timestamp.");
+                            DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+                            documentSnapshot.getReference().update("timestamp", FieldValue.serverTimestamp())
+                                    .addOnSuccessListener(aVoid -> {
+                                        emitter.onNext(true);
+                                        emitter.onComplete();
+                                    })
+                                    .addOnFailureListener(emitter::onError);
                         } else {
                             // Document does not exist, proceed to add
                             Map<String, Object> data = new HashMap<>();
@@ -64,6 +69,7 @@ public class HistoryRepository implements IHistoryRepository {
                     .addOnFailureListener(emitter::onError);
         });
     }
+
 
     public Observable<List<Recipe>> getAll(ClientId clientId) {
         Log.i("HistoryRepository", "getHistoryByRecent: " + clientId.toString());

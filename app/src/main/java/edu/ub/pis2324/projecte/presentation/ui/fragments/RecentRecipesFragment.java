@@ -102,11 +102,10 @@ public class RecentRecipesFragment extends Fragment {
         });
     }
 
+    @Override
     public void onResume() {
         super.onResume();
-        if (rvStateParcelable != null) {
-            rvLayoutManager.onRestoreInstanceState(rvStateParcelable);
-        }
+        recipeViewModel.fetchRecentRecipes(clientId);
     }
 
     public void onSaveInstanceState(@NonNull Bundle state) {
