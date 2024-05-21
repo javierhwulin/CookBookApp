@@ -1,7 +1,5 @@
 package edu.ub.pis2324.projecte.presentation.viewmodel;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -11,11 +9,8 @@ import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 import edu.ub.pis2324.projecte.domain.model.values.ClientId;
 import edu.ub.pis2324.projecte.domain.model.values.RecipeId;
 import edu.ub.pis2324.projecte.domain.usecases.HistorialUsecase;
-import edu.ub.pis2324.projecte.domain.model.values.Record;
-import edu.ub.pis2324.projecte.presentation.ui.RecentRecipesActivity;
 import edu.ub.pis2324.projecte.utils.livedata.StateLiveData;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;

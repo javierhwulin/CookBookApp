@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
    */
   private void setBottomNavigationViewVisibility(NavDestination destination) {
     /* If the destination is the log in or sign up fragment, hide the bottom navigation view */
-    if (destination.getId() == R.id.logInFragment || destination.getId() == R.id.signUpFragment) {
+    if (destination.getId() != R.id.configFragment && destination.getId() != R.id.recentRecipesFragment && destination.getId() != R.id.recipesListFragment) {
       binding.bottomNavigationView.setVisibility(View.GONE);
     } else {
       binding.bottomNavigationView.setVisibility(View.VISIBLE);
