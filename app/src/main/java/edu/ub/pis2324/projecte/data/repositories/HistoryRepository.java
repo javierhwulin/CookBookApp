@@ -6,7 +6,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.ub.pis2324.projecte.domain.exceptions.AppError;
 import edu.ub.pis2324.projecte.domain.exceptions.AppThrowable;
@@ -26,6 +28,24 @@ public class HistoryRepository implements IHistoryRepository {
         db = FirebaseFirestore.getInstance();
         this.recipeRepository = recipeRepository;
     }
+
+    public Observable<Boolean> add(ClientId clientId, RecipeId recipe) {
+        Log.i("HistoryRepository", "add: " + clientId.toString() + " " + recipe.getId().toString());
+        return Observable.create(emitter -> {
+            Map<String, Object> data = new HashMap<>();
+            data.put("clientId", clientId.toString());
+            data.put("recipeId", recipe.getId());
+
+            db.collection(HISTORY_COLLECTION_NAME)
+                    .add(data)
+                    .addOnSuccessListener(documentReference -> {
+                        emitter.onNext(true);
+                        emitter.onComplete();
+                    })
+                    .addOnFailureListener(emitter::onError);
+        });
+    }
+
 
     public Observable<List<Recipe>> getAll(ClientId clientId) {
         Log.i("HistoryRepository", "getAll");
