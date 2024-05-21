@@ -26,6 +26,7 @@ public interface IUserRepository {
 
     enum Error implements AppError{
         USER_NOT_FOUND,
+        USER_ALREADY_EXISTS,
         ADD_UNKNOWN_ERROR,
         GETBYID_UNKNOWN_ERROR,
         UPDATE_UNKNOWN_ERROR,
