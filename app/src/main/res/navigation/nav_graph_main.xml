@@ -7,7 +7,7 @@
     <fragment
         android:id="@+id/logInFragment"
         android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.LogInFragment"
-        android:label="LogIn"
+        android:label="Iniciar sessió"
         tools:layout="@layout/activity_log_in" >
         <action
             android:id="@+id/action_logInFragment_to_signUpFragment"
@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/signUpFragment"
         android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.SignUpFragment"
-        android:label="SignUp"
+        android:label="Registrar-se"
         tools:layout="@layout/activity_sign_up" >
     </fragment>
 
@@ -29,7 +29,7 @@
     <fragment
         android:id="@+id/recipesListFragment"
         android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.RecipesListFragment"
-        android:label="RecipesList"
+        android:label="Llista de receptes"
         tools:layout="@layout/activity_recipes_list" >
         <action
             android:id="@+id/action_recipesListFragment_to_viewRecipeDetailsFragment"
@@ -39,7 +39,7 @@
     <fragment
         android:id="@+id/recipeDetailsFragment"
         android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.ViewRecipeDetailsFragment"
-        android:label="RecipeDetails"
+        android:label="Detalls de la recepta"
         tools:layout="@layout/activity_view_recipe_details" >
         <action
             android:id="@+id/action_viewRecipeDetailsFragment_to_stepsRecipeFragment"
@@ -49,7 +49,7 @@
     <fragment
         android:id="@+id/stepsRecipeFragment"
         android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.StepsRecipeFragment"
-        android:label="StepsRecipe"
+        android:label="Pasos de la recepta"
         tools:layout="@layout/activity_steps_recipe" >
     </fragment>
 
@@ -57,7 +57,7 @@
     <fragment
         android:id="@+id/recentRecipesFragment"
         android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.RecentRecipesFragment"
-        android:label="RecentRecipes"
+        android:label="Receptes recents"
         tools:layout="@layout/activity_recent_recipes" >
         <action
             android:id="@+id/action_recentRecipesFragment_to_viewRecipeDetailsFragment"
@@ -67,7 +67,7 @@
     <fragment
         android:id="@+id/configFragment"
         android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.ConfigFragment"
-        android:label="Config"
+        android:label="Configuració"
         tools:layout="@layout/activity_config" >
         <action
             android:id="@+id/action_configFragment_to_changePasswordFragment"
@@ -93,21 +93,21 @@
     <fragment
         android:id="@+id/changePasswordFragment"
         android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.ChangePasswordFragment"
-        android:label="Change Password"
+        android:label="Canviar contrassenya"
         tools:layout="@layout/activity_change_password" >
         <!-- Define actions and arguments here if needed -->
     </fragment>
     <fragment
         android:id="@+id/changePremiumFragment"
         android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.ChangePremiumFragment"
-        android:label="Change Premium"
+        android:label="Canviar premium"
         tools:layout="@layout/activity_change_premium" >
         <!-- Define actions and arguments here if needed -->
     </fragment>
     <fragment
         android:id="@+id/changeUsernameFragment"
         android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.ChangeUsernameFragment"
-        android:label="Change Username"
+        android:label="Canviar nom d'usuari"
         tools:layout="@layout/activity_change_username" >
         <!-- Define actions and arguments here if needed -->
     </fragment>
@@ -115,7 +115,7 @@
     <fragment
         android:id="@+id/changePhotoFragment"
         android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.ChangePhotoFragment"
-        android:label="Change Profile"
+        android:label="Canviar foto de perfil"
         tools:layout="@layout/activity_change_photo" >
     </fragment>
 

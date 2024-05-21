@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
       that are part of the bottom navigation.
     */
     appBarConfiguration = new AppBarConfiguration.Builder(
-            R.id.recipesListFragment,
             R.id.recentRecipesFragment,
+            R.id.recipesListFragment,
             R.id.configFragment
     ).build();
 
