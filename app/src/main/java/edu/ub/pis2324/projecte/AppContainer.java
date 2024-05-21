@@ -1,6 +1,7 @@
 package edu.ub.pis2324.projecte;
 
 import edu.ub.pis2324.projecte.data.repositories.FirestoreRepositoryFactory;
+import edu.ub.pis2324.projecte.data.repositories.HistoryRepository;
 import edu.ub.pis2324.projecte.data.repositories.RecipeRepository;
 import edu.ub.pis2324.projecte.data.repositories.UserRepository;
 import edu.ub.pis2324.projecte.domain.model.repositories.AbstractRepositoryFactory;
@@ -34,12 +35,13 @@ public class AppContainer {
     public final AbstractRepositoryFactory repositoryFactory = new FirestoreRepositoryFactory();
     public final UserRepository userRepository = repositoryFactory.createUserRepository();
     public final RecipeRepository recipeRepository = repositoryFactory.createRecipeRepository();
+    public final HistoryRepository historyRepository = repositoryFactory.createHistoryRepository(recipeRepository);
     /* Domain Application Services */
     public final CheckClientExistsService checkUserExistsService = new CheckClientExistsServiceImpl(userRepository);
     public final CheckClientIsPremiumService checkClientIsPremiumService = new CheckClientIsPremiumServiceImpl(userRepository);
     /* Use cases */
     public final FetchClientUsecase fetchClientUseCase = new FetchClientUsecaseImpl(userRepository);
-    public final HistorialUsecase historialUsecase = new HistorialUsecaseImpl(userRepository, recipeRepository);
+    public final HistorialUsecase historialUsecase = new HistorialUsecaseImpl(userRepository, recipeRepository, historyRepository);
     public final LogInUsecase logInUsecase = new LogInUsecaseImpl(fetchClientUseCase);
     public final RecipeDescriptionUsecase recipeDescriptionUsecase = new RecipeDescriptionUsecaseImpl();
     public final RecipeViewUsecase recipeViewUsecase = new RecipeViewUsecaseImpl(recipeRepository);

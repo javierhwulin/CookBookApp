@@ -3,17 +3,21 @@ package edu.ub.pis2324.projecte.presentation.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import edu.ub.pis2324.projecte.App;
+import edu.ub.pis2324.projecte.AppContainer;
 import edu.ub.pis2324.projecte.databinding.ActivityRecentRecipesBinding;
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
 import edu.ub.pis2324.projecte.presentation.adapters.RecipeRecyclerViewAdapter;
@@ -26,6 +30,7 @@ private static final String RECYCLER_VIEW_STATE = "recycler_view_state";
 /* Attributes */
 
 /* This activity's view model */
+private AppContainer appContainer;
 private RecentRecipesViewModel recipeViewModel;
 
 /* View binding */
@@ -50,8 +55,10 @@ protected void onCreate(Bundle savedInstanceState) {
         setContentView(binding.getRoot());
 
         /* Get client id from intent */
-        clientId = getIntent().getStringExtra("CLIENT_ID");
+        clientId = "Javier Hengda";
 
+        App app = (App) getApplication();
+        appContainer = app.getAppContainer();
         /* Initializations */
         initWidgetListeners();
         initRecyclerView();
@@ -145,7 +152,9 @@ private void initViewModel() {
          * is destroyed and recreated, the view model would be a new one, and we would lose the
          * data that we had in the previous one, when to keep the data is its very own purpose.
          */
-        recipeViewModel = new ViewModelProvider(this).get(RecentRecipesViewModel.class);
+        Log.i("RecentRecipesActivity", "initViewModel");
+        Log.i("RecentRecipesActivity", "clientId: " + clientId);
+        recipeViewModel = new ViewModelProvider(this, new RecentRecipesViewModel.Factory(appContainer.historialUsecase)).get(RecentRecipesViewModel.class);
         initObservers();
         }
 
@@ -159,7 +168,7 @@ private void initObservers() {
         case SUCCESS:
         assert state.getData() != null;
         showNoRecipesAvailable(state.getData().isEmpty());
-        rvRecipesAdapter.setRecipesData((state.getData().getAllRecipes()));
+        rvRecipesAdapter.setRecipesData((state.getData()));
         break;
         case ERROR:
         showNoRecipesAvailable(true);
@@ -169,11 +178,6 @@ default:
         }
 
 
-        });
-
-        /* Observe the state of the product being hidden */
-        recipeViewModel.getHiddenRecipeState().observe(this, hiddenProductPosition -> {
-        rvRecipesAdapter.removeRecipe(hiddenProductPosition);
         });
         }
 

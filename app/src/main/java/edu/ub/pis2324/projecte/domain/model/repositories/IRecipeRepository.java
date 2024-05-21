@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.ub.pis2324.projecte.domain.exceptions.AppError;
 import edu.ub.pis2324.projecte.domain.model.entities.Recipe;
+import edu.ub.pis2324.projecte.domain.model.values.ClientId;
 import edu.ub.pis2324.projecte.domain.model.values.RecipeId;
 import io.reactivex.rxjava3.core.Observable;
 
