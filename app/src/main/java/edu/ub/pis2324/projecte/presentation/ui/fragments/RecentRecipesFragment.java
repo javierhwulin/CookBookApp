@@ -105,6 +105,9 @@ public class RecentRecipesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        initRecyclerView();
+        initViewModel();
         recipeViewModel.fetchRecentRecipes(clientId);
     }
 
