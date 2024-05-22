@@ -96,7 +96,8 @@ public class LogInFragment extends Fragment {
                     sharedViewModel.setClientID(logInState.getData().getId().getId());
                     sharedViewModel.setClientName(logInState.getData().getUsername());
                     sharedViewModel.setIsPremium(logInState.getData().isPremium());
-                    logInViewModel.fetchProfileImage(logInState.getData().getUsername());
+                    sharedViewModel.setEmail(logInState.getData().getEmail());
+                    logInViewModel.fetchProfileImage(logInState.getData().getEmail());
                     break;
                 case ERROR:
                     assert logInState.getError() != null;

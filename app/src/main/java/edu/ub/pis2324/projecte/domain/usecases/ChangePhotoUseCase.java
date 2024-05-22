@@ -10,7 +10,7 @@ import io.reactivex.rxjava3.core.Observable;
 
 public interface ChangePhotoUseCase {
 
-    Observable<Boolean> execute(ClientId clientId, Uri uri);
+    Observable<Boolean> execute(String mail, Uri uri);
 
     enum Error implements AppError {
         CLIENTS_DATA_ACCESS_ERROR;

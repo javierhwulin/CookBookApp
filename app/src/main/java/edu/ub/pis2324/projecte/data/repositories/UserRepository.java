@@ -46,7 +46,7 @@ public class UserRepository implements IUserRepository {
                                 .addOnSuccessListener(taskSnapshot -> {
                                     // Upload the local file to the new location
                                     Uri fileUri = Uri.fromFile(finalLocalFile);
-                                    storage.getReference().child("images/" + user.getId().toString()).putFile(fileUri)
+                                    storage.getReference().child("images/" + user.getEmail()).putFile(fileUri)
                                             .addOnSuccessListener(uploadTaskSnapshot -> {
                                                 // Set the user's photoUrl to the download URL of the uploaded file
                                                 uploadTaskSnapshot.getStorage().getDownloadUrl()
@@ -240,9 +240,9 @@ public class UserRepository implements IUserRepository {
         });
     }
 
-    public Observable<Boolean> changePhoto(ClientId id, Uri uri){
+    public Observable<Boolean> changePhoto(String mail, Uri uri){
         return Observable.create(emitter -> {
-            storage.getReference().child("images/" + id.toString()).putFile(uri)
+            storage.getReference().child("images/" + mail).putFile(uri)
                     .addOnFailureListener(exception -> {
                         emitter.onError(new AppThrowable(Error.UPDATE_UNKNOWN_ERROR));
                     })
@@ -253,10 +253,10 @@ public class UserRepository implements IUserRepository {
         });
     }
 
-    public Observable<Uri> getPhoto(ClientId id) {
+    public Observable<Uri> getPhoto(String mail) {
         {
             return Observable.create(emitter -> {
-                storage.getReference().child("images/" + id.toString()).getDownloadUrl()
+                storage.getReference().child("images/" + mail).getDownloadUrl()
                         .addOnFailureListener(exception -> {
                             emitter.onError(new AppThrowable(Error.ADD_UNKNOWN_ERROR));
                         })

@@ -29,19 +29,19 @@ public class ChangePhotoUseCaseImpl implements ChangePhotoUseCase{
     }
 
     @Override
-    public Observable<Boolean> execute(ClientId clientId, Uri uri) {
+    public Observable<Boolean> execute(String mail, Uri uri) {
 
-        return checkIdEmpty(clientId)
-                .concatMap(ignored -> changePhoto(clientId, uri))
+        return checkMailEmpty(mail)
+                .concatMap(ignored -> changePhoto(mail, uri))
                 .onErrorResumeNext(throwable -> Observable.error(throwableMapper.map(throwable)));
 
     }
 
-    private Observable<Boolean> changePhoto(ClientId clientId, Uri uri) {
-        return userRepository.changePhoto(clientId, uri);
+    private Observable<Boolean> changePhoto(String mail, Uri uri) {
+        return userRepository.changePhoto(mail, uri);
     }
-    private Observable<Boolean> checkIdEmpty(ClientId clientId) {
-        if (clientId == null || clientId.toString().isEmpty()) {
+    private Observable<Boolean> checkMailEmpty(String mail) {
+        if (mail == null || mail.toString().isEmpty()) {
             return Observable.error(new AppThrowable(ChangePhotoUseCase.Error.CLIENTS_DATA_ACCESS_ERROR));
         }
         return Observable.just(true);

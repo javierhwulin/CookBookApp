@@ -15,8 +15,18 @@ public class SharedViewModel extends ViewModel {
 
     private final MutableLiveData<String> photoUrl = new MutableLiveData<>();
 
+    private final MutableLiveData<String> email = new MutableLiveData<>();
+
     public void setClientName(String name) {
         clientName.setValue(name);
+    }
+
+    public void setEmail(String email) {
+        this.email.setValue(email);
+    }
+
+    public LiveData<String> getEmail() {
+        return email;
     }
 
     public LiveData<String> getClientName() {

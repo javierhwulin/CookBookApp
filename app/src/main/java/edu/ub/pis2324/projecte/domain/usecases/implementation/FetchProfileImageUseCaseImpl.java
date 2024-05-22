@@ -22,8 +22,8 @@ public class FetchProfileImageUseCaseImpl implements FetchProfileImageUseCase {
     }
 
     @Override
-    public Observable<Uri> execute(String username) {
-        return userRepository.getPhoto(new ClientId(username))
+    public Observable<Uri> execute(String mail) {
+        return userRepository.getPhoto(mail)
                 .onErrorResumeNext(throwable -> Observable.error(throwableMapper.map(throwable)));
     }
 }

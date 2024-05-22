@@ -106,7 +106,7 @@ public class ConfigFragment extends Fragment {
             Uri selectedImage = data.getData();
             // Use the Uri object to display the selected image
             Picasso.get().load(selectedImage).into(binding.ivProfileImage);
-            configViewModel.ChangePhoto(sharedViewModel.getClientName().getValue(), selectedImage);
+            configViewModel.ChangePhoto(sharedViewModel.getEmail().getValue(), selectedImage);
         }
     }
 

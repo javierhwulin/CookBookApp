@@ -31,9 +31,9 @@ public class ConfigViewModel extends ViewModel {
         return changePhotoState;
     }
 
-    public void ChangePhoto(String user,Uri photoPath) {
+    public void ChangePhoto(String mail,Uri photoPath) {
         changePhotoState.postLoading();
-        compositeDisposable.add(changePhotoUseCase.execute(new ClientId(user), photoPath)
+        compositeDisposable.add(changePhotoUseCase.execute(mail, photoPath)
                 .subscribe(
                         photo -> changePhotoState.postSuccess(photoPath),
                         throwable -> changePhotoState.postError(throwable)
