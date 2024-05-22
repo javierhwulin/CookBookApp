@@ -4,7 +4,10 @@ import edu.ub.pis2324.projecte.data.repositories.FirestoreRepositoryFactory;
 import edu.ub.pis2324.projecte.data.repositories.HistoryRepository;
 import edu.ub.pis2324.projecte.data.repositories.RecipeRepository;
 import edu.ub.pis2324.projecte.data.repositories.UserRepository;
+import edu.ub.pis2324.projecte.data.storages.FirestoreStorageFactory;
+import edu.ub.pis2324.projecte.data.storages.PhotoStorage;
 import edu.ub.pis2324.projecte.domain.model.repositories.AbstractRepositoryFactory;
+import edu.ub.pis2324.projecte.domain.model.storages.AbstractStorageFactory;
 import edu.ub.pis2324.projecte.domain.services.CheckClientExistsService;
 import edu.ub.pis2324.projecte.domain.services.CheckClientIsPremiumService;
 import edu.ub.pis2324.projecte.domain.services.implementation.CheckClientExistsServiceImpl;
@@ -39,15 +42,20 @@ import edu.ub.pis2324.projecte.domain.usecases.implementation.SignUpUsecaseImpl;
 public class AppContainer {
     /* Repositories */
     public final AbstractRepositoryFactory repositoryFactory = new FirestoreRepositoryFactory();
-    public final UserRepository userRepository = repositoryFactory.createUserRepository();
+    public final AbstractStorageFactory storageFactory = new FirestoreStorageFactory();
     public final RecipeRepository recipeRepository = repositoryFactory.createRecipeRepository();
     public final HistoryRepository historyRepository = repositoryFactory.createHistoryRepository(recipeRepository);
+    public final PhotoStorage photoStorage = storageFactory.createPhotoStorage();
+    public final UserRepository userRepository = repositoryFactory.createUserRepository(photoStorage);
     /* Domain Application Services */
     public final CheckClientExistsService checkUserExistsService = new CheckClientExistsServiceImpl(userRepository);
+
+
     public final CheckClientIsPremiumService checkClientIsPremiumService = new CheckClientIsPremiumServiceImpl(userRepository);
     /* Use cases */
     public final FetchClientUsecase fetchClientUseCase = new FetchClientUsecaseImpl(userRepository);
-    public final FetchProfileImageUseCase fetchProfileImageUseCase = new FetchProfileImageUseCaseImpl(userRepository);
+    public final FetchProfileImageUseCase fetchProfileImageUseCase = new FetchProfileImageUseCaseImpl(photoStorage);
+    public final ChangePhotoUseCase changePhotoUseCase = new ChangePhotoUseCaseImpl(photoStorage);
     public final HistorialUsecase historialUsecase = new HistorialUsecaseImpl(userRepository, recipeRepository, historyRepository);
     public final LogInUsecase logInUsecase = new LogInUsecaseImpl(fetchClientUseCase, fetchProfileImageUseCase);
     public final RecipeDescriptionUsecase recipeDescriptionUsecase = new RecipeDescriptionUsecaseImpl();
@@ -55,11 +63,10 @@ public class AppContainer {
     public final SettingsUsecase settingsUsecase = new SettingsUsecaseImpl();
     public final SignUpUsecase signUpUsecase = new SignUpUsecaseImpl(checkUserExistsService, userRepository);
 
-    public final ChangeUsernameUseCase changeUsernameUseCase = new ChangeUsernameUseCaseImpl(fetchClientUseCase);
+    public final ChangeUsernameUseCase changeUsernameUseCase = new ChangeUsernameUseCaseImpl(fetchClientUseCase, userRepository);
 
-    public final ChangePasswordUseCase changePasswordUseCase = new ChangePasswordUseCaseImpl(fetchClientUseCase);
+    public final ChangePasswordUseCase changePasswordUseCase = new ChangePasswordUseCaseImpl(fetchClientUseCase, userRepository);
 
-    public final ChangePremiumUseCase changePremiumUseCase = new ChangePremiumUseCaseImpl(fetchClientUseCase);
+    public final ChangePremiumUseCase changePremiumUseCase = new ChangePremiumUseCaseImpl(fetchClientUseCase, userRepository);
 
-    public final ChangePhotoUseCase changePhotoUseCase = new ChangePhotoUseCaseImpl(fetchClientUseCase);
 }

@@ -6,26 +6,28 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
 
+import edu.ub.pis2324.projecte.data.storages.PhotoStorage;
 import edu.ub.pis2324.projecte.domain.exceptions.AppThrowable;
 import edu.ub.pis2324.projecte.domain.model.repositories.IUserRepository;
 import edu.ub.pis2324.projecte.domain.model.entities.User;
+import edu.ub.pis2324.projecte.domain.model.storages.IPhotoStorage;
 import edu.ub.pis2324.projecte.domain.model.values.ClientId;
 import io.reactivex.rxjava3.core.Observable;
 
 public class UserRepository implements IUserRepository {
     private static final String CLIENTS_COLLECTION_NAME = "users";
     private final FirebaseFirestore db;
-    private final FirebaseStorage storage;
+    private final IPhotoStorage storage;
 
-    public UserRepository() {
+    public UserRepository(IPhotoStorage storage) {
         db = FirebaseFirestore.getInstance();
-        storage = FirebaseStorage.getInstance();
+        this.storage = storage;
     }
-
     public Observable<Boolean> add(User user){
         return Observable.create(emitter -> {
             // Get the reference to the default image
@@ -240,37 +242,5 @@ public class UserRepository implements IUserRepository {
         });
     }
 
-    public Observable<Boolean> changePhoto(String mail, Uri uri){
-        return Observable.create(emitter -> {
-            storage.getReference().child("images/" + mail).putFile(uri)
-                    .addOnFailureListener(exception -> {
-                        emitter.onError(new AppThrowable(Error.UPDATE_UNKNOWN_ERROR));
-                    })
-                    .addOnSuccessListener(ignored -> {
-                        emitter.onNext(true);
-                        emitter.onComplete();
-                    });
-        });
-    }
-
-    public Observable<Uri> getPhoto(String mail) {
-        {
-            return Observable.create(emitter -> {
-                storage.getReference().child("images/" + mail).getDownloadUrl()
-                        .addOnFailureListener(exception -> {
-                            emitter.onError(new AppThrowable(Error.ADD_UNKNOWN_ERROR));
-                        })
-                        .addOnSuccessListener(uri -> {
-                            if(uri != null){
-                                Log.e("UserRepositoryPhoto", "Uri: " + uri.toString());
-                            } else {
-                                Log.e("UserRepositoryPhoto", "Uri not found");
-                            }
-                            emitter.onNext(uri);
-                            emitter.onComplete();
-                        });
-            });
-        }
-    }
 
 }

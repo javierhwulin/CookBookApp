@@ -16,11 +16,11 @@ public class ChangePasswordUseCaseImpl implements ChangePasswordUseCase {
 
     private final UserRepository userRepository;
 
-    public ChangePasswordUseCaseImpl(FetchClientUsecase fetchClientUseCase) {
+    public ChangePasswordUseCaseImpl(FetchClientUsecase fetchClientUseCase, UserRepository userRepository) {
         this.fetchClientUseCase = fetchClientUseCase;
         throwableMapper = new AppThrowableMapper();
         throwableMapper.add(UserRepository.Error.USER_NOT_FOUND, ChangePasswordUseCase.Error.CLIENTS_DATA_ACCESS_ERROR);
-        userRepository = new UserRepository();
+        this.userRepository = userRepository;
     }
 
     @Override

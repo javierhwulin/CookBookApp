@@ -3,6 +3,7 @@ package edu.ub.pis2324.projecte.domain.usecases.implementation;
 import android.util.Log;
 
 import edu.ub.pis2324.projecte.data.repositories.UserRepository;
+import edu.ub.pis2324.projecte.data.storages.PhotoStorage;
 import edu.ub.pis2324.projecte.domain.exceptions.AppThrowable;
 import edu.ub.pis2324.projecte.domain.exceptions.AppThrowableMapper;
 import edu.ub.pis2324.projecte.domain.model.entities.User;
@@ -18,11 +19,11 @@ public class ChangeUsernameUseCaseImpl implements ChangeUsernameUseCase{
     private final FetchClientUsecase fetchClientUseCase;
 
     private final UserRepository userRepository;
-    public ChangeUsernameUseCaseImpl(FetchClientUsecase fetchClientUseCase) {
+    public ChangeUsernameUseCaseImpl(FetchClientUsecase fetchClientUseCase, UserRepository userRepository){
         this.fetchClientUseCase = fetchClientUseCase;
         this.throwableMapper = new AppThrowableMapper();
         throwableMapper.add(UserRepository.Error.USER_NOT_FOUND, LogInUsecase.Error.CLIENT_NOT_FOUND);
-        userRepository = new UserRepository();
+        this.userRepository = userRepository;
     }
 
     @Override
