@@ -92,9 +92,7 @@ public class RecipesListFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (newText.isEmpty()) {
-                    recipeViewModel.fetchRecipesByName(newText);
-                }
+                recipeViewModel.fetchRecipesByName(newText);
                 return false;
             }
         });

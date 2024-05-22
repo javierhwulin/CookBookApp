@@ -37,8 +37,7 @@ public class ConfigFragment extends Fragment {
     private SharedViewModel sharedViewModel;
 
     private NavController navController;
-
-    private ChangePhotoUseCaseImpl changePhotoUseCase;
+    
 
     private static final int PICK_IMAGE = 1;
     @Nullable
