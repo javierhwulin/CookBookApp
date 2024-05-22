@@ -1,6 +1,7 @@
 package edu.ub.pis2324.projecte.presentation.ui.fragments;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -51,6 +52,8 @@ public class LogInFragment extends Fragment {
 
         initWidgetListeners();
         initViewModel();
+
+
     }
 
     private void initWidgetListeners() {
@@ -79,6 +82,8 @@ public class LogInFragment extends Fragment {
 
     private void initObservers() {
         /* Observe the login state */
+        Log.e("LogInFragmentPhoto2", "IRL: "+ sharedViewModel.getPhotoUrl());
+
         logInViewModel.getLogInState().observe(getViewLifecycleOwner(), logInState -> {
             // Whenever there's a change in the login state of the viewmodel
             switch (logInState.getStatus()) {
@@ -87,14 +92,11 @@ public class LogInFragment extends Fragment {
                     break;
                 case SUCCESS:
                     assert logInState.getData() != null;
-                    Log.i("LogInFragment", "Log in success");
 
                     sharedViewModel.setClientID(logInState.getData().getId().getId());
                     sharedViewModel.setClientName(logInState.getData().getUsername());
                     sharedViewModel.setIsPremium(logInState.getData().isPremium());
-                    sharedViewModel.setPhotoUrl(logInState.getData().getPhotoUrl());
-
-                    navController.navigate(R.id.action_logInFragment_to_recipesListFragment);
+                    logInViewModel.fetchProfileImage(logInState.getData().getUsername());
                     break;
                 case ERROR:
                     assert logInState.getError() != null;
@@ -105,5 +107,25 @@ public class LogInFragment extends Fragment {
                     throw new IllegalStateException("Unexpected value: " + logInState.getStatus());
             }
         });
+        logInViewModel.getProfileImageState().observe(getViewLifecycleOwner(), state -> {
+            switch (state.getStatus()) {
+                case LOADING:
+                    // Show a loading spinner
+                    break;
+                case SUCCESS:
+                    // Set the profile image URL in the shared view model
+                    sharedViewModel.setPhotoUrl(state.getData().toString());
+                    Log.e("LogInFragment", "Profile image URL: " + state.getData().toString());
+
+                    // Navigate to the recipesListFragment after the profile image URL is successfully fetched
+                    navController.navigate(R.id.action_logInFragment_to_recipesListFragment);
+                    break;
+                case ERROR:
+                    Log.e("ErrorLogInFragment", "Profile image URL: " + state.getData().toString());
+                    break;
+            }
+        });
     }
+
+
 }

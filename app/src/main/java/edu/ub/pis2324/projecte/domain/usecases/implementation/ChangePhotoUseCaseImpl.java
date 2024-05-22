@@ -1,6 +1,9 @@
 package edu.ub.pis2324.projecte.domain.usecases.implementation;
 
+import android.net.Uri;
 import android.util.Log;
+
+import java.net.URI;
 
 import edu.ub.pis2324.projecte.data.repositories.UserRepository;
 import edu.ub.pis2324.projecte.domain.exceptions.AppThrowable;
@@ -26,16 +29,16 @@ public class ChangePhotoUseCaseImpl implements ChangePhotoUseCase{
     }
 
     @Override
-    public Observable<Boolean> execute(ClientId clientId, String url) {
+    public Observable<Boolean> execute(ClientId clientId, Uri uri) {
 
         return checkIdEmpty(clientId)
-                .concatMap(ignored -> changePhoto(clientId, url))
+                .concatMap(ignored -> changePhoto(clientId, uri))
                 .onErrorResumeNext(throwable -> Observable.error(throwableMapper.map(throwable)));
 
     }
 
-    private Observable<Boolean> changePhoto(ClientId clientId,String url) {
-        return userRepository.changePhoto(clientId, url);
+    private Observable<Boolean> changePhoto(ClientId clientId, Uri uri) {
+        return userRepository.changePhoto(clientId, uri);
     }
     private Observable<Boolean> checkIdEmpty(ClientId clientId) {
         if (clientId == null || clientId.toString().isEmpty()) {
@@ -43,4 +46,6 @@ public class ChangePhotoUseCaseImpl implements ChangePhotoUseCase{
         }
         return Observable.just(true);
     }
+
+
 }

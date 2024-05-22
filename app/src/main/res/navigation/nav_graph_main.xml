@@ -79,9 +79,6 @@
             android:id="@+id/action_configFragment_to_changeUsernameFragment"
             app:destination="@id/changeUsernameFragment" />
         <action
-            android:id="@+id/action_configFragment_to_changePhotoFragment"
-            app:destination="@id/changePhotoFragment" />
-        <action
             android:id="@+id/action_configFragment_to_logInFragment"
             app:destination="@id/logInFragment"
             app:popUpTo="@id/nav_graph_main"
@@ -112,11 +109,5 @@
         <!-- Define actions and arguments here if needed -->
     </fragment>
 
-    <fragment
-        android:id="@+id/changePhotoFragment"
-        android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.ChangePhotoFragment"
-        android:label="Canviar foto de perfil"
-        tools:layout="@layout/activity_change_photo" >
-    </fragment>
 
 </navigation>

@@ -1,5 +1,6 @@
 package edu.ub.pis2324.projecte.presentation.viewmodel;
 
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -26,9 +27,38 @@ public class LogInViewModel extends ViewModel {
 
     CompositeDisposable compositeDisposable;
 
+    private final StateLiveData<Uri> profileImageState;
+
+
+
+    public StateLiveData<Uri> getProfileImageState() {
+        return profileImageState;
+    }
+
+    public void fetchProfileImage(String username) {
+        profileImageState.postLoading();
+        Disposable d = logInUsecase.fetchProfileImage(username)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        this::handleFetchProfileImageSuccess,
+                        throwable -> {
+                            if(throwable instanceof AppThrowable) {
+                                Log.e("LogInViewModel1", "Fetch profile image error: " + ((AppThrowable) throwable).getError().toString());
+                                handleFetchProfileImageError((AppThrowable) throwable);
+                            } else{
+                                Log.e("LogInViewModel2", "Fetch profile image error: " + throwable.getMessage());
+                                profileImageState.postError(throwable);
+                            }
+                        }
+                );
+        compositeDisposable.add(d);
+    }
+
     /* Constructor */
     public LogInViewModel(LogInUsecase logInUsecase) {
         logInState = new StateLiveData<>();
+        profileImageState = new StateLiveData<>();
         this.logInUsecase = logInUsecase;
         compositeDisposable = new CompositeDisposable();
     }
@@ -77,6 +107,17 @@ public class LogInViewModel extends ViewModel {
     private void handleLogInSuccess(User user){
         Log.i("LogInViewModel", "Log in success");
         logInState.postSuccess(user);
+    }
+
+    private void handleFetchProfileImageSuccess(Uri uri){
+        Log.i("LogInViewModel", "Fetch profile image success");
+        profileImageState.postSuccess(uri);
+    }
+
+    private void handleFetchProfileImageError(AppThrowable throwable){
+        Log.e("LogInViewModel", "Fetch profile image error: " + throwable.getError().toString());
+
+        profileImageState.postError(new Throwable(throwable.getMessage()));
     }
 
     private void handleLogInError(AppThrowable throwable){

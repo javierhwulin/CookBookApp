@@ -76,7 +76,8 @@ public class ViewRecipeDetailsFragment extends Fragment {
     private void initWidgetListeners(Recipe recipe, boolean premium) {
         binding.btnStart.setOnClickListener(v -> {
             viewRecipeDetailsViewModel.startRecipe(recipe, premium);
-            viewRecipeDetailsViewModel.addHistorial(new ClientId(sharedViewModel.getClientID().getValue()), recipe.getId());
+            if(!recipe.isPremium() || premium)
+                viewRecipeDetailsViewModel.addHistorial(new ClientId(sharedViewModel.getClientID().getValue()), recipe.getId());
         });
     }
     private void initViewModel() {

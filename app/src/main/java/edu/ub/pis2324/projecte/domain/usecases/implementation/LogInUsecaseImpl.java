@@ -1,5 +1,6 @@
 package edu.ub.pis2324.projecte.domain.usecases.implementation;
 
+import android.net.Uri;
 import android.util.Log;
 
 import edu.ub.pis2324.projecte.data.repositories.UserRepository;
@@ -8,15 +9,18 @@ import edu.ub.pis2324.projecte.domain.exceptions.AppThrowableMapper;
 import edu.ub.pis2324.projecte.domain.model.entities.User;
 import edu.ub.pis2324.projecte.domain.model.values.ClientId;
 import edu.ub.pis2324.projecte.domain.usecases.FetchClientUsecase;
+import edu.ub.pis2324.projecte.domain.usecases.FetchProfileImageUseCase;
 import edu.ub.pis2324.projecte.domain.usecases.LogInUsecase;
 import io.reactivex.rxjava3.core.Observable;
 
 public class LogInUsecaseImpl implements LogInUsecase {
     private final AppThrowableMapper throwableMapper;
     private final FetchClientUsecase fetchClientUseCase;
+    private final FetchProfileImageUseCase fetchProfileImageUseCase;
 
-    public LogInUsecaseImpl(FetchClientUsecase fetchClientUseCase){
+    public LogInUsecaseImpl(FetchClientUsecase fetchClientUseCase, FetchProfileImageUseCase fetchProfileImageUseCase){
         this.fetchClientUseCase = fetchClientUseCase;
+        this.fetchProfileImageUseCase = fetchProfileImageUseCase;
         this.throwableMapper = new AppThrowableMapper();
         throwableMapper.add(UserRepository.Error.USER_NOT_FOUND, Error.CLIENT_NOT_FOUND);
     }
@@ -64,5 +68,10 @@ public class LogInUsecaseImpl implements LogInUsecase {
         Log.i("LogInUsecaseImpl", "Password is correct");
         Log.i("LogInUsecaseImpl", "User: " + user.getUsername());
         return Observable.just(true);
+    }
+
+    @Override
+    public Observable<Uri> fetchProfileImage(String username) {
+        return fetchProfileImageUseCase.execute(username);
     }
 }
