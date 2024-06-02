@@ -31,6 +31,9 @@ public class HistoryRepository implements IHistoryRepository {
         this.recipeRepository = recipeRepository;
     }
 
+    /*
+     * Guarda a la base de dades l'accés a una recepta fet per un client, i el temps en què ho ha fet
+     */
     public Observable<Boolean> add(ClientId clientId, RecipeId recipeId) {
         Log.i("HistoryRepository", "addOrUpdate: " + clientId.toString() + " " + recipeId.toString());
         return Observable.create(emitter -> {
@@ -70,7 +73,9 @@ public class HistoryRepository implements IHistoryRepository {
         });
     }
 
-
+    /*
+     * Agafa totes les receptes de la base de dades que ha vist un client
+     */
     public Observable<List<Recipe>> getAll(ClientId clientId) {
         Log.i("HistoryRepository", "getHistoryByRecent: " + clientId.toString());
         return Observable.create(emitter -> {
@@ -103,6 +108,9 @@ public class HistoryRepository implements IHistoryRepository {
         });
     }
 
+    /*
+     * Agafa totes les receptes de la base de dades que contenen part del String argument i que hagi vist el client
+     */
     public Observable<List<Recipe>> getRecipesByName(ClientId clientId, String recipeName) {
         return getAll(clientId)
                 .map(recipes -> {

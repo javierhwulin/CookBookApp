@@ -92,7 +92,7 @@ public class StepsRecipeFragment extends Fragment {
      */
     private void initObservers(String[] steps) {
         stepsRecipeViewModel.getStepsState().observe(getActivity(), stepsState -> {
-            binding.tvStepNumber.setText("Step " + (stepsState.intValue()+1));
+            binding.tvStepNumber.setText("Paso " + (stepsState.intValue()+1));
             binding.tvStepDescription.setText(steps[stepsState.intValue()]);
 
             if (stepsState.intValue() == 0){
@@ -101,7 +101,7 @@ public class StepsRecipeFragment extends Fragment {
                 binding.btnPrevious.setVisibility(View.VISIBLE);
             }
 
-            if (stepsState.intValue() == stepsState.toString().length()+1){
+            if (stepsState.intValue() == steps.length-1){
                 binding.btnNext.setVisibility(View.GONE);
             } else {
                 binding.btnNext.setVisibility(View.VISIBLE);

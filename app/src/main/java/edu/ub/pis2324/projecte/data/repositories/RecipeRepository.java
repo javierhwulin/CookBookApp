@@ -45,6 +45,9 @@ public class RecipeRepository implements IRecipeRepository {
         });
     }
 
+    /*
+     * Agafa totes les receptes de la base de dades
+     */
     public Observable<List<Recipe>> getAll(){
         return Observable.create(emitter -> {
             db.collection(RECIPES_COLLECTION_NAME).get()
@@ -64,6 +67,9 @@ public class RecipeRepository implements IRecipeRepository {
         });
     }
 
+    /*
+     * Agafa totes les receptes de la base de dades que contenen part del String argument
+     */
     public Observable<List<Recipe>> getByName(String recipeName){
         return Observable.create(emitter -> {
             db.collection(RECIPES_COLLECTION_NAME).get()
@@ -75,7 +81,7 @@ public class RecipeRepository implements IRecipeRepository {
                     List<Recipe> recipeList = new ArrayList<>();
                     for(DocumentSnapshot doc : documents){
                         Recipe recipe = doc.toObject(Recipe.class);
-                        // Check if the recipe name contains the name
+                        // Comprova si el nom de la recepta conté el nom de la recepta que es vol buscar
                         if (recipe.getName().toLowerCase().contains(recipeName.toLowerCase())) {
                             recipeList.add(recipe);
                         }

@@ -28,6 +28,10 @@ public class UserRepository implements IUserRepository {
         db = FirebaseFirestore.getInstance();
         this.storage = storage;
     }
+
+    /*
+    * Afegir un usuari a la base de dades
+    */
     public Observable<Boolean> add(User user){
         return Observable.create(emitter -> {
             // Get the reference to the default image
@@ -76,6 +80,9 @@ public class UserRepository implements IUserRepository {
         });
     }
 
+    /*
+     * Obtenir un usuari de la base de dades a partir del seu ID/primer nom d'usuari
+     */
     public Observable<User> getById(ClientId id){
         Log.e("UserRepository", "execute");
         return Observable.create(emitter -> {
@@ -101,6 +108,9 @@ public class UserRepository implements IUserRepository {
         });
     }
 
+    /*
+     * Actualitzar un usuari a la base de dades
+     */
     public Observable<Boolean> update(ClientId id, OnUpdateListener onUpdateListener) {
         return Observable.create(emitter -> {
             db.runTransaction(transaction -> {
@@ -142,6 +152,9 @@ public class UserRepository implements IUserRepository {
         });
     }
 
+    /*
+     * Eliminar un usuari de la base de dades
+     */
     public Observable<Boolean> remove(ClientId id){
         return Observable.create(emitter -> {
             db.collection(CLIENTS_COLLECTION_NAME)
@@ -157,10 +170,13 @@ public class UserRepository implements IUserRepository {
         });
     }
 
+    /*
+     * Canviar el nom d'usuari d'un usuari
+     */
     public Observable<User> changeUsername(ClientId id, String newUsername){
         Log.i("Change Username", "ID es: " + id + " Username: " + newUsername);
         return Observable.create(emitter -> {
-            // Check if new username already exists
+            // Comprovem si existeix el nou username
             db.collection(CLIENTS_COLLECTION_NAME)
                     .document(newUsername)
                     .get()
@@ -168,10 +184,10 @@ public class UserRepository implements IUserRepository {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                // If new username already exists, emit an error
+                                // Si el nou username ja existeix, retornem un error
                                 emitter.onError(new AppThrowable(Error.USER_ALREADY_EXISTS));
                             } else {
-                                // If new username does not exist, proceed with changing the username
+                                // Si el nou username no existeix, canviem el username de l'usuari
                                 db.collection(CLIENTS_COLLECTION_NAME)
                                         .document(id.toString())
                                         .get()
@@ -211,6 +227,10 @@ public class UserRepository implements IUserRepository {
                     });
         });
     }
+
+    /*
+     * Canviar la contrasenya d'un usuari
+     */
     @Override
     public Observable<Boolean> changePassword(ClientId id, String newPassword) {
         return Observable.create(emitter -> {
@@ -227,6 +247,9 @@ public class UserRepository implements IUserRepository {
         });
     }
 
+    /*
+     * Canviar l'estat de premium d'un usuari
+     */
     public Observable<Boolean> changePremium(ClientId id, boolean isPremium){
         return Observable.create(emitter -> {
             db.collection(CLIENTS_COLLECTION_NAME)

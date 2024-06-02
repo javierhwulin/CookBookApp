@@ -92,21 +92,18 @@
         android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.ChangePasswordFragment"
         android:label="Canviar contrassenya"
         tools:layout="@layout/activity_change_password" >
-        <!-- Define actions and arguments here if needed -->
     </fragment>
     <fragment
         android:id="@+id/changePremiumFragment"
         android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.ChangePremiumFragment"
         android:label="Canviar premium"
         tools:layout="@layout/activity_change_premium" >
-        <!-- Define actions and arguments here if needed -->
     </fragment>
     <fragment
         android:id="@+id/changeUsernameFragment"
         android:name="edu.ub.pis2324.projecte.presentation.ui.fragments.ChangeUsernameFragment"
         android:label="Canviar nom d'usuari"
         tools:layout="@layout/activity_change_username" >
-        <!-- Define actions and arguments here if needed -->
     </fragment>
 
 
